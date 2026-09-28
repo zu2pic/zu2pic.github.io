@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Easy Corona</title>
+<meta name="description" content="Easy Corona une todas tus exposiciones de un eclipse total en un HDR y saca a la luz los filamentos de la corona. Para Windows, en español.">
+<link rel="icon" type="image/png" href="img/icono.png">
+<style>
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fuentes/AlegreyaSans-400i-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fuentes/AlegreyaSans-400i-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fuentes/AlegreyaSans-400-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fuentes/AlegreyaSans-400-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fuentes/AlegreyaSans-500-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fuentes/AlegreyaSans-500-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(fuentes/AlegreyaSans-700-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(fuentes/AlegreyaSans-700-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fuentes/BarlowSemiCondensed-500-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fuentes/BarlowSemiCondensed-500-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(fuentes/BarlowSemiCondensed-600-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(fuentes/BarlowSemiCondensed-600-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(fuentes/BarlowSemiCondensed-700-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(fuentes/BarlowSemiCondensed-700-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fuentes/IBMPlexMono-400-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fuentes/IBMPlexMono-400-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fuentes/IBMPlexMono-500-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fuentes/IBMPlexMono-500-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+  /* Easy Corona · web. Un solo tema oscuro a propósito: el de la totalidad.
+     Colores tomados de las fotos (cielo azul pizarra, corona blanca cálida) y el cobre de la app. */
+  :root {
+    color-scheme: dark;
+    --noche: #141a25;
+    --cielo: #1f2736;
+    --cielo-2: #262f40;
+    --linea: #34405a;
+    --corona: #efe9e1;
+    --gris: #9aa3b6;
+    --gris-2: #717b90;
+    --cobre: #cf8f55;
+    --cobre-claro: #e0a770;
+    --cobre-tinta: #24160a;
+    --display: "Barlow Semi Condensed", "Bahnschrift", "Arial Narrow", sans-serif;
+    --texto: "Alegreya Sans", "Corbel", "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", "Consolas", monospace;
+    --ancho: 1120px;
+    --lectura: 64ch;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
+  body {
+    margin: 0;
+    background: var(--noche);
+    color: var(--corona);
+    font: 400 1.125rem/1.6 var(--texto);
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: var(--cobre-claro); text-underline-offset: 3px; }
+  a:hover { color: var(--corona); }
+  :focus-visible { outline: 2px solid var(--cobre-claro); outline-offset: 3px; border-radius: 2px; }
+
+  .envoltura { max-width: var(--ancho); margin-inline: auto; padding-inline: 20px; }
+  h1, h2, h3 { font-family: var(--display); font-weight: 600; line-height: 1.05; margin: 0; text-wrap: balance; letter-spacing: 0.005em; }
+  h2 { font-size: clamp(2rem, 4.2vw, 3rem); }
+  h3 { font-size: 1.45rem; }
+  p { margin: 0; }
+  .etiqueta {
+    font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--cobre-claro);
+  }
+  .entradilla { color: var(--gris); max-width: var(--lectura); font-size: 1.2rem; }
+  section { padding-block: clamp(64px, 9vw, 112px); }
+  .cabecera-seccion { display: grid; gap: 14px; margin-bottom: clamp(32px, 5vw, 52px); max-width: 760px; }
+
+  /* Botones */
+  .boton {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    font: 600 1.08rem/1 var(--display); letter-spacing: 0.03em; text-decoration: none;
+    padding: 15px 24px; border-radius: 3px; border: 1px solid transparent; cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .boton-principal { background: var(--cobre); color: var(--cobre-tinta); }
+  .boton-principal:hover { background: var(--cobre-claro); color: var(--cobre-tinta); }
+  .boton-secundario { border-color: var(--linea); color: var(--corona); background: transparent; }
+  .boton-secundario:hover { border-color: var(--gris); color: var(--corona); }
+  .boton small { font: 400 0.8rem/1 var(--mono); letter-spacing: 0; opacity: 0.75; }
+
+  /* Barra superior */
+  .barra {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
+    background: color-mix(in srgb, var(--noche) 82%, transparent);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid color-mix(in srgb, var(--linea) 60%, transparent);
+  }
+  .barra .envoltura { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; }
+  .marca { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--corona); }
+  .marca img { width: 30px; height: 30px; border-radius: 50%; }
+  .marca span { font: 700 1.3rem/1 var(--display); letter-spacing: 0.02em; }
+  .barra nav { display: flex; align-items: center; gap: 22px; }
+  .barra nav a:not(.boton) { color: var(--gris); text-decoration: none; font-size: 1rem; }
+  .barra nav a:not(.boton):hover { color: var(--corona); }
+  .barra .boton { padding: 10px 16px; font-size: 0.98rem; }
+  @media (max-width: 720px) { .barra nav a:not(.boton) { display: none; } }
+
+  /* Portada */
+  .portada { position: relative; overflow: hidden; border-bottom: 1px solid var(--linea); }
+  .portada-foto {
+    /* la foto ocupa la parte derecha: la Luna queda a la derecha del titular */
+    position: absolute; inset: 0 0 0 30%; background: #1b2231 url("img/portada.jpg") 50% 50% / cover no-repeat;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 24%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 24%);
+    animation: amanecer 2.4s ease-out both;
+  }
+  @keyframes amanecer { from { transform: scale(1.04); filter: brightness(0.82); } to { transform: none; filter: none; } }
+  .portada::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(14, 18, 27, 0.92) 0%, rgba(14, 18, 27, 0.55) 42%, rgba(14, 18, 27, 0) 70%),
+                linear-gradient(0deg, rgba(20, 26, 37, 0.9) 0%, rgba(20, 26, 37, 0) 30%);
+  }
+  .portada .envoltura { position: relative; z-index: 1; padding-block: clamp(96px, 16vw, 190px) clamp(56px, 8vw, 96px); }
+  .portada-texto { max-width: 560px; display: grid; gap: 22px; }
+  .portada h1 { font-size: clamp(2.6rem, 6.4vw, 4.6rem); font-weight: 700; line-height: 0.98; }
+  .portada h1 em { font-style: normal; color: var(--cobre-claro); }
+  .portada .entradilla { color: #c9ccd6; }
+  .acciones { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+  .portada-datos { font: 400 0.85rem/1.5 var(--mono); color: var(--gris); letter-spacing: 0.02em; }
+  .credito { position: absolute; right: 20px; bottom: 14px; z-index: 1; font: 400 0.75rem var(--mono); color: rgba(239, 233, 225, 0.55); }
+  @media (max-width: 720px) {
+    .portada-foto { inset: 0; background-position: 50% 22%; -webkit-mask-image: none; mask-image: none; }
+    .portada::after { background: linear-gradient(0deg, rgba(14, 18, 27, 0.96) 12%, rgba(14, 18, 27, 0.4) 70%, rgba(14, 18, 27, 0.25) 100%); }
+    .portada .envoltura { padding-top: 240px; }
+  }
+
+  /* Escalera de exposiciones */
+  .escalera { display: grid; grid-template-columns: repeat(auto-fit, minmax(76px, 1fr)); gap: 10px 6px; align-items: end; }
+  .exposicion { display: grid; justify-items: center; gap: 12px; }
+  .mini {
+    --r: 44%; --a: 0.9;
+    width: 64px; aspect-ratio: 1; border-radius: 50%; max-width: 100%;
+    background: radial-gradient(circle, #05070b 0 27%, rgba(239, 233, 225, var(--a)) 28.5%, rgba(239, 233, 225, calc(var(--a) * 0.35)) 34%, rgba(214, 222, 240, 0) var(--r));
+  }
+  .exposicion span { font: 500 0.8rem/1 var(--mono); color: var(--gris); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .exposicion.resultado span { color: var(--cobre-claro); }
+  .exposicion.resultado img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; object-position: 50% 50%; box-shadow: 0 0 0 1px var(--cobre); }
+  .flecha { font: 400 1.4rem/64px var(--mono); color: var(--cobre); text-align: center; align-self: start; }
+  .escalera-nota { margin-top: 36px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 28px 40px; color: var(--gris); }
+  .escalera-nota b { color: var(--corona); font-weight: 500; }
+
+  /* Antes / después */
+  .comparador {
+    position: relative; aspect-ratio: 16 / 10; max-width: 100%; border-radius: 4px; overflow: hidden;
+    border: 1px solid var(--linea); background: #0d1119; --pos: 50%;
+    user-select: none; -webkit-user-select: none;
+  }
+  .comparador img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .comparador .despues { clip-path: inset(0 0 0 var(--pos)); }
+  .comparador .raya { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; margin-left: -1px; background: var(--corona); pointer-events: none; }
+  .comparador .asa {
+    position: absolute; top: 50%; left: var(--pos); width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%;
+    background: var(--corona); color: var(--noche); display: grid; place-items: center; pointer-events: none;
+    font: 600 1rem/1 var(--mono); box-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
+  }
+  .comparador input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
+  .comparador input:focus-visible ~ .asa { outline: 2px solid var(--cobre-claro); outline-offset: 3px; }
+  .rotulo { position: absolute; top: 14px; z-index: 1; font: 500 0.78rem var(--mono); letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 10px; background: rgba(13, 17, 25, 0.72); border-radius: 2px; pointer-events: none; }
+  .rotulo.izq { left: 14px; color: var(--gris); }
+  .rotulo.der { right: 14px; color: var(--cobre-claro); }
+  .pie { margin-top: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; color: var(--gris-2); font: 400 0.85rem/1.5 var(--mono); }
+
+  /* Qué hace */
+  .rasgos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 0 56px; }
+  .rasgo { display: grid; grid-template-columns: 7.2rem 1fr; gap: 18px; padding-block: 22px; border-top: 1px solid var(--linea); }
+  .rasgo .etiqueta { padding-top: 5px; color: var(--gris-2); font-size: 0.72rem; }
+  .rasgo h3 { margin-bottom: 6px; }
+  .rasgo p { color: var(--gris); }
+  @media (max-width: 480px) { .rasgo { grid-template-columns: 1fr; gap: 6px; } }
+
+  /* Cómo funciona */
+  .flujo { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 5vw, 64px); align-items: center; }
+  .pasos { list-style: none; margin: 0; padding: 0; display: grid; gap: 28px; counter-reset: paso; }
+  .pasos li { display: grid; grid-template-columns: 3rem 1fr; gap: 14px; counter-increment: paso; }
+  .pasos li::before { content: counter(paso); font: 600 2.4rem/1 var(--display); color: var(--cobre); }
+  .pasos h3 { margin-bottom: 6px; }
+  .pasos p { color: var(--gris); }
+  .captura { width: 100%; height: auto; border: 1px solid var(--linea); border-radius: 4px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45); }
+  @media (max-width: 860px) { .flujo { grid-template-columns: minmax(0, 1fr); } }
+
+  /* Versiones */
+  .precios { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; align-items: stretch; }
+  @media (max-width: 900px) { .precios { grid-template-columns: minmax(0, 1fr); max-width: 520px; } }
+  .plan { display: flex; flex-direction: column; gap: 20px; padding: 28px 26px; border: 1px solid var(--linea); border-radius: 4px; background: var(--cielo); }
+  .plan.destacado { background: var(--cielo-2); border-color: var(--cobre); position: relative; }
+  .plan.destacado .sello { position: absolute; top: -12px; left: 24px; background: var(--cobre); color: var(--cobre-tinta); font: 600 0.72rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 9px; border-radius: 2px; }
+  .plan h3 { font-size: 1.7rem; }
+  .plan .para { color: var(--gris); margin-top: 6px; }
+  .precio { display: flex; align-items: baseline; gap: 8px; }
+  .precio b { font: 600 2.8rem/1 var(--display); font-variant-numeric: tabular-nums; }
+  .precio span { color: var(--gris); font: 400 0.85rem var(--mono); }
+  .plan ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; flex: 1; }
+  .plan li { padding-left: 24px; position: relative; color: #d5d5d9; }
+  .plan li::before { content: ""; position: absolute; left: 2px; top: 0.62em; width: 10px; height: 10px; border-radius: 50%; background: radial-gradient(circle, #05070b 0 45%, var(--corona) 50% 62%, transparent 66%); }
+  .plan li.no { color: var(--gris-2); }
+  .plan li.no::before { background: none; border: 1px solid var(--gris-2); width: 9px; height: 9px; }
+  .plan .boton { width: 100%; }
+  .aviso-tienda { margin-top: 10px; font: 400 0.85rem/1.4 var(--mono); color: var(--cobre-claro); min-height: 1.4em; }
+  .mejora { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 28px; padding: 22px 26px; border: 1px dashed var(--linea); border-radius: 4px; }
+  .mejora p { color: var(--gris); max-width: 62ch; }
+  .mejora p b { color: var(--corona); font-weight: 500; }
+  .condiciones { margin-top: 18px; color: var(--gris-2); font: 400 0.85rem/1.6 var(--mono); }
+
+  /* Requisitos y preguntas */
+  .dos { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 80px); }
+  @media (max-width: 860px) { .dos { grid-template-columns: minmax(0, 1fr); } }
+  .flujo > *, .dos > *, .precios > * { min-width: 0; }
+  .requisitos { display: grid; gap: 0; margin: 0; }
+  .requisitos div { display: grid; grid-template-columns: 8.5rem 1fr; gap: 16px; padding-block: 14px; border-top: 1px solid var(--linea); }
+  .requisitos dt { font: 500 0.78rem/1.9 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--gris-2); }
+  .requisitos dd { margin: 0; }
+  details { border-top: 1px solid var(--linea); }
+  details:last-of-type { border-bottom: 1px solid var(--linea); }
+  summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 16px; padding-block: 18px; font: 600 1.25rem/1.25 var(--display); }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font: 400 1.4rem/1 var(--mono); color: var(--cobre); }
+  details[open] summary::after { content: "−"; }
+  details > div { padding-bottom: 20px; color: var(--gris); max-width: var(--lectura); display: grid; gap: 10px; }
+  details ol { margin: 0; padding-left: 1.2em; }
+
+  /* Próximo eclipse y pie */
+  .proximo { border-block: 1px solid var(--linea); background: var(--cielo); padding-block: 42px; }
+  .proximo .envoltura { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 40px; }
+  .proximo h2 { font-size: clamp(1.7rem, 3.2vw, 2.3rem); }
+  .proximo .cuenta { font: 500 1rem/1.5 var(--mono); color: var(--gris); }
+  .proximo .cuenta b { color: var(--cobre-claro); font-weight: 500; font-variant-numeric: tabular-nums; }
+  footer { padding-block: 44px 56px; color: var(--gris-2); font-size: 0.95rem; }
+  footer .envoltura { display: grid; gap: 18px; }
+  footer .fila { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px; }
+  footer nav { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+  footer a { color: var(--gris); }
+  .correo { font-family: var(--mono); color: var(--corona); user-select: all; }
+</style>
+</head>
+<body>
+
+<header class="barra">
+  <div class="envoltura">
+    <a class="marca" href="#inicio"><img src="img/icono.png" alt=""><span>Easy Corona</span></a>
+    <nav aria-label="Secciones">
+      <a href="#como">Cómo funciona</a>
+      <a href="#versiones">Versiones</a>
+      <a href="#preguntas">Preguntas</a>
+      <a class="boton boton-principal" href="#descargar" data-enlace="descarga">Descargar gratis</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="portada" aria-labelledby="titulo">
+    <div class="portada-foto" role="img" aria-label="Eclipse total de Sol con la corona extendida alrededor de la Luna, procesado con Easy Corona"></div>
+    <div class="envoltura">
+      <div class="portada-texto">
+        <p class="etiqueta">Para fotos de eclipse total</p>
+        <h1 id="titulo">La corona que viste, <em>en una sola imagen.</em></h1>
+        <p class="entradilla">Easy Corona une todas tus exposiciones de la totalidad en un HDR y saca a la luz los filamentos de la corona. Sin capas, sin máscaras y sin Photoshop.</p>
+        <div class="acciones" id="descargar">
+          <a class="boton boton-principal" href="#versiones" data-enlace="descarga">Descargar gratis <small>Windows</small></a>
+          <a class="boton boton-secundario" href="#antes">Ver el antes y después</a>
+        </div>
+        <p class="portada-datos">Windows 10 y 11 · 64 bits · en español · versión 1.0</p>
+      </div>
+    </div>
+    <p class="credito">Foto: Iker Zubizarreta</p>
+  </section>
+
+  <section aria-labelledby="t-escalera">
+    <div class="envoltura">
+      <div class="cabecera-seccion">
+        <p class="etiqueta">Por qué hace falta</p>
+        <h2 id="t-escalera">Ninguna foto sola guarda toda la corona</h2>
+        <p class="entradilla">Durante la totalidad la corona es miles de veces más brillante junto a la Luna que en sus serpentinas lejanas. Por eso se dispara en serie, de fracciones de milésima a un segundo.</p>
+      </div>
+      <div class="escalera" role="img" aria-label="Once exposiciones, de 1/4000 de segundo a 1/4 de segundo, cada una con un halo de corona más grande, que se combinan en una sola imagen">
+        <div class="exposicion"><div class="mini" style="--r:31%;--a:.95"></div><span>1/4000</span></div>
+        <div class="exposicion"><div class="mini" style="--r:33%;--a:.95"></div><span>1/2000</span></div>
+        <div class="exposicion"><div class="mini" style="--r:35%;--a:.95"></div><span>1/1000</span></div>
+        <div class="exposicion"><div class="mini" style="--r:37%;--a:.96"></div><span>1/500</span></div>
+        <div class="exposicion"><div class="mini" style="--r:39%;--a:.97"></div><span>1/250</span></div>
+        <div class="exposicion"><div class="mini" style="--r:41%;--a:.98"></div><span>1/125</span></div>
+        <div class="exposicion"><div class="mini" style="--r:43%;--a:.99"></div><span>1/60</span></div>
+        <div class="exposicion"><div class="mini" style="--r:45%;--a:1"></div><span>1/30</span></div>
+        <div class="exposicion"><div class="mini" style="--r:47%;--a:1"></div><span>1/15</span></div>
+        <div class="exposicion"><div class="mini" style="--r:49%;--a:1"></div><span>1/8</span></div>
+        <div class="exposicion"><div class="mini" style="--r:50%;--a:1"></div><span>1/4 s</span></div>
+        <div class="flecha" aria-hidden="true">→</div>
+        <div class="exposicion resultado"><img src="img/despues.jpg" alt=""><span>1 HDR</span></div>
+      </div>
+      <div class="escalera-nota">
+        <p><b>Las cortas</b> guardan el borde de la Luna y las protuberancias; en las largas eso ya sale quemado.</p>
+        <p><b>Las largas</b> recogen las serpentinas lejanas, que en las cortas ni aparecen.</p>
+        <p><b>Easy Corona</b> las alinea con la Luna, las apila en un HDR de 32 bits y realza el detalle fino de todo el recorrido.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="antes" aria-labelledby="t-antes" style="padding-top:0">
+    <div class="envoltura">
+      <div class="cabecera-seccion">
+        <p class="etiqueta">Antes y después</p>
+        <h2 id="t-antes">Mueve la línea</h2>
+        <p class="entradilla">A la izquierda, el HDR tal cual sale del apilado. A la derecha, el mismo HDR después de Easy Corona.</p>
+      </div>
+      <div class="comparador" id="comparador">
+        <img src="img/antes.jpg" alt="El HDR del eclipse sin realzar: la corona es un halo blanco sin detalle">
+        <img class="despues" src="img/despues.jpg" alt="El mismo HDR con Easy Corona: se ven los filamentos de la corona y el cielo azul">
+        <span class="rotulo izq">HDR tal cual</span>
+        <span class="rotulo der">Con Easy Corona</span>
+        <input type="range" id="comparar" min="0" max="100" value="50" step="0.5" aria-label="Posición de la línea entre el antes y el después">
+        <span class="raya" aria-hidden="true"></span>
+        <span class="asa" aria-hidden="true">↔</span>
+      </div>
+      <div class="pie"><span>Foto: Iker Zubizarreta · HDR de 7692 × 4860 px</span><span>Mismo encuadre y mismo HDR en las dos mitades</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="t-hace" style="padding-top:0">
+    <div class="envoltura">
+      <div class="cabecera-seccion">
+        <p class="etiqueta">Qué hace</p>
+        <h2 id="t-hace">Lo difícil lo hace la app</h2>
+      </div>
+      <div class="rasgos">
+        <div class="rasgo"><p class="etiqueta">Alinear</p><div><h3>Con la Luna o con la corona</h3><p>Alinea cada exposición aunque el trípode se moviera o la montura no siguiera bien.</p></div></div>
+        <div class="rasgo"><p class="etiqueta">Apilar</p><div><h3>HDR de 32 bits</h3><p>Combina todas las exposiciones en una imagen con todo el rango de la corona.</p></div></div>
+        <div class="rasgo"><p class="etiqueta">Realzar</p><div><h3>Detalle fino</h3><p>Filtros multiescala (MGN y WOW) que hacen visibles los filamentos que no se ven en ninguna foto sola.</p></div></div>
+        <div class="rasgo"><p class="etiqueta">Color</p><div><h3>Cielo de eclipse y Luna gris</h3><p>El azul del cielo durante la totalidad, medido, y la Luna en un gris uniforme.</p></div></div>
+        <div class="rasgo"><p class="etiqueta">Cámaras</p><div><h3>Tus RAW, tal cual</h3><p>Canon, Nikon, Sony, Fujifilm, Panasonic, Olympus, Pentax y DNG. También darks, bias y flats.</p></div></div>
+        <div class="rasgo"><p class="etiqueta">Vista previa</p><div><h3>Lo que ves es lo que se guarda</h3><p>Cada deslizador se ve al momento, con el mismo cálculo que el resultado final.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="como" aria-labelledby="t-como" style="padding-top:0">
+    <div class="envoltura flujo">
+      <div>
+        <div class="cabecera-seccion">
+          <p class="etiqueta">Cómo funciona</p>
+          <h2 id="t-como">De la tarjeta de memoria a la corona</h2>
+        </div>
+        <ol class="pasos">
+          <li><div><h3>Añade la carpeta de fotos</h3><p>La app lee la exposición de cada RAW y las agrupa sola.</p></div></li>
+          <li><div><h3>Crea el HDR con un clic</h3><p>Alinea, promedia y apila. Si ya tienes un HDR de otro programa, empieza por el paso 3.</p></div></li>
+          <li><div><h3>Ajusta y guarda</h3><p>Ocho deslizadores en el modo sencillo; todo el control en el modo avanzado. Guarda en TIFF de 16 o 32 bits, PNG o JPEG.</p></div></li>
+        </ol>
+      </div>
+      <img class="captura" src="img/app.jpg" alt="La ventana de Easy Corona en el modo sencillo: deslizadores de brillo, corona exterior, detalle fino y color, con la vista previa del eclipse a la derecha" loading="lazy" width="1600" height="950">
+    </div>
+  </section>
+
+  <section id="versiones" aria-labelledby="t-versiones" style="padding-top:0">
+    <div class="envoltura">
+      <div class="cabecera-seccion">
+        <p class="etiqueta">Versiones</p>
+        <h2 id="t-versiones">Pruébala gratis con tus fotos</h2>
+        <p class="entradilla">La versión gratuita lo hace todo a resolución reducida. Cuando veas tu corona, elige la tuya.</p>
+      </div>
+      <div class="precios">
+        <article class="plan">
+          <div><h3>Gratuita</h3><p class="para">Para probarla con tus fotos.</p></div>
+          <p class="precio"><b>0 €</b></p>
+          <ul>
+            <li>Todas las funciones, para ver el resultado</li>
+            <li>Imágenes a 1200 px, con marca de agua</li>
+            <li class="no">No guarda ni exporta imágenes</li>
+          </ul>
+          <a class="boton boton-secundario" href="#versiones" data-enlace="descarga">Descargar gratis</a>
+        </article>
+        <article class="plan">
+          <div><h3>Premium</h3><p class="para">Para sacar tu corona en un clic.</p></div>
+          <p class="precio"><b>19,99 €</b><span>pago único</span></p>
+          <ul>
+            <li>Crear el HDR a resolución completa</li>
+            <li>Realce automático con el modo sencillo</li>
+            <li>Guarda en TIFF, PNG y JPEG</li>
+            <li class="no">Modo avanzado solo para mirar</li>
+            <li class="no">Sin presets</li>
+          </ul>
+          <a class="boton boton-secundario" href="#versiones" data-enlace="premium">Comprar Premium</a>
+        </article>
+        <article class="plan destacado">
+          <p class="sello">La completa</p>
+          <div><h3>Premium+</h3><p class="para">Para quien quiere controlar cada paso.</p></div>
+          <p class="precio"><b>49,99 €</b><span>pago único</span></p>
+          <ul>
+            <li>Todo lo de Premium</li>
+            <li>Modo avanzado completo: MGN, WOW, NAFE, FNRGF, pases de realce, color y Luna</li>
+            <li>Presets: guarda tus ajustes y compártelos</li>
+          </ul>
+          <a class="boton boton-principal" href="#versiones" data-enlace="premium_plus">Comprar Premium+</a>
+        </article>
+      </div>
+      <p class="aviso-tienda" id="aviso-tienda" role="status"></p>
+      <div class="mejora">
+        <p><b>¿Ya tienes Premium?</b> Pasa a Premium+ pagando solo la diferencia: <b>30,00 €</b>. En la app: menú Licencia → Mejorar a Premium+.</p>
+        <a class="boton boton-secundario" href="mejorar/?desde=premium">Mejorar a Premium+</a>
+      </div>
+      <p class="condiciones">Licencia para un ordenador · un año de actualizaciones incluido · la clave te llega por correo</p>
+    </div>
+  </section>
+
+  <section id="preguntas" aria-labelledby="t-preguntas" style="padding-top:0">
+    <div class="envoltura dos">
+      <div>
+        <div class="cabecera-seccion">
+          <p class="etiqueta">Requisitos</p>
+          <h2 id="t-preguntas">Antes de descargar</h2>
+        </div>
+        <dl class="requisitos">
+          <div><dt>Sistema</dt><dd>Windows 10 u 11 de 64 bits</dd></div>
+          <div><dt>Memoria</dt><dd>16 GB recomendados para fotos de 24–26 Mpx (con 8 GB va más despacio)</dd></div>
+          <div><dt>Disco</dt><dd>500 MB para la app y varios GB libres mientras se crea el HDR</dd></div>
+          <div><dt>Mac</dt><dd>En preparación</dd></div>
+          <div><dt>Internet</dt><dd>No hace falta: todo se procesa en tu ordenador</dd></div>
+        </dl>
+      </div>
+      <div>
+        <details>
+          <summary>¿Qué fotos necesito?</summary>
+          <div><p>Una serie de exposiciones de la totalidad, en RAW o TIFF, idealmente con trípode y de 1/4000 s a 1 s. Cuantas más fotos de cada exposición, menos ruido. También sirve un HDR ya hecho en otro programa.</p></div>
+        </details>
+        <details>
+          <summary>Windows dice «Windows protegió tu PC»</summary>
+          <div>
+            <p>Es el aviso normal para programas nuevos de autores pequeños. Para instalar:</p>
+            <ol><li>Pulsa <b>Más información</b>.</li><li>Pulsa <b>Ejecutar de todos modos</b>.</li></ol>
+          </div>
+        </details>
+        <details>
+          <summary>¿Cómo activo la licencia?</summary>
+          <div><p>Tras la compra te llega una clave por correo. En la app: menú <b>Licencia → Activar licencia</b> y pega la clave. La comprobación se hace sin internet.</p></div>
+        </details>
+        <details>
+          <summary>¿Puedo usarla en dos ordenadores?</summary>
+          <div><p>Cada licencia es para un ordenador. Si cambias de ordenador, desinstálala del anterior y actívala en el nuevo.</p></div>
+        </details>
+        <details>
+          <summary>¿Qué pasa cuando acabe el año de actualizaciones?</summary>
+          <div><p>La app sigue funcionando para siempre con la última versión incluida. Solo las versiones nuevas publicadas después podrán pedir renovar.</p></div>
+        </details>
+        <details>
+          <summary>¿Envía mis fotos a algún sitio?</summary>
+          <div><p>No. Todo el procesado ocurre en tu ordenador y la app no envía ningún dato.</p></div>
+        </details>
+        <details>
+          <summary>¿Y si no me convence?</summary>
+          <div><p>Por eso existe la versión gratuita: pruébala antes con tus propias fotos. Las condiciones completas están en el <a href="legal/contrato.html">contrato de licencia</a>.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <aside class="proximo" aria-labelledby="t-proximo">
+    <div class="envoltura">
+      <div>
+        <p class="etiqueta">El próximo en España</p>
+        <h2 id="t-proximo">Eclipse total del 2 de agosto de 2027</h2>
+      </div>
+      <p class="cuenta" id="cuenta">La franja de totalidad cruza el sur de Andalucía y Ceuta</p>
+    </div>
+  </aside>
+</main>
+
+<footer>
+  <div class="envoltura">
+    <div class="fila">
+      <p>Easy Corona © 2026 Iker Zubizarreta · Contacto: <span class="correo">zu3run@gmail.com</span></p>
+      <nav aria-label="Legal">
+        <a href="legal/contrato.html">Contrato de licencia</a>
+        <a href="legal/privacidad.html">Privacidad</a>
+      </nav>
+    </div>
+    <p>Easy Corona usa EclipseTools, de Samuli Vuorinen (licencia MIT), y otras bibliotecas de código abierto.</p>
+  </div>
+</footer>
+
+<script>
+  // Enlaces de la tienda y de la descarga: se rellenan cuando existan.
+  // Mientras estén vacíos, los botones avisan en vez de llevar a ninguna parte.
+  const ENLACES = {
+    descarga: "",
+    premium: "",
+    premium_plus: "",
+  };
+
+  const aviso = document.getElementById("aviso-tienda");
+  document.querySelectorAll("[data-enlace]").forEach((a) => {
+    const url = ENLACES[a.dataset.enlace];
+    if (url) {
+      a.href = url;
+      return;
+    }
+    a.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      aviso.textContent = a.dataset.enlace === "descarga"
+        ? "La descarga estará disponible muy pronto."
+        : "La tienda abre muy pronto.";
+      document.getElementById("versiones").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
+  // Antes / después
+  const comparador = document.getElementById("comparador");
+  const deslizador = document.getElementById("comparar");
+  const mover = () => comparador.style.setProperty("--pos", deslizador.value + "%");
+  deslizador.addEventListener("input", mover);
+  mover();
+
+  // Días que faltan para el eclipse del 2 de agosto de 2027 (hora de España)
+  const cuenta = document.getElementById("cuenta");
+  const dias = Math.ceil((Date.parse("2027-08-02T11:00:00+02:00") - Date.now()) / 86400000);
+  if (dias > 0) {
+    cuenta.innerHTML = `Faltan <b>${dias}</b> días · la franja de totalidad cruza el sur de Andalucía y Ceuta`;
+  }
+</script>
+</body>
+</html>
