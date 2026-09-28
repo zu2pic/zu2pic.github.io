@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gracias por tu compra · Easy Corona</title>
+<link rel="icon" type="image/png" href="../img/icono.png">
+<style>
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../fuentes/AlegreyaSans-400i-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../fuentes/AlegreyaSans-400i-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../fuentes/AlegreyaSans-400-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../fuentes/AlegreyaSans-400-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../fuentes/AlegreyaSans-500-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../fuentes/AlegreyaSans-500-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../fuentes/AlegreyaSans-700-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../fuentes/AlegreyaSans-700-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../fuentes/BarlowSemiCondensed-500-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../fuentes/BarlowSemiCondensed-500-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(../fuentes/BarlowSemiCondensed-600-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(../fuentes/BarlowSemiCondensed-600-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../fuentes/BarlowSemiCondensed-700-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../fuentes/BarlowSemiCondensed-700-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../fuentes/IBMPlexMono-400-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../fuentes/IBMPlexMono-400-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../fuentes/IBMPlexMono-500-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../fuentes/IBMPlexMono-500-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+  /* A esta página lleva Stripe después de pagar (y el correo con la clave): descargar y activar. */
+  :root { color-scheme: dark; --noche: #141a25; --cielo: #1f2736; --linea: #34405a; --corona: #efe9e1;
+          --gris: #9aa3b6; --gris-2: #717b90; --cobre: #cf8f55; --cobre-claro: #e0a770; --cobre-tinta: #24160a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--noche); color: var(--corona);
+         font: 400 1.1rem/1.6 "Alegreya Sans", "Corbel", "Segoe UI", sans-serif; }
+  main { max-width: 760px; margin-inline: auto; padding-inline: 20px; padding-block: 40px 72px; display: grid; gap: 32px; }
+  a { color: var(--cobre-claro); text-underline-offset: 3px; }
+  .volver { font: 400 0.85rem "IBM Plex Mono", Consolas, monospace; }
+  h1, h2 { font-family: "Barlow Semi Condensed", "Bahnschrift", sans-serif; font-weight: 600; line-height: 1.05; margin: 0;
+           text-wrap: balance; }
+  h1 { font-size: clamp(2.2rem, 6vw, 3.2rem); }
+  h2 { font-size: 1.5rem; }
+  p { margin: 0; }
+  .etiqueta { font: 400 0.78rem "IBM Plex Mono", Consolas, monospace; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cobre-claro); }
+  .gris { color: var(--gris); }
+  .pasos { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; counter-reset: paso; }
+  .pasos li { display: grid; grid-template-columns: 2.6rem 1fr; gap: 14px; padding: 22px 22px 22px 18px;
+              border: 1px solid var(--linea); border-radius: 4px; background: var(--cielo); counter-increment: paso; }
+  .pasos li::before { content: counter(paso); font: 600 2.2rem/1 "Barlow Semi Condensed", sans-serif; color: var(--cobre); }
+  .pasos li > div { display: grid; gap: 10px; }
+  .botones { display: flex; flex-wrap: wrap; gap: 10px; }
+  .boton { display: inline-flex; align-items: center; gap: 10px; font: 600 1.08rem/1 "Barlow Semi Condensed", sans-serif;
+           letter-spacing: 0.03em; text-decoration: none; padding: 14px 22px; border-radius: 3px;
+           background: var(--cobre); color: var(--cobre-tinta); }
+  .boton:hover { background: var(--cobre-claro); color: var(--cobre-tinta); }
+  .boton small { font: 400 0.8rem "IBM Plex Mono", Consolas, monospace; opacity: 0.75; }
+  .apagado { color: var(--gris-2); font: 400 0.9rem "IBM Plex Mono", Consolas, monospace; align-self: center; }
+  code, .correo { font-family: "IBM Plex Mono", Consolas, monospace; font-size: 0.95rem; }
+  .correo { user-select: all; color: var(--corona); }
+  :focus-visible { outline: 2px solid var(--cobre-claro); outline-offset: 3px; }
+</style>
+</head>
+<body>
+<main>
+  <a class="volver" href="../index.html">← Easy Corona</a>
+  <div style="display:grid;gap:12px">
+    <p class="etiqueta">Compra completada</p>
+    <h1>Gracias por comprar Easy Corona</h1>
+    <p class="gris">Es una sola app para todas las versiones: la descargas y la activas con tu clave.</p>
+  </div>
+  <ol class="pasos">
+    <li><div>
+      <h2>Descarga e instala Easy Corona</h2>
+      <p class="gris">Si ya la tienes instalada, sáltate este paso.</p>
+      <div class="botones">
+        <a class="boton" href="#" data-enlace="descarga">Descargar para Windows <small>10 y 11</small></a>
+        <span class="apagado">Mac: muy pronto</span>
+      </div>
+      <p class="gris">Si Windows muestra «Windows protegió tu PC», pulsa <b>Más información</b> y después <b>Ejecutar de todos modos</b>.</p>
+    </div></li>
+    <li><div>
+      <h2>Mira tu correo</h2>
+      <p class="gris">En unos minutos te llegará tu clave de licencia, al correo con el que has pagado. Si no la ves en 15 minutos, mira también en la carpeta de spam o escribe a <span class="correo">zu3run@gmail.com</span>.</p>
+    </div></li>
+    <li><div>
+      <h2>Activa tu licencia</h2>
+      <p class="gris">En Easy Corona: menú <b>Licencia → Activar licencia…</b>, pega la clave entera y acepta. Arriba verás tu versión.</p>
+    </div></li>
+  </ol>
+</main>
+
+<script>
+  // El mismo enlace de descarga que en la portada.
+  const ENLACES = { descarga: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.0/EasyCorona_Instalador_1.0.exe" };
+  document.querySelectorAll("[data-enlace]").forEach((a) => { a.href = ENLACES[a.dataset.enlace]; });
+</script>
+</body>
+</html>
