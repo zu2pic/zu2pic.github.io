@@ -181,6 +181,15 @@
   .opciones { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
   .opcion { display: grid; gap: 12px; padding: 22px; border: 1px solid var(--linea); border-radius: 4px; background: var(--cielo); }
   .aviso { font: 400 0.85rem/1.4 "IBM Plex Mono", Consolas, monospace; color: var(--cobre-claro); min-height: 1.4em; }
+  label { font: 600 1.05rem/1.2 "Barlow Semi Condensed", sans-serif; }
+  textarea { width: 100%; min-height: 5.5em; resize: vertical; padding: 12px; border-radius: 3px; border: 1px solid var(--linea);
+             background: #11161f; color: var(--corona); font: 400 0.85rem/1.45 "IBM Plex Mono", Consolas, monospace;
+             word-break: break-all; }
+  textarea:focus { outline: none; border-color: var(--cobre); }
+  .estado { font: 400 0.9rem/1.45 "IBM Plex Mono", Consolas, monospace; min-height: 1.45em; color: var(--gris); }
+  .estado.bien { color: #8fcf9d; }
+  .estado.mal { color: #e89a8f; }
+  .boton[aria-disabled="true"] { opacity: 0.4; pointer-events: none; }
   :focus-visible { outline: 2px solid var(--cobre-claro); outline-offset: 3px; }
 </style>
 </head>
@@ -197,11 +206,14 @@
     <div class="tarjeta">
       <p class="precio"><b>30,00 €</b><s>49,99 €</s></p>
       <ol>
-        <li>Compra la mejora.</li>
-        <li>En el pago, pega tu clave Premium actual: sirve para comprobar que ya la tienes.</li>
+        <li>Pega aquí tu clave Premium actual y la comprobamos.</li>
+        <li>Compra la mejora. En el pago, pega otra vez la clave en «Tu clave Premium actual» (se copia sola al pulsar el botón).</li>
         <li>Te llegará por correo tu clave Premium+. En la app: Licencia → Activar licencia.</li>
       </ol>
-      <a class="boton" href="#" data-enlace="mejora">Comprar la mejora a Premium+</a>
+      <label for="clave">Tu clave Premium actual</label>
+      <textarea id="clave" spellcheck="false" autocomplete="off" placeholder="EC1-…"></textarea>
+      <p class="estado" id="estado-clave" role="status"></p>
+      <a class="boton" href="#" id="comprar-mejora" aria-disabled="true">Comprar la mejora a Premium+</a>
       <p class="aviso" role="status"></p>
     </div>
   </section>
@@ -231,12 +243,38 @@
   </section>
 </main>
 
+<script src="../js/nacl.js"></script>
+<script src="../js/licencias.js"></script>
+<script src="../js/mejora.js"></script>
 <script>
   // Los mismos enlaces de la tienda que en la portada (se rellenan cuando exista la tienda).
   const ENLACES = { premium: "https://buy.stripe.com/test_28E8wQge6bxccBj5R1gQE02", premium_plus: "https://buy.stripe.com/test_7sY8wQge66cSgRzfrBgQE03", mejora: "https://buy.stripe.com/test_9B63cw4vodFk8l32EPgQE01" };   // PRUEBA: el real es https://buy.stripe.com/3cI4gA1jBg1L7M9dbUbo400
 
   const desde = new URLSearchParams(location.search).get("desde");
   document.getElementById(desde === "premium" ? "desde-premium" : "desde-gratis").hidden = false;
+
+  // Mejora: el botón de compra solo se activa con una clave Premium válida. La clave PÚBLICA es la de
+  // la app (la pone construir_web.py): sirve para comprobar claves, no para crearlas.
+  const CLAVE_PUBLICA = "d49d89032d16af4abf3574ddd95f19dbfed97a269b4e7c3be27a6738981bbd6e";
+  const campo = document.getElementById("clave");
+  const estado = document.getElementById("estado-clave");
+  const comprar = document.getElementById("comprar-mejora");
+  let actual = { ok: false };
+  function revisar() {
+    actual = typeof estadoDeClave === "function" ? estadoDeClave(campo.value, bytesDeHex(CLAVE_PUBLICA))
+                                                 : { ok: false, mensaje: "No se ha podido cargar la comprobación." };
+    estado.textContent = actual.mensaje + (actual.ok ? " Ya puedes comprar la mejora." : "");
+    estado.className = "estado" + (actual.mensaje ? (actual.ok ? " bien" : " mal") : "");
+    comprar.setAttribute("aria-disabled", actual.ok ? "false" : "true");
+  }
+  campo.addEventListener("input", revisar);
+  comprar.addEventListener("click", async (ev) => {
+    ev.preventDefault();
+    if (!actual.ok) return;
+    if (!ENLACES.mejora) { comprar.closest("section").querySelector(".aviso").textContent = "La tienda abre muy pronto."; return; }
+    try { await navigator.clipboard.writeText(actual.compacta); } catch (e) { /* se pega a mano */ }
+    location.href = ENLACES.mejora + "?prefilled_email=" + encodeURIComponent(actual.correo);
+  });
 
   document.querySelectorAll("[data-enlace]").forEach((a) => {
     const url = ENLACES[a.dataset.enlace];
