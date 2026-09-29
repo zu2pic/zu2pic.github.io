@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Easy Corona</title>
-<meta name="description" content="Easy Corona une todas tus exposiciones de un eclipse total en un HDR y saca a la luz los filamentos de la corona. Para Windows, en español.">
+<meta name="description" content="Easy Corona une todas tus exposiciones de un eclipse total en un HDR y saca a la luz los filamentos de la corona. Para Windows y Mac, en español.">
 <link rel="icon" type="image/png" href="img/icono.png">
 <style>
 @font-face {
@@ -212,7 +212,8 @@
   .boton-principal:hover { background: var(--cobre-claro); color: var(--cobre-tinta); }
   .boton-secundario { border-color: var(--linea); color: var(--corona); background: transparent; }
   .boton-secundario:hover { border-color: var(--gris); color: var(--corona); }
-  .boton small { font: 400 0.8rem/1 var(--mono); letter-spacing: 0; opacity: 0.75; }
+  .boton small { font: 400 0.8rem/1 var(--mono); letter-spacing: 0; opacity: 0.75; white-space: nowrap; }
+  .boton:has(small) { flex-wrap: wrap; row-gap: 6px; text-align: center; }
 
   /* Barra superior */
   .barra {
@@ -345,6 +346,11 @@
   .requisitos div { display: grid; grid-template-columns: 8.5rem 1fr; gap: 16px; padding-block: 14px; border-top: 1px solid var(--linea); }
   .requisitos dt { font: 500 0.78rem/1.9 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--gris-2); }
   .requisitos dd { margin: 0; }
+  .mac { display: grid; gap: 14px; margin-top: 36px; padding: 24px; border: 1px solid var(--linea); border-radius: 4px;
+         background: var(--cielo); scroll-margin-top: 84px; }
+  .mac p { color: var(--gris); }
+  .mac .acciones { flex-direction: column; margin-top: 0; }
+  .mac .nota { font: 400 0.85rem/1.5 var(--mono); color: var(--gris-2); }
   details { border-top: 1px solid var(--linea); }
   details:last-of-type { border-bottom: 1px solid var(--linea); }
   summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 16px; padding-block: 18px; font: 600 1.25rem/1.25 var(--display); }
@@ -391,10 +397,11 @@
         <h1 id="titulo">La corona que viste, <em>en una sola imagen.</em></h1>
         <p class="entradilla">Easy Corona une todas tus exposiciones de la totalidad en un HDR y saca a la luz los filamentos de la corona. Sin capas, sin máscaras y sin Photoshop.</p>
         <div class="acciones" id="descargar">
-          <a class="boton boton-principal" href="#versiones" data-enlace="descarga">Descargar gratis <small>Windows</small></a>
+          <a class="boton boton-principal" href="#versiones" data-enlace="windows">Descargar gratis <small>Windows</small></a>
+          <a class="boton boton-principal" href="#mac">Descargar gratis <small>Mac</small></a>
           <a class="boton boton-secundario" href="#antes">Ver el antes y después</a>
         </div>
-        <p class="portada-datos">Windows 10 y 11 · 64 bits · en español · versión 1.0</p>
+        <p class="portada-datos">Windows 10 y 11 · macOS 15 o posterior · en español · versión 1.0</p>
       </div>
     </div>
     <p class="credito">Foto: Iker Zubizarreta</p>
@@ -543,12 +550,20 @@
           <h2 id="t-preguntas">Antes de descargar</h2>
         </div>
         <dl class="requisitos">
-          <div><dt>Sistema</dt><dd>Windows 10 u 11 de 64 bits</dd></div>
+          <div><dt>Sistema</dt><dd>Windows 10 u 11 de 64 bits, o macOS 15 Sequoia o posterior (Mac con chip Apple o con Intel)</dd></div>
           <div><dt>Memoria</dt><dd>16 GB recomendados para fotos de 24–26 Mpx (con 8 GB va más despacio)</dd></div>
           <div><dt>Disco</dt><dd>500 MB para la app y varios GB libres mientras se crea el HDR</dd></div>
-          <div><dt>Mac</dt><dd>En preparación</dd></div>
           <div><dt>Internet</dt><dd>No hace falta: todo se procesa en tu ordenador</dd></div>
         </dl>
+        <div class="mac" id="mac">
+          <h3>Easy Corona para Mac</h3>
+          <p>Para macOS 15 Sequoia o posterior. Hay una descarga para cada tipo de Mac: míralo en el menú Apple → <b>Acerca de este Mac</b>.</p>
+          <div class="acciones">
+            <a class="boton boton-principal" href="#mac" data-enlace="mac_apple">Mac con chip Apple <small>M1 o posterior</small></a>
+            <a class="boton boton-secundario" href="#mac" data-enlace="mac_intel">Mac con procesador Intel</a>
+          </div>
+          <p class="nota">Abre el .dmg y arrastra EasyCorona a Aplicaciones. La primera vez macOS pide permiso para abrirla (mira «macOS no deja abrir la app» en las preguntas).</p>
+        </div>
       </div>
       <div>
         <details>
@@ -560,6 +575,14 @@
           <div>
             <p>Es el aviso normal para programas nuevos de autores pequeños. Para instalar:</p>
             <ol><li>Pulsa <b>Más información</b>.</li><li>Pulsa <b>Ejecutar de todos modos</b>.</li></ol>
+          </div>
+        </details>
+        <details>
+          <summary>macOS no deja abrir la app</summary>
+          <div>
+            <p>La primera vez macOS avisa de que no ha podido comprobar Easy Corona, porque es un programa nuevo de un autor pequeño. Para abrirla:</p>
+            <ol><li>Cierra el aviso sin moverla a la papelera.</li><li>Ve a <b>Ajustes del Sistema → Privacidad y seguridad</b>.</li><li>Abajo pondrá que se ha bloqueado EasyCorona: pulsa <b>Abrir igualmente</b> y confirma con tu contraseña.</li></ol>
+            <p>Solo hace falta la primera vez.</p>
           </div>
         </details>
         <details>
@@ -614,10 +637,15 @@
   // Enlaces de la tienda y de la descarga: se rellenan cuando existan.
   // Mientras estén vacíos, los botones avisan en vez de llevar a ninguna parte.
   const ENLACES = {
-    descarga: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.0/EasyCorona_Instalador_1.0.exe",
+    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.0/EasyCorona_Instalador_1.0.exe",
+    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.0/EasyCorona_1.0_mac_arm64.dmg",
+    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.0/EasyCorona_1.0_mac_x86_64.dmg",
     premium: "https://buy.stripe.com/8x2eVe9Q7eXH8QddbUbo401",
     premium_plus: "https://buy.stripe.com/14AcN63rJeXH0jH0p8bo402",
   };
+  // «Descargar gratis» (barra y versión gratuita): el instalador de Windows o, desde un Mac, el
+  // recuadro de Mac (hay dos descargas y el navegador no sabe si el Mac es Apple o Intel).
+  ENLACES.descarga = /Macintosh|Mac OS X/.test(navigator.userAgent) ? "#mac" : ENLACES.windows;
 
   const aviso = document.getElementById("aviso-tienda");
   document.querySelectorAll("[data-enlace]").forEach((a) => {
