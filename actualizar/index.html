@@ -191,25 +191,28 @@
   <a class="volver" href="../index.html">← Easy Corona</a>
   <div style="display:grid;gap:12px">
     <p class="etiqueta">Actualización gratuita</p>
-    <h1>Easy Corona 1.1</h1>
+    <h1>Easy Corona 1.2</h1>
     <p class="gris">Se instala encima de la versión anterior y conserva tu licencia, tus presets y tus proyectos.</p>
   </div>
 
   <section style="display:grid;gap:14px">
     <h2>Novedades</h2>
     <ul class="novedades gris">
-      <li><b>Alineación más precisa.</b> Al alinear, la app afina cada foto y cada exposición, corrige las que salen corridas o giradas y aparta las que no encajan.</li>
-      <li><b>Revisa lo alineado antes de seguir</b> (pasos 2 y 4): pasa las fotos, compáralas y quita las que no te convenzan.</li>
-      <li><b>Encuentra la Luna en cualquier foto:</b> gran angular con paisaje, Luna quemada en las exposiciones largas o fotos muy oscuras. Ya no se para con «Moon not found».</li>
-      <li><b>HDR más limpio:</b> sin arcos ni medialunas alrededor del Sol y con el borde de la Luna sin anillos.</li>
-      <li><b>Marca la Luna a mano</b> en la vista previa: clic en el centro y arrastra hasta el borde.</li>
-      <li><b>Arreglos:</b> los pases de realce con radio muy pequeño ya salen como en la vista previa; el FNRGF ya no se aplica dos veces en el paso a paso; cancelar un proceso y lanzar otro ya no reanuda el cancelado; las fotos repetidas se detectan.</li>
+      <li><b>Cromosfera y protuberancias.</b> Las fotos más rápidas se apilan aparte, sin la Luna, y se añaden al resultado: protuberancias nítidas aunque la Luna se moviera durante la totalidad. Si están quemadas en todas las fotos, la app recupera su color.</li>
+      <li><b>Una sola Luna, nítida.</b> El HDR ya no deja «fantasmas» en el borde de la Luna por apilar fotos con la Luna en sitios distintos.</li>
+      <li><b>Luz cenicienta.</b> Saca los mares de la Luna con las fotos largas, o directamente del HDR si se ven en él.</li>
+      <li><b>Fotos con dos focales (beta).</b> Junta las fotos de dos objetivos, por ejemplo 600 y 300 mm: el detalle de la focal larga con el campo de la corta, sin que se note el cambio.</li>
+      <li><b>Más rápida.</b> Alinear, de 4 a 5 veces más rápido; los pases de realce, hasta 37 veces. Si solo tocas el resultado final, «Ejecutar» rehace solo ese paso.</li>
+      <li><b>Resultado final más claro.</b> El cielo, la Luna y la cromosfera, cada uno en su recuadro, y «Corona interior» para suavizar el realce junto a la Luna.</li>
+      <li><b>Fotos de práctica.</b> Si aún no tienes tus fotos, practica con las de zu2pic (Inicio → Fotos de práctica).</li>
+      <li><b>TIFF para otros programas.</b> El TIFF de 16 bits se ve igual en Photoshop, Lightroom y Affinity. Y el texto se puede agrandar en <b>Ver → Tamaño del texto</b>.</li>
+      <li><b>Arreglos:</b> el degradado del cielo se resta en lineal y ya no deforma la corona brillante; el detalle fino se ajusta solo a cada HDR; el brillo final ya no pasa a manual al abrir un proyecto; y al reabrir un proyecto guardado con «Solo el resultado final» ya no avisa de los archivos intermedios que borra la propia app.</li>
     </ul>
   </section>
 
   <ol class="pasos">
     <li><div>
-      <h2>Descarga la versión 1.1</h2>
+      <h2>Descarga la versión 1.2</h2>
       <div class="botones">
         <a class="boton" href="#" data-enlace="windows">Descargar para Windows <small>10 y 11</small></a>
         <a class="boton" href="#" data-enlace="mac_apple">Mac con chip Apple <small>M1 o posterior</small></a>
@@ -224,7 +227,7 @@
     </div></li>
     <li><div>
       <h2>Ábrela</h2>
-      <p class="gris">Arriba verás «Easy Corona 1.1» y tu versión. Si saliera la gratuita, ve a <b>Licencia → Activar licencia…</b> y pega otra vez la clave que te llegó por correo. Cualquier problema: <span class="correo">zu3run@gmail.com</span>.</p>
+      <p class="gris">Arriba verás «Easy Corona 1.2» y tu versión. Si saliera la gratuita, ve a <b>Licencia → Activar licencia…</b> y pega otra vez la clave que te llegó por correo. Cualquier problema: <span class="correo">zu3run@gmail.com</span>.</p>
     </div></li>
   </ol>
 </main>
@@ -232,9 +235,9 @@
 <script>
   // Los mismos enlaces de descarga que en la portada.
   const ENLACES = {
-    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.1/EasyCorona_Instalador_1.1.exe",
-    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.1/EasyCorona_1.1_mac_arm64.dmg",
-    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.1/EasyCorona_1.1_mac_x86_64.dmg",
+    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.2/EasyCorona_Instalador_1.2.exe",
+    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.2/EasyCorona_1.2_mac_arm64.dmg",
+    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.2/EasyCorona_1.2_mac_x86_64.dmg",
   };
   document.querySelectorAll("[data-enlace]").forEach((a) => { a.href = ENLACES[a.dataset.enlace]; });
 </script>
