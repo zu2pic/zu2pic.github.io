@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tutorial · Easy Corona</title>
+<meta name="description" content="Step-by-step Easy Corona tutorial: create the HDR of a total eclipse, enhance the corona, the Moon, the chromosphere and the stars, and save the result.">
+<link rel="icon" type="image/png" href="../../img/icono.png">
+<link rel="alternate" hreflang="es" href="https://zu2pic.github.io/tutorial/">
+<link rel="alternate" hreflang="en" href="https://zu2pic.github.io/en/tutorial/">
+<style>
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-400i-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-400i-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-400-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-400-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-500-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-500-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-700-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-700-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../../fuentes/BarlowSemiCondensed-500-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../../fuentes/BarlowSemiCondensed-500-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(../../fuentes/BarlowSemiCondensed-600-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(../../fuentes/BarlowSemiCondensed-600-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../../fuentes/BarlowSemiCondensed-700-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../../fuentes/BarlowSemiCondensed-700-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../../fuentes/IBMPlexMono-400-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../../fuentes/IBMPlexMono-400-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../../fuentes/IBMPlexMono-500-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../../fuentes/IBMPlexMono-500-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+  /* Easy Corona · tutorial (V0_71). Same colors and fonts as the home page. */
+  :root {
+    color-scheme: dark;
+    --noche: #141a25; --cielo: #1f2736; --cielo-2: #262f40; --linea: #34405a; --corona: #efe9e1;
+    --gris: #9aa3b6; --gris-2: #717b90; --cobre: #cf8f55; --cobre-claro: #e0a770; --cobre-tinta: #24160a;
+    --display: "Barlow Semi Condensed", "Bahnschrift", "Arial Narrow", sans-serif;
+    --texto: "Alegreya Sans", "Corbel", "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", "Consolas", monospace;
+    --ancho: 1120px; --lectura: 70ch;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { margin: 0; background: var(--noche); color: var(--corona); font: 400 1.125rem/1.6 var(--texto); -webkit-font-smoothing: antialiased; }
+  img { max-width: 100%; display: block; height: auto; }
+  a { color: var(--cobre-claro); text-underline-offset: 3px; }
+  a:hover { color: var(--corona); }
+  :focus-visible { outline: 2px solid var(--cobre-claro); outline-offset: 3px; border-radius: 2px; }
+  .envoltura { max-width: var(--ancho); margin-inline: auto; padding-inline: 20px; }
+  h1, h2, h3 { font-family: var(--display); font-weight: 600; line-height: 1.08; margin: 0; text-wrap: balance; }
+  h1 { font-size: clamp(2.4rem, 5.6vw, 4rem); font-weight: 700; }
+  h2 { font-size: clamp(1.8rem, 3.6vw, 2.5rem); }
+  p { margin: 0; }
+  .etiqueta { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cobre-claro); }
+  .entradilla { color: var(--gris); max-width: var(--lectura); font-size: 1.2rem; }
+  .barra { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--noche) 82%, transparent);
+           backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid color-mix(in srgb, var(--linea) 60%, transparent); }
+  .barra .envoltura { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; }
+  .marca { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--corona); }
+  .marca img { width: 30px; height: 30px; border-radius: 50%; }
+  .marca span { font: 700 1.3rem/1 var(--display); letter-spacing: 0.02em; }
+  .barra nav { display: flex; align-items: center; gap: 22px; }
+  .barra nav a { color: var(--gris); text-decoration: none; font-size: 1rem; }
+  .barra nav a:hover { color: var(--corona); }
+  .barra nav a.idioma { font: 500 0.82rem/1 var(--mono); letter-spacing: 0.08em; }
+  .boton { display: inline-flex; align-items: center; gap: 10px; font: 600 1rem/1 var(--display); letter-spacing: 0.03em; text-decoration: none;
+           padding: 12px 18px; border-radius: 3px; background: var(--cobre); color: var(--cobre-tinta) !important; }
+  .boton:hover { background: var(--cobre-claro); }
+  @media (max-width: 720px) { .barra nav a.ocultable { display: none; } }
+  .cabeza { padding-block: clamp(56px, 8vw, 96px) 24px; display: grid; gap: 18px; }
+  .indice { margin: 12px 0 0; padding: 22px 26px; border: 1px solid var(--linea); border-radius: 4px; background: var(--cielo);
+            columns: 2 260px; column-gap: 40px; list-style: none; counter-reset: i; }
+  .indice li { counter-increment: i; padding-block: 4px; break-inside: avoid; }
+  .indice li::before { content: counter(i) ". "; color: var(--cobre); font: 600 1rem var(--display); }
+  .indice a { color: var(--corona); text-decoration: none; }
+  .indice a:hover { color: var(--cobre-claro); }
+  .paso { padding-block: clamp(44px, 6vw, 72px); border-top: 1px solid var(--linea); scroll-margin-top: 70px; }
+  .paso .envoltura { display: grid; gap: 18px; }
+  .paso .texto { max-width: var(--lectura); display: grid; gap: 12px; color: #d8d8dd; }
+  .paso .texto p { color: #d8d8dd; }
+  .paso ul, .paso ol { margin: 0; padding-left: 1.3em; display: grid; gap: 8px; color: #d8d8dd; }
+  .paso li b, .paso p b { color: var(--corona); font-weight: 500; }
+  .num { font: 600 1rem/1 var(--mono); color: var(--cobre); letter-spacing: 0.08em; }
+  figure { margin: 8px 0 0; }
+  figure img { border: 1px solid var(--linea); border-radius: 4px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45); }
+  figure.pequena img { max-width: 640px; }
+  figcaption { margin-top: 10px; color: var(--gris-2); font: 400 0.85rem/1.5 var(--mono); }
+  .beta { display: inline-block; font: 500 0.7rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--cobre-tinta);
+          background: var(--cobre); padding: 4px 6px; border-radius: 2px; vertical-align: middle; margin-left: 6px; }
+  .nota { padding: 16px 20px; border-left: 3px solid var(--cobre); background: var(--cielo); color: var(--gris) !important; border-radius: 0 4px 4px 0; }
+  .ui { font: 500 1em var(--texto); color: var(--corona); background: var(--cielo-2); padding: 1px 7px; border-radius: 3px; white-space: nowrap; }
+  .arriba { margin-top: 6px; font: 400 0.85rem var(--mono); }
+  footer { padding-block: 44px 56px; color: var(--gris-2); font-size: 0.95rem; border-top: 1px solid var(--linea); }
+  footer .envoltura { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px; }
+  footer a { color: var(--gris); }
+  .correo { font-family: var(--mono); color: var(--corona); }
+</style>
+</head>
+<body>
+
+<header class="barra">
+  <div class="envoltura">
+    <a class="marca" href="../"><img src="../../img/icono.png" alt=""><span>Easy Corona</span></a>
+    <nav aria-label="Sections">
+      <a class="ocultable" href="../#como">How it works</a>
+      <a class="ocultable" href="../#versiones">Versions</a>
+      <a class="idioma" href="../../tutorial/" hreflang="es" lang="es" data-idioma="es">Español</a>
+      <a class="boton" href="../#descargar">Free download</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+  <div class="envoltura cabeza">
+    <p class="etiqueta">Tutorial</p>
+    <h1>Easy Corona, step by step</h1>
+    <p class="entradilla">Everything the app does, from the photo folder to the final result. In a hurry? <span class="ui">Create HDR</span> → <span class="ui">Create HDR automatically</span>, add your photos and press <span class="ui">Create the HDR</span>. The rest is for fine-tuning.</p>
+    <ol class="indice">
+      <li><a href="#antes">Before you start</a></li>
+      <li><a href="#inicio-app">Home</a></li>
+      <li><a href="#hdr-un-clic">Create the HDR in one click</a></li>
+      <li><a href="#hdr-pasos">Create the HDR step by step</a></li>
+      <li><a href="#sencillo">Enhancing the corona: Simple mode</a></li>
+      <li><a href="#vista-previa">The preview</a></li>
+      <li><a href="#avanzado">Advanced mode</a></li>
+      <li><a href="#resultado">Final result: Moon, chromosphere and stars</a></li>
+      <li><a href="#guardar">Files, projects and presets</a></li>
+      <li><a href="#mas">Practice photos, language and license</a></li>
+      <li><a href="#consejos">Tips</a></li>
+    </ol>
+  </div>
+
+  <section class="paso" id="antes">
+    <div class="envoltura">
+      <p class="num">1</p>
+      <h2>Before you start</h2>
+      <div class="texto">
+        <p><b>The photos.</b> Your series of totality exposures, as RAW (Canon, Nikon, Sony, Fujifilm, Panasonic, Olympus, Pentax, DNG) or TIFF. The more different exposures, the more corona: the short ones keep the prominences and the Moon's edge, and the long ones the distant streamers and the earthshine. Several photos of each exposure reduce the noise.</p>
+        <p><b>Optional:</b> darks, bias (offset) and flats for calibration. For the chromosphere and the earthshine, the same photos of the series will do.</p>
+        <p><b>Install.</b> On Windows, the installer. On a Mac, open the .dmg and drag Easy Corona to Applications; the first time, <span class="ui">System Settings → Privacy &amp; Security → Open Anyway</span>.</p>
+        <p><b>Language and text size.</b> The app opens in your computer's language (English or Spanish). Change it in <span class="ui">View → Idioma · Language</span>, and the text size in <span class="ui">View → Text size</span>; both apply the next time you open it.</p>
+        <p><b>Versions.</b> The free version does everything, at 1200 px and with a watermark, so you can see your corona. Premium saves at full size with Simple mode. Premium+ adds Advanced mode and presets.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="inicio-app">
+    <div class="envoltura">
+      <p class="num">2</p>
+      <h2>Home</h2>
+      <div class="texto">
+        <ul>
+          <li><b>Create HDR</b>: from your individual photos.</li>
+          <li><b>I already have an HDR</b>: if you already stacked it (with Easy Corona or another program), go straight to enhancing the corona.</li>
+          <li><b>Open a saved project…</b> and, below, the recent ones.</li>
+          <li><b>Practice photos</b>: a real eclipse to learn with before using yours (see section 10).</li>
+        </ul>
+      </div>
+      <figure><img src="../../img/tutorial/en_inicio.jpg" alt="Easy Corona home: Create HDR and I already have an HDR buttons, open a project and practice photos" loading="lazy" width="1600" height="950"><figcaption>Home</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="paso" id="hdr-un-clic">
+    <div class="envoltura">
+      <p class="num">3</p>
+      <h2>Create the HDR in one click</h2>
+      <div class="texto">
+        <p>In <span class="ui">Create HDR</span> → <span class="ui">Create HDR automatically</span>:</p>
+        <ol>
+          <li><b>Your eclipse photos</b>: <span class="ui">Add photos…</span> or <span class="ui">Add a folder…</span> (they add up, from several folders). The app reads the exposure of each photo and groups them. Dark, Bias or Offset and Flat subfolders are recognized as calibration, and «Cromosfera» and «Cenicienta» ones as photos for those layers.</li>
+          <li><b>Calibration photos</b> (optional): the darks, bias and flats folders, and the box to apply them when reading the RAW files.</li>
+          <li><b>Moon and chromosphere</b>: with the same photos, which exposures are used for the chromosphere (the fastest) and for the earthshine (the longest). The app proposes a choice by looking at one photo of each exposure.</li>
+          <li><b>Output folder</b>: where the HDR and the final result are saved.</li>
+          <li><b>Save results</b>: <span class="ui">Final result only</span> (the intermediate steps go to an internal folder and are deleted) or <span class="ui">All intermediate files</span>.</li>
+          <li>With <span class="ui">When done, enhance the corona all the way to the final result</span>, the app carries on by itself to the final image.</li>
+        </ol>
+        <p>Press <span class="ui">Create the HDR</span>. Depending on the number of photos it takes from a few minutes to an hour: the bar at the bottom and the window title show the step and the percentage, and you can cancel it.</p>
+        <p class="nota"><b>Two focal lengths</b> <span class="beta">beta</span>: if you mix photos from two lenses (for example, 600 and 300 mm), the app makes an HDR for each focal length and joins them: the detail of the long one inside the field of the short one.</p>
+      </div>
+      <figure><img src="../../img/tutorial/en_crear_auto.jpg" alt="Create HDR automatically page: eclipse photos, calibration photos, output folder and the Create the HDR button" loading="lazy" width="1600" height="950"><figcaption>Create HDR automatically</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="paso" id="hdr-pasos">
+    <div class="envoltura">
+      <p class="num">4</p>
+      <h2>Create the HDR step by step</h2>
+      <div class="texto">
+        <p>In Advanced mode (Premium+), each step has its own tab in the sidebar, with its options and its review:</p>
+        <ol>
+          <li><b>Images</b>: the photos and their exposure groups (by ISO, shutter speed and aperture, or by folder). <b>RAW calibration</b> (optional): darks, bias and flats.</li>
+          <li><b>Alignment</b>: each photo of a group on the Moon or on the corona. Refining and checking the alignment corrects what moved and sets aside what doesn't fit (into «_descartadas»). Then a review with the «Difference» of each photo, to remove any you want.</li>
+          <li><b>Average per exposure</b>: the photos of each exposure combined into one, with less noise and a single sharp Moon (no ghosts on its edge).</li>
+          <li><b>Align exposures</b>: the exposures with each other, from the shortest to the longest.</li>
+          <li><b>HDR stacking</b>: everything in a 32-bit HDR, without the saturated parts of each photo and with the edges cropped.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="sencillo">
+    <div class="envoltura">
+      <p class="num">5</p>
+      <h2>Enhancing the corona: Simple mode</h2>
+      <div class="texto">
+        <p>In <span class="ui">Automation</span>, with the HDR chosen, each slider shows up instantly in the preview. Hover over any of them to see what it does.</p>
+        <ul>
+          <li><b>Brightness</b>: that of the corona at 1.3-1.5 lunar radii, in L* (0-100).</li>
+          <li><b>Outer corona</b>: how much the image is stretched before the enhancement. More = more distant corona (and more noise in the sky).</li>
+          <li><b>Fine detail</b>: the fine filaments of the whole corona (MGN or WOW filters). 0 = none.</li>
+          <li><b>Sharpness</b>: the strength of the enhancement passes, the finest detail. If you see «scales» at full size, lower it.</li>
+          <li><b>Structure (FNRGF)</b>: rays with the same contrast from inside to outside.</li>
+          <li><b>Inner corona</b>: protects the corona next to the Moon from the filters (if it looks burned or with dark dots there).</li>
+          <li><b>Corona color</b>: the real color of your RAW (a RAW of the session next to the HDR is needed); 0 = white corona. <b>Blue sky</b>: the blue of eclipse photos. <b>Darker sky</b>: the black point.</li>
+          <li><b>Moon</b>: the gray of the disc («as is» = as it comes out of the enhancement). <b>Earthshine</b>: the Moon's maria. <b>Prominences</b>: the exposure of the chromosphere.</li>
+          <li><b>Stars</b> <span class="beta">beta</span>: when you move it, the app finds the stars in the HDR, removes them from the result together with the dark ring the filters leave around them (and the hot pixels too) and puts them back clean with that brightness. <b>How many</b>: from the brightest to the faintest. <span class="ui">Save star mask…</span> saves their mask for other programs.</li>
+        </ul>
+        <p><span class="ui">Run the process</span> does the whole enhancement and saves the result. If afterwards you only change something of the final result (brightness, sky, Moon, chromosphere or stars), only that step is redone, in seconds. <span class="ui">Recommended values</span> goes back to the starting values.</p>
+      </div>
+      <figure><img src="../../img/tutorial/en_sencillo.jpg" alt="Simple mode: corona and color sliders, with the eclipse preview on the right" loading="lazy" width="1600" height="950"><figcaption>Simple mode: corona and color</figcaption></figure>
+      <figure><img src="../../img/tutorial/en_sencillo_abajo.jpg" alt="Simple mode further down: Moon, earthshine, prominences and stars (beta)" loading="lazy" width="1600" height="950"><figcaption>Simple mode: Moon, chromosphere and stars</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="paso" id="vista-previa">
+    <div class="envoltura">
+      <p class="num">6</p>
+      <h2>The preview</h2>
+      <div class="texto">
+        <ul>
+          <li><b>Quality</b>: from Fast (500 px) to Maximum (2200 px). What you see is calculated with the same functions as the result; at small sizes, the finest detail is approximate.</li>
+          <li><span class="ui">See the effect of this tab</span>: turn it off to compare with the previous image. <span class="ui">Show mask</span>: only what the filter adds.</li>
+          <li><span class="ui">Zoom</span>: the image at full size, with zoom. That's where to judge the fine detail and the stars.</li>
+          <li><span class="ui">Mark the Moon</span>: if the app doesn't find the Moon well (burned Moon, unusual photos), drag a circle over it.</li>
+          <li><span class="ui">Save the current image</span>: in 64, 32 or 16 bits, or as JPEG/PNG.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="avanzado">
+    <div class="envoltura">
+      <p class="num">7</p>
+      <h2>Advanced mode</h2>
+      <div class="texto">
+        <p>With <span class="ui">Advanced mode</span> (Premium+), each filter has its own tab. In each one, the button at the bottom applies the filter and the resulting image becomes the current one; <span class="ui">Undo</span> goes back and <span class="ui">Project → Restore only this tab</span> restores its starting values.</p>
+        <ul>
+          <li><b>6. Color</b>: neutral corona or the real color of your RAW.</li>
+          <li><b>7. Pre-stretch</b>: how much the image is stretched and the sky gradient that is subtracted.</li>
+          <li><b>MGN</b>: the multiscale detail (MGN, WOW or NAFE), its amount, the noise floor, the color noise and the grain of the distant sky; the blend with your image and the inner corona.</li>
+          <li><b>Multiscale Unsharp Mask</b>: the enhancement passes, each with its radial and tangential radius and its amount.</li>
+          <li><b>FNRGF</b>: the radial normalization (NRGF or RHEF), with its contrast and its color.</li>
+          <li><b>Final result</b>: the next section.</li>
+        </ul>
+      </div>
+      <figure><img src="../../img/tutorial/en_mgn.jpg" alt="The MGN tab in Advanced mode: WOW method, amount of detail, noise floor, blend and inner corona" loading="lazy" width="1600" height="950"><figcaption>Advanced mode: the MGN tab</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="paso" id="resultado">
+    <div class="envoltura">
+      <p class="num">8</p>
+      <h2>Final result: Moon, chromosphere and stars</h2>
+      <div class="texto">
+        <ul>
+          <li><b>Brightness</b>: automatic (the L* you want for the corona) or a manual amount.</li>
+          <li><b>Sky color</b>: the blue and its hue.</li>
+          <li><b>Moon</b>: its gray or «as is»; the <b>earthshine</b> and where it comes from: your long photos (<span class="ui">Choose photos…</span>, from any folder) or the HDR itself (<span class="ui">From the HDR</span>, only if the maria really show).</li>
+          <li><b>Chromosphere and prominences</b>: the fast photos are stacked separately, erasing the Moon from each one, and added at the end, sharp and with a single Moon. <span class="ui">Exposure</span> makes them brighter or darker.</li>
+          <li><b>Stars</b> <span class="beta">beta</span>: <span class="ui">Redo the stars</span>, <span class="ui">How many</span>, <span class="ui">Brightness</span>, <span class="ui">Save mask…</span> (a 16-bit TIFF the size of the result; white = star with its halo) and <span class="ui">Search again</span>. The hot pixels left in the stack (red or blue dots) are removed too.</li>
+          <li><b>Save</b>: the input image, the folder and the name; <span class="ui">Export PNG/JPEG for sharing</span>.</li>
+        </ul>
+      </div>
+      <figure><img src="../../img/tutorial/en_resultado.jpg" alt="The Final result tab: earthshine, chromosphere and prominences, and the Stars (beta) box" loading="lazy" width="1600" height="950"><figcaption>Final result: Moon, chromosphere and stars</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="paso" id="guardar">
+    <div class="envoltura">
+      <p class="num">9</p>
+      <h2>Files, projects and presets</h2>
+      <div class="texto">
+        <ul>
+          <li><b>06_final_16bit.tiff</b>: the one to open in Photoshop, Lightroom, Affinity or GIMP (with an sRGB profile). <b>06_final.tiff</b> is the app's 64-bit one; with «All intermediate files» a linear 32-bit copy is also saved.</li>
+          <li><b>Projects</b>: <span class="ui">Project → Save project…</span> saves all the settings and which files it uses; <span class="ui">Open project…</span> brings it back (also from Home, among the recent ones).</li>
+          <li><b>Presets</b> (Premium+): <span class="ui">Presets → Save preset…</span> saves your enhancement settings in a .json file you can share; <span class="ui">Open preset from a file…</span> and <span class="ui">Manage presets…</span>.</li>
+          <li><span class="ui">Reset</span> takes everything back to the initial HDR; <span class="ui">New project</span> starts from scratch; <span class="ui">Project → Free up working space…</span> deletes old internal folders.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="mas">
+    <div class="envoltura">
+      <p class="num">10</p>
+      <h2>Practice photos, language and license</h2>
+      <div class="texto">
+        <ul>
+          <li><b>Practice photos</b> (Home or <span class="ui">Help → Practice photos…</span>): zu2pic's RAW photos of the August 12, 2026 eclipse, or their ready-made HDR. Only Easy Corona opens them, and whatever you save with them carries the «© zu2pic» watermark.</li>
+          <li><b>New version notices</b>: in the free version, <span class="ui">Help → New version notices…</span> signs you up (or off) to get an email when a new version comes out.</li>
+          <li><b>License</b>: when you buy, you get the key by email; paste it in <span class="ui">License → Activate license…</span>. No internet needed: the key is checked on your computer.</li>
+        </ul>
+      </div>
+      <figure class="pequena"><img src="../../img/tutorial/en_practica.jpg" alt="The Practice photos window: RAW photos and a ready-made HDR, with Download and Use" loading="lazy" width="636" height="378"><figcaption>Practice photos</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="paso" id="consejos">
+    <div class="envoltura">
+      <p class="num">11</p>
+      <h2>Tips</h2>
+      <div class="texto">
+        <ul>
+          <li>Always judge the result at full size (<span class="ui">Zoom</span>): if you see «scales» or grain, lower <b>Sharpness</b> or <b>Fine detail</b>.</li>
+          <li>If the area next to the Moon looks burned or has dark dots, raise <b>Inner corona</b>.</li>
+          <li>If the Moon is misplaced or shows a ring, use <span class="ui">Mark the Moon</span>.</li>
+          <li>To retouch in another program, use the <b>16-bit TIFF</b>: the 32-bit one is linear and many programs treat it as HDR.</li>
+          <li>Stars are a feature in testing <span class="beta">beta</span>: check them at full size and, if some don't convince you, lower <b>How many</b>.</li>
+          <li>Questions or a bug? Write to <span class="correo">zu3run@gmail.com</span> with the «registro.txt» file from the EasyCorona folder of your user account.</li>
+        </ul>
+        <p class="arriba"><a href="#inicio">Back to top</a> · <a href="../">Back to the home page</a></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="envoltura">
+    <p>Easy Corona © 2026 Iker Zubizarreta · Contact: <span class="correo">zu3run@gmail.com</span></p>
+    <p><a href="../legal/license.html">License agreement</a> · <a href="../legal/privacy.html">Privacy</a></p>
+  </div>
+</footer>
+<script>
+  try { localStorage.setItem("easycorona_idioma", "en"); } catch (e) {}
+  document.querySelectorAll("[data-idioma]").forEach((a) => a.addEventListener("click", () => {
+    try { localStorage.setItem("easycorona_idioma", a.dataset.idioma); } catch (e) {}
+  }));
+</script>
+</body>
+</html>

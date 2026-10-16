@@ -4,8 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Easy Corona</title>
-<meta name="description" content="Easy Corona une todas tus exposiciones de un eclipse total en un HDR y saca a la luz los filamentos de la corona. Para Windows y Mac, en español.">
+<meta name="description" content="Easy Corona une todas tus exposiciones de un eclipse total en un HDR y saca a la luz los filamentos de la corona. Para Windows y Mac, en español e inglés.">
 <link rel="icon" type="image/png" href="img/icono.png">
+<link rel="alternate" hreflang="es" href="https://zu2pic.github.io/">
+<link rel="alternate" hreflang="en" href="https://zu2pic.github.io/en/">
+<link rel="alternate" hreflang="x-default" href="https://zu2pic.github.io/en/">
 <style>
 @font-face {
   font-family: 'Alegreya Sans';
@@ -372,6 +375,10 @@
   footer nav { display: flex; flex-wrap: wrap; gap: 8px 22px; }
   footer a { color: var(--gris); }
   .correo { font-family: var(--mono); color: var(--corona); user-select: all; }
+  /* Idioma (V0_70): visible también en el móvil */
+  .barra nav a.idioma { font: 500 0.82rem/1 var(--mono); letter-spacing: 0.08em; color: var(--gris); text-decoration: none; }
+  .barra nav a.idioma:hover { color: var(--corona); }
+  @media (max-width: 720px) { .barra nav a.idioma { display: inline; } }
 </style>
 </head>
 <body>
@@ -381,8 +388,10 @@
     <a class="marca" href="#inicio"><img src="img/icono.png" alt=""><span>Easy Corona</span></a>
     <nav aria-label="Secciones">
       <a href="#como">Cómo funciona</a>
+      <a href="tutorial/">Tutorial</a>
       <a href="#versiones">Versiones</a>
       <a href="#preguntas">Preguntas</a>
+      <a class="idioma" href="en/" hreflang="en" lang="en" data-idioma="en">English</a>
       <a class="boton boton-principal" href="#descargar" data-enlace="descarga">Descargar gratis</a>
     </nav>
   </div>
@@ -401,7 +410,7 @@
           <a class="boton boton-principal" href="#mac">Descargar gratis <small>Mac</small></a>
           <a class="boton boton-secundario" href="#antes">Ver el antes y después</a>
         </div>
-        <p class="portada-datos">Windows 10 y 11 · macOS 15 o posterior · en español · versión 1.2</p>
+        <p class="portada-datos">Windows 10 y 11 · macOS 15 o posterior · en español e inglés · versión 1.3</p>
       </div>
     </div>
     <p class="credito">Foto: Iker Zubizarreta</p>
@@ -446,14 +455,14 @@
       </div>
       <div class="comparador" id="comparador">
         <img src="img/antes.jpg" alt="El HDR del eclipse sin realzar: la corona es un halo blanco sin detalle">
-        <img class="despues" src="img/despues.jpg" alt="El mismo HDR con Easy Corona: se ven los filamentos de la corona y el cielo azul">
+        <img class="despues" src="img/despues.jpg" alt="El mismo HDR con Easy Corona: los filamentos de la corona, las protuberancias, la luz cenicienta en la Luna, las estrellas y el cielo azul">
         <span class="rotulo izq">HDR tal cual</span>
         <span class="rotulo der">Con Easy Corona</span>
         <input type="range" id="comparar" min="0" max="100" value="50" step="0.5" aria-label="Posición de la línea entre el antes y el después">
         <span class="raya" aria-hidden="true"></span>
         <span class="asa" aria-hidden="true">↔</span>
       </div>
-      <div class="pie"><span>Foto: Iker Zubizarreta · HDR de 7692 × 4860 px</span><span>Mismo encuadre y mismo HDR en las dos mitades</span></div>
+      <div class="pie"><span>Foto: Iker Zubizarreta · 600 mm · con luz cenicienta, protuberancias y estrellas (beta)</span><span>Mismo encuadre y mismo HDR en las dos mitades</span></div>
     </div>
   </section>
 
@@ -470,9 +479,12 @@
         <div class="rasgo"><p class="etiqueta">Color</p><div><h3>Cielo de eclipse y Luna gris</h3><p>El azul del cielo durante la totalidad, medido, y la Luna en un gris uniforme.</p></div></div>
         <div class="rasgo"><p class="etiqueta">Cromosfera</p><div><h3>Protuberancias nítidas, una sola Luna</h3><p>Las fotos más rápidas se apilan aparte y se añaden al final, sin fantasmas en el borde de la Luna.</p></div></div>
         <div class="rasgo"><p class="etiqueta">Luna</p><div><h3>Luz cenicienta</h3><p>Los mares de la Luna, iluminados por la Tierra, con tus fotos largas o del propio HDR.</p></div></div>
+        <div class="rasgo"><p class="etiqueta">Beta</p><div><h3>Estrellas limpias</h3><p>Encuentra las estrellas, les quita el anillo oscuro que dejan los filtros (y los píxeles calientes) y las vuelve a poner con el brillo y la cantidad que elijas. Con su máscara, para otros programas.</p></div></div>
         <div class="rasgo"><p class="etiqueta">Beta</p><div><h3>Dos focales en una imagen</h3><p>Junta las fotos de dos objetivos: el detalle del largo con el campo del corto.</p></div></div>
         <div class="rasgo"><p class="etiqueta">Cámaras</p><div><h3>Tus RAW, tal cual</h3><p>Canon, Nikon, Sony, Fujifilm, Panasonic, Olympus, Pentax y DNG. También darks, bias y flats.</p></div></div>
         <div class="rasgo"><p class="etiqueta">Vista previa</p><div><h3>Lo que ves es lo que se guarda</h3><p>Cada deslizador se ve al momento, con el mismo cálculo que el resultado final.</p></div></div>
+        <div class="rasgo"><p class="etiqueta">Práctica</p><div><h3>Fotos de práctica</h3><p>Un eclipse de verdad, el de 2026, en RAW o con el HDR ya hecho, para aprender antes de usar tus fotos.</p></div></div>
+        <div class="rasgo"><p class="etiqueta">Idiomas</p><div><h3>En español y en inglés</h3><p>La app se abre en el idioma de tu ordenador y se cambia en un menú.</p></div></div>
       </div>
     </div>
   </section>
@@ -487,8 +499,9 @@
         <ol class="pasos">
           <li><div><h3>Añade la carpeta de fotos</h3><p>La app lee la exposición de cada RAW y las agrupa sola.</p></div></li>
           <li><div><h3>Crea el HDR con un clic</h3><p>Alinea, promedia y apila. Si ya tienes un HDR de otro programa, empieza por el paso 3.</p></div></li>
-          <li><div><h3>Ajusta y guarda</h3><p>Ocho deslizadores en el modo sencillo; todo el control en el modo avanzado. Guarda en TIFF de 16 o 32 bits, PNG o JPEG.</p></div></li>
+          <li><div><h3>Ajusta y guarda</h3><p>Unos pocos deslizadores en el modo sencillo; todo el control en el modo avanzado. Guarda en TIFF de 16 o 32 bits, PNG o JPEG.</p></div></li>
         </ol>
+        <p style="margin-top:28px"><a class="boton boton-secundario" href="tutorial/">Tutorial paso a paso</a></p>
       </div>
       <img class="captura" src="img/app.jpg" alt="La ventana de Easy Corona en el modo sencillo: deslizadores de brillo, corona exterior, detalle fino y color, con la vista previa del eclipse a la derecha" loading="lazy" width="1600" height="950">
     </div>
@@ -641,15 +654,19 @@
   // Enlaces de la tienda y de la descarga: se rellenan cuando existan.
   // Mientras estén vacíos, los botones avisan en vez de llevar a ninguna parte.
   const ENLACES = {
-    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.2/EasyCorona_Instalador_1.2.exe",
-    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.2/EasyCorona_1.2_mac_arm64.dmg",
-    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.2/EasyCorona_1.2_mac_x86_64.dmg",
+    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.3/EasyCorona_Instalador_1.3.exe",
+    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.3/EasyCorona_1.3_mac_arm64.dmg",
+    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.3/EasyCorona_1.3_mac_x86_64.dmg",
     premium: "https://buy.stripe.com/8x2eVe9Q7eXH8QddbUbo401",
     premium_plus: "https://buy.stripe.com/14AcN63rJeXH0jH0p8bo402",
   };
   // «Descargar gratis» (barra y versión gratuita): el instalador de Windows o, desde un Mac, el
   // recuadro de Mac (hay dos descargas y el navegador no sabe si el Mac es Apple o Intel).
   ENLACES.descarga = /Macintosh|Mac OS X/.test(navigator.userAgent) ? "#mac" : ENLACES.windows;
+  try { localStorage.setItem("easycorona_idioma", "es"); } catch (e) {}
+  document.querySelectorAll("[data-idioma]").forEach((a) => a.addEventListener("click", () => {
+    try { localStorage.setItem("easycorona_idioma", a.dataset.idioma); } catch (e) {}
+  }));
 
   const aviso = document.getElementById("aviso-tienda");
   document.querySelectorAll("[data-enlace]").forEach((a) => {

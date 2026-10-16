@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Gracias por tu compra · Easy Corona</title>
 <link rel="icon" type="image/png" href="../img/icono.png">
+<link rel="alternate" hreflang="es" href="https://zu2pic.github.io/gracias/">
+<link rel="alternate" hreflang="en" href="https://zu2pic.github.io/en/thanks/">
+<script>
+  // V0_70 · quien viene de la web en inglés, o tiene el navegador en otro idioma (no español, catalán, euskera ni
+  // gallego), va a la página inglesa. Se puede volver con el enlace «Español» de allí.
+  try {
+    var idioma = localStorage.getItem("easycorona_idioma") || (navigator.language || "").slice(0, 2).toLowerCase();
+    if (idioma && ["es", "ca", "eu", "gl"].indexOf(idioma) < 0) location.replace("../en/thanks/" + location.search);
+  } catch (e) {}
+</script>
 <style>
 @font-face {
   font-family: 'Alegreya Sans';
@@ -220,9 +230,9 @@
 <script>
   // Los mismos enlaces de descarga que en la portada.
   const ENLACES = {
-    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.2/EasyCorona_Instalador_1.2.exe",
-    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.2/EasyCorona_1.2_mac_arm64.dmg",
-    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.2/EasyCorona_1.2_mac_x86_64.dmg",
+    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.3/EasyCorona_Instalador_1.3.exe",
+    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.3/EasyCorona_1.3_mac_arm64.dmg",
+    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.3/EasyCorona_1.3_mac_x86_64.dmg",
   };
   document.querySelectorAll("[data-enlace]").forEach((a) => { a.href = ENLACES[a.dataset.enlace]; });
 </script>

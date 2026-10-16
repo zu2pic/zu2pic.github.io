@@ -3,8 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Easy Corona 1.1 · Actualización</title>
+<title>Easy Corona 1.3 · Actualización</title>
 <link rel="icon" type="image/png" href="../img/icono.png">
+<link rel="alternate" hreflang="es" href="https://zu2pic.github.io/actualizar/">
+<link rel="alternate" hreflang="en" href="https://zu2pic.github.io/en/update/">
+<script>
+  // V0_70 · quien viene de la web en inglés, o tiene el navegador en otro idioma (no español, catalán, euskera ni
+  // gallego), va a la página inglesa. Se puede volver con el enlace «Español» de allí.
+  try {
+    var idioma = localStorage.getItem("easycorona_idioma") || (navigator.language || "").slice(0, 2).toLowerCase();
+    if (idioma && ["es", "ca", "eu", "gl"].indexOf(idioma) < 0) location.replace("../en/update/" + location.search);
+  } catch (e) {}
+</script>
 <style>
 @font-face {
   font-family: 'Alegreya Sans';
@@ -191,28 +201,22 @@
   <a class="volver" href="../index.html">← Easy Corona</a>
   <div style="display:grid;gap:12px">
     <p class="etiqueta">Actualización gratuita</p>
-    <h1>Easy Corona 1.2</h1>
+    <h1>Easy Corona 1.3</h1>
     <p class="gris">Se instala encima de la versión anterior y conserva tu licencia, tus presets y tus proyectos.</p>
   </div>
 
   <section style="display:grid;gap:14px">
     <h2>Novedades</h2>
     <ul class="novedades gris">
-      <li><b>Cromosfera y protuberancias.</b> Las fotos más rápidas se apilan aparte, sin la Luna, y se añaden al resultado: protuberancias nítidas aunque la Luna se moviera durante la totalidad. Si están quemadas en todas las fotos, la app recupera su color.</li>
-      <li><b>Una sola Luna, nítida.</b> El HDR ya no deja «fantasmas» en el borde de la Luna por apilar fotos con la Luna en sitios distintos.</li>
-      <li><b>Luz cenicienta.</b> Saca los mares de la Luna con las fotos largas, o directamente del HDR si se ven en él.</li>
-      <li><b>Fotos con dos focales (beta).</b> Junta las fotos de dos objetivos, por ejemplo 600 y 300 mm: el detalle de la focal larga con el campo de la corta, sin que se note el cambio.</li>
-      <li><b>Más rápida.</b> Alinear, de 4 a 5 veces más rápido; los pases de realce, hasta 37 veces. Si solo tocas el resultado final, «Ejecutar» rehace solo ese paso.</li>
-      <li><b>Resultado final más claro.</b> El cielo, la Luna y la cromosfera, cada uno en su recuadro, y «Corona interior» para suavizar el realce junto a la Luna.</li>
-      <li><b>Fotos de práctica.</b> Si aún no tienes tus fotos, practica con las de zu2pic (Inicio → Fotos de práctica).</li>
-      <li><b>TIFF para otros programas.</b> El TIFF de 16 bits se ve igual en Photoshop, Lightroom y Affinity. Y el texto se puede agrandar en <b>Ver → Tamaño del texto</b>.</li>
-      <li><b>Arreglos:</b> el degradado del cielo se resta en lineal y ya no deforma la corona brillante; el detalle fino se ajusta solo a cada HDR; el brillo final ya no pasa a manual al abrir un proyecto; y al reabrir un proyecto guardado con «Solo el resultado final» ya no avisa de los archivos intermedios que borra la propia app.</li>
+      <li><b>Estrellas limpias (beta).</b> La app encuentra las estrellas en el HDR, les quita el anillo oscuro que dejan los filtros y las vuelve a poner con el brillo y la cantidad que elijas; también quita los píxeles calientes. En el modo sencillo («Estrellas» y «Cuántas») y en «Resultado final», con su máscara para otros programas.</li>
+      <li><b>También en inglés.</b> La app se abre en el idioma de tu ordenador y se cambia en <b>Ver → Idioma · Language</b>. La web, el contrato y el instalador también están en inglés.</li>
+      <li><b>Tutorial paso a paso</b> en la web: <a href="../tutorial/">todas las funciones de la app, con capturas</a>.</li>
     </ul>
   </section>
 
   <ol class="pasos">
     <li><div>
-      <h2>Descarga la versión 1.2</h2>
+      <h2>Descarga la versión 1.3</h2>
       <div class="botones">
         <a class="boton" href="#" data-enlace="windows">Descargar para Windows <small>10 y 11</small></a>
         <a class="boton" href="#" data-enlace="mac_apple">Mac con chip Apple <small>M1 o posterior</small></a>
@@ -227,7 +231,7 @@
     </div></li>
     <li><div>
       <h2>Ábrela</h2>
-      <p class="gris">Arriba verás «Easy Corona 1.2» y tu versión. Si saliera la gratuita, ve a <b>Licencia → Activar licencia…</b> y pega otra vez la clave que te llegó por correo. Cualquier problema: <span class="correo">zu3run@gmail.com</span>.</p>
+      <p class="gris">Arriba verás «Easy Corona 1.3» y tu versión. Si saliera la gratuita, ve a <b>Licencia → Activar licencia…</b> y pega otra vez la clave que te llegó por correo. Cualquier problema: <span class="correo">zu3run@gmail.com</span>.</p>
     </div></li>
   </ol>
 </main>
@@ -235,9 +239,9 @@
 <script>
   // Los mismos enlaces de descarga que en la portada.
   const ENLACES = {
-    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.2/EasyCorona_Instalador_1.2.exe",
-    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.2/EasyCorona_1.2_mac_arm64.dmg",
-    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.2/EasyCorona_1.2_mac_x86_64.dmg",
+    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.3/EasyCorona_Instalador_1.3.exe",
+    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.3/EasyCorona_1.3_mac_arm64.dmg",
+    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.3/EasyCorona_1.3_mac_x86_64.dmg",
   };
   document.querySelectorAll("[data-enlace]").forEach((a) => { a.href = ENLACES[a.dataset.enlace]; });
 </script>
