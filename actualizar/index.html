@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Easy Corona 1.3 · Actualización</title>
+<title>Easy Corona 1.4 · Actualización</title>
 <link rel="icon" type="image/png" href="../img/icono.png">
 <link rel="alternate" hreflang="es" href="https://zu2pic.github.io/actualizar/">
 <link rel="alternate" hreflang="en" href="https://zu2pic.github.io/en/update/">
@@ -201,12 +201,20 @@
   <a class="volver" href="../index.html">← Easy Corona</a>
   <div style="display:grid;gap:12px">
     <p class="etiqueta">Actualización gratuita</p>
-    <h1>Easy Corona 1.3</h1>
+    <h1>Easy Corona 1.4</h1>
     <p class="gris">Se instala encima de la versión anterior y conserva tu licencia, tus presets y tus proyectos.</p>
   </div>
 
   <section style="display:grid;gap:14px">
     <h2>Novedades</h2>
+    <ul class="novedades gris">
+      <li><b>Quitar las estrellas (beta).</b> Para un cielo limpio: la app quita casi todas las estrellas (también las débiles y la mayoría de las deformadas) y los píxeles calientes, sin volver a poner ninguna. Lo que no se distingue de la corona se queda. En el modo sencillo es la casilla «Quitar las estrellas»; en «Resultado final», el modo «Quitarlas» (junto a «Tal cual» y «Limpias»).</li>
+      <li><b>Mejor relleno donde estaban las estrellas.</b> Sigue los bordes de la corona y copia solo el grano del cielo de al lado: ya no quedan bandas, muescas ni restos del anillo oscuro de las estrellas brillantes. También con «Limpias», y más rápido (la vista previa, en segundo y medio).</li>
+    </ul>
+  </section>
+
+  <section style="display:grid;gap:14px">
+    <h2>Si vienes de una versión anterior a la 1.3</h2>
     <ul class="novedades gris">
       <li><b>Estrellas limpias (beta).</b> La app encuentra las estrellas en el HDR, les quita el anillo oscuro que dejan los filtros y las vuelve a poner con el brillo y la cantidad que elijas; también quita los píxeles calientes. En el modo sencillo («Estrellas» y «Cuántas») y en «Resultado final», con su máscara para otros programas.</li>
       <li><b>También en inglés.</b> La app se abre en el idioma de tu ordenador y se cambia en <b>Ver → Idioma · Language</b>. La web, el contrato y el instalador también están en inglés.</li>
@@ -216,7 +224,7 @@
 
   <ol class="pasos">
     <li><div>
-      <h2>Descarga la versión 1.3</h2>
+      <h2>Descarga la versión 1.4</h2>
       <div class="botones">
         <a class="boton" href="#" data-enlace="windows">Descargar para Windows <small>10 y 11</small></a>
         <a class="boton" href="#" data-enlace="mac_apple">Mac con chip Apple <small>M1 o posterior</small></a>
@@ -231,7 +239,7 @@
     </div></li>
     <li><div>
       <h2>Ábrela</h2>
-      <p class="gris">Arriba verás «Easy Corona 1.3» y tu versión. Si saliera la gratuita, ve a <b>Licencia → Activar licencia…</b> y pega otra vez la clave que te llegó por correo. Cualquier problema: <span class="correo">zu3run@gmail.com</span>.</p>
+      <p class="gris">Arriba verás «Easy Corona 1.4» y tu versión. Si saliera la gratuita, ve a <b>Licencia → Activar licencia…</b> y pega otra vez la clave que te llegó por correo. Cualquier problema: <span class="correo">zu3run@gmail.com</span>.</p>
     </div></li>
   </ol>
 </main>
@@ -239,9 +247,9 @@
 <script>
   // Los mismos enlaces de descarga que en la portada.
   const ENLACES = {
-    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.3/EasyCorona_Instalador_1.3.exe",
-    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.3/EasyCorona_1.3_mac_arm64.dmg",
-    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.3/EasyCorona_1.3_mac_x86_64.dmg",
+    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4/EasyCorona_Instalador_1.4.exe",
+    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4/EasyCorona_1.4_mac_arm64.dmg",
+    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4/EasyCorona_1.4_mac_x86_64.dmg",
   };
   document.querySelectorAll("[data-enlace]").forEach((a) => { a.href = ENLACES[a.dataset.enlace]; });
 </script>

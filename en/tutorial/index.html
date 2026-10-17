@@ -340,7 +340,7 @@
           <li><b>Inner corona</b>: protects the corona next to the Moon from the filters (if it looks burned or with dark dots there).</li>
           <li><b>Corona color</b>: the real color of your RAW (a RAW of the session next to the HDR is needed); 0 = white corona. <b>Blue sky</b>: the blue of eclipse photos. <b>Darker sky</b>: the black point.</li>
           <li><b>Moon</b>: the gray of the disc («as is» = as it comes out of the enhancement). <b>Earthshine</b>: the Moon's maria. <b>Prominences</b>: the exposure of the chromosphere.</li>
-          <li><b>Stars</b> <span class="beta">beta</span>: when you move it, the app finds the stars in the HDR, removes them from the result together with the dark ring the filters leave around them (and the hot pixels too) and puts them back clean with that brightness. <b>How many</b>: from the brightest to the faintest. <span class="ui">Save star mask…</span> saves their mask for other programs.</li>
+          <li><b>Stars</b> <span class="beta">beta</span>: when you move it, the app finds the stars in the HDR, removes them from the result together with the dark ring the filters leave around them (and the hot pixels too) and puts them back clean with that brightness. <b>How many</b>: from the brightest to the faintest. <span class="ui">Remove the stars</span>: for a clean sky, it removes almost all of them, the faint ones too, without putting any back. <span class="ui">Save star mask…</span> saves their mask for other programs.</li>
         </ul>
         <p><span class="ui">Run the process</span> does the whole enhancement and saves the result. If afterwards you only change something of the final result (brightness, sky, Moon, chromosphere or stars), only that step is redone, in seconds. <span class="ui">Recommended values</span> goes back to the starting values.</p>
       </div>
@@ -394,7 +394,7 @@
           <li><b>Sky color</b>: the blue and its hue.</li>
           <li><b>Moon</b>: its gray or «as is»; the <b>earthshine</b> and where it comes from: your long photos (<span class="ui">Choose photos…</span>, from any folder) or the HDR itself (<span class="ui">From the HDR</span>, only if the maria really show).</li>
           <li><b>Chromosphere and prominences</b>: the fast photos are stacked separately, erasing the Moon from each one, and added at the end, sharp and with a single Moon. <span class="ui">Exposure</span> makes them brighter or darker.</li>
-          <li><b>Stars</b> <span class="beta">beta</span>: <span class="ui">Redo the stars</span>, <span class="ui">How many</span>, <span class="ui">Brightness</span>, <span class="ui">Save mask…</span> (a 16-bit TIFF the size of the result; white = star with its halo) and <span class="ui">Search again</span>. The hot pixels left in the stack (red or blue dots) are removed too.</li>
+          <li><b>Stars</b> <span class="beta">beta</span>: three modes. <span class="ui">As is</span>: as they come out of the enhancement. <span class="ui">Clean</span>: removes them with the dark ring the filters leave around them and puts them back clean, with <span class="ui">How many</span> and <span class="ui">Brightness</span>. <span class="ui">Remove them</span>: a clean sky, without putting any back (it also removes the faint ones and most misshapen ones; whatever can't be told apart from the corona stays). Also <span class="ui">Save mask…</span> (a 16-bit TIFF the size of the result; white = star with its halo) and <span class="ui">Search again</span>. The hot pixels left in the stack (red or blue dots) are removed too.</li>
           <li><b>Save</b>: the input image, the folder and the name; <span class="ui">Export PNG/JPEG for sharing</span>.</li>
         </ul>
       </div>
@@ -442,7 +442,7 @@
           <li>If the area next to the Moon looks burned or has dark dots, raise <b>Inner corona</b>.</li>
           <li>If the Moon is misplaced or shows a ring, use <span class="ui">Mark the Moon</span>.</li>
           <li>To retouch in another program, use the <b>16-bit TIFF</b>: the 32-bit one is linear and many programs treat it as HDR.</li>
-          <li>Stars are a feature in testing <span class="beta">beta</span>: check them at full size and, if some don't convince you, lower <b>How many</b>.</li>
+          <li>Stars are a feature in testing <span class="beta">beta</span>: check them at full size and, if some don't convince you, lower <b>How many</b> or remove them.</li>
           <li>Questions or a bug? Write to <span class="correo">zu3run@gmail.com</span> with the «registro.txt» file from the EasyCorona folder of your user account.</li>
         </ul>
         <p class="arriba"><a href="#inicio">Back to top</a> · <a href="../">Back to the home page</a></p>

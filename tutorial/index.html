@@ -341,7 +341,7 @@
           <li><b>Corona interior</b>: protege la corona junto a la Luna de los filtros (si ahí sale quemado o con puntos oscuros).</li>
           <li><b>Color de la corona</b>: el color real de tu RAW (hace falta un RAW de la sesión junto al HDR); 0 = corona blanca. <b>Cielo azul</b>: el azul de las fotos de eclipse. <b>Cielo más oscuro</b>: el punto negro.</li>
           <li><b>Luna</b>: el gris del disco («tal cual» = como sale del realce). <b>Luz cenicienta</b>: los mares de la Luna. <b>Protuberancias</b>: la exposición de la cromosfera.</li>
-          <li><b>Estrellas</b> <span class="beta">beta</span>: al moverlo, la app busca las estrellas en el HDR, las quita del resultado con el anillo oscuro que les dejan los filtros (y también los píxeles calientes) y las vuelve a poner limpias con ese brillo. <b>Cuántas</b>: de las más brillantes a las más débiles. <span class="ui">Guardar máscara de estrellas…</span> guarda su máscara para otros programas.</li>
+          <li><b>Estrellas</b> <span class="beta">beta</span>: al moverlo, la app busca las estrellas en el HDR, las quita del resultado con el anillo oscuro que les dejan los filtros (y también los píxeles calientes) y las vuelve a poner limpias con ese brillo. <b>Cuántas</b>: de las más brillantes a las más débiles. <span class="ui">Quitar las estrellas</span>: para un cielo limpio, las quita casi todas, también las débiles, sin volver a poner ninguna. <span class="ui">Guardar máscara de estrellas…</span> guarda su máscara para otros programas.</li>
         </ul>
         <p><span class="ui">Ejecutar el proceso</span> hace todo el realce y guarda el resultado. Si después solo cambias algo del resultado final (brillo, cielo, Luna, cromosfera o estrellas), se rehace solo ese paso, en segundos. <span class="ui">Valores recomendados</span> vuelve a los de partida.</p>
       </div>
@@ -395,7 +395,7 @@
           <li><b>Color del cielo</b>: el azul y su tono.</li>
           <li><b>Luna</b>: su gris o «tal cual»; la <b>luz cenicienta</b> y de dónde sale: tus fotos largas (<span class="ui">Elegir fotos…</span>, de cualquier carpeta) o el propio HDR (<span class="ui">Del HDR</span>, solo si de verdad se ven los mares).</li>
           <li><b>Cromosfera y protuberancias</b>: las fotos rápidas se apilan aparte, borrando la Luna de cada una, y se añaden al final, nítidas y con una sola Luna. <span class="ui">Exposición</span> las hace más claras u oscuras.</li>
-          <li><b>Estrellas</b> <span class="beta">beta</span>: <span class="ui">Rehacer las estrellas</span>, <span class="ui">Cuántas</span>, <span class="ui">Brillo</span>, <span class="ui">Guardar máscara…</span> (un TIFF de 16 bits del tamaño del resultado; blanco = estrella con su halo) y <span class="ui">Buscar otra vez</span>. Los píxeles calientes que quedaron en el apilado (puntos rojos o azules) se quitan también.</li>
+          <li><b>Estrellas</b> <span class="beta">beta</span>: tres modos. <span class="ui">Tal cual</span>: como salen del realce. <span class="ui">Limpias</span>: las quita con el anillo oscuro que les dejan los filtros y las vuelve a poner limpias, con <span class="ui">Cuántas</span> y <span class="ui">Brillo</span>. <span class="ui">Quitarlas</span>: un cielo limpio, sin volver a poner ninguna (quita también las débiles y la mayoría de las deformadas; lo que no se distingue de la corona se queda). Además, <span class="ui">Guardar máscara…</span> (un TIFF de 16 bits del tamaño del resultado; blanco = estrella con su halo) y <span class="ui">Buscar otra vez</span>. Los píxeles calientes que quedaron en el apilado (puntos rojos o azules) se quitan también.</li>
           <li><b>Guardar</b>: la imagen de entrada, la carpeta y el nombre; <span class="ui">Exportar PNG/JPEG para compartir</span>.</li>
         </ul>
       </div>
@@ -443,7 +443,7 @@
           <li>Si junto a la Luna sale quemado o con puntos oscuros, sube <b>Corona interior</b>.</li>
           <li>Si la Luna sale mal colocada o con un anillo, usa <span class="ui">Marcar la Luna</span>.</li>
           <li>Para retocar en otro programa, usa el <b>TIFF de 16 bits</b>: el de 32 bits es lineal y muchos programas lo tratan como HDR.</li>
-          <li>Las estrellas son una función en pruebas <span class="beta">beta</span>: revísalas a tamaño real y, si alguna no te convence, baja <b>Cuántas</b>.</li>
+          <li>Las estrellas son una función en pruebas <span class="beta">beta</span>: revísalas a tamaño real y, si alguna no te convence, baja <b>Cuántas</b> o quítalas.</li>
           <li>¿Dudas o un fallo? Escribe a <span class="correo">zu3run@gmail.com</span> con el archivo «registro.txt» de la carpeta EasyCorona de tu usuario.</li>
         </ul>
         <p class="arriba"><a href="#inicio">Volver arriba</a> · <a href="../">Volver a la portada</a></p>
