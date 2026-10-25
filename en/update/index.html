@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Easy Corona 1.4.2 · Update</title>
+<title>Easy Corona 1.4.3 · Update</title>
 <link rel="icon" type="image/png" href="../../img/icono.png">
 <link rel="alternate" hreflang="es" href="https://zu2pic.github.io/actualizar/">
 <link rel="alternate" hreflang="en" href="https://zu2pic.github.io/en/update/">
@@ -194,9 +194,18 @@
   <a class="volver" href="../index.html">← Easy Corona</a>
   <div style="display:grid;gap:12px">
     <p class="etiqueta">Free update</p>
-    <h1>Easy Corona 1.4.2</h1>
+    <h1>Easy Corona 1.4.3</h1>
     <p class="gris">It installs over the previous version and keeps your license, your presets and your projects. If you're coming from an older version, below you also have everything released since.</p>
   </div>
+
+  <section style="display:grid;gap:14px">
+    <h2>What's new in 1.4.3</h2>
+    <ul class="novedades gris">
+      <li><b>Updates from the app itself.</b> «Update now» downloads the new version, checks that it arrived complete, saves your project and installs it. On Windows the app reopens by itself when it finishes; on Mac it opens the disk image so you can drag it to Applications.</li>
+      <li><b>It tells you when there is a new version.</b> When it opens, Easy Corona checks for a new version and shows you what's new; it never interrupts you in the middle of a process. The check sends none of your data.</li>
+      <li><b>Help → Check for updates…</b> checks whenever you want. If you'd rather it didn't check at startup, untick «Check for updates at startup» in the same menu.</li>
+    </ul>
+  </section>
 
   <section style="display:grid;gap:14px">
     <h2>What's new in 1.4.2</h2>
@@ -252,7 +261,7 @@
 
   <ol class="pasos">
     <li><div>
-      <h2>Download version 1.4.2</h2>
+      <h2>Download version 1.4.3</h2>
       <div class="botones">
         <a class="boton" href="#" data-enlace="windows">Download for Windows <small>10 and 11</small></a>
         <a class="boton" href="#" data-enlace="mac_apple">Mac with Apple silicon <small>M1 or later</small></a>
@@ -267,7 +276,7 @@
     </div></li>
     <li><div>
       <h2>Open it</h2>
-      <p class="gris">At the top you'll see “Easy Corona 1.4.2” and your version. If the free version showed up, go to <b>License → Activate license…</b> and paste again the key you received by email. Any problem: <span class="correo">zu3run@gmail.com</span>.</p>
+      <p class="gris">At the top you'll see “Easy Corona 1.4.3” and your version. If the free version showed up, go to <b>License → Activate license…</b> and paste again the key you received by email. Any problem: <span class="correo">zu3run@gmail.com</span>.</p>
     </div></li>
   </ol>
 </main>
@@ -275,9 +284,9 @@
 <script>
   // The same download links as on the home page.
   const ENLACES = {
-    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.2/EasyCorona_Instalador_1.4.2.exe",
-    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.2/EasyCorona_1.4.2_mac_arm64.dmg",
-    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.2/EasyCorona_1.4.2_mac_x86_64.dmg",
+    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.3/EasyCorona_Instalador_1.4.3.exe",
+    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.3/EasyCorona_1.4.3_mac_arm64.dmg",
+    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.3/EasyCorona_1.4.3_mac_x86_64.dmg",
   };
   document.querySelectorAll("[data-enlace]").forEach((a) => { a.href = ENLACES[a.dataset.enlace]; });
 </script>
