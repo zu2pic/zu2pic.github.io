@@ -300,6 +300,19 @@
   .rotulo.der { right: 14px; color: var(--cobre-claro); }
   .pie { margin-top: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; color: var(--gris-2); font: 400 0.85rem/1.5 var(--mono); }
 
+  /* Estilos: la misma corona de siete maneras (la mía primero, sola en el centro de la primera fila) */
+  .estilos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px 18px; margin: 0; padding: 0; list-style: none; }
+  @media (max-width: 860px) { .estilos { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(4, auto); grid-auto-flow: column; } }
+  @media (max-width: 420px) { .estilos { gap: 16px 10px; } }
+  .estilo { margin: 0; display: grid; gap: 10px; align-content: start; }
+  .estilo img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 4px; border: 1px solid var(--linea); background: #0d1119; }
+  .estilo figcaption { display: grid; gap: 2px; }
+  .estilo b { font: 600 1.25rem/1.2 var(--display); }
+  .estilo span { color: var(--gris); font-size: 0.98rem; line-height: 1.4; }
+  .estilos .mia { grid-column: 1 / -1; justify-self: center; width: calc((100% - 36px) / 3); }
+  @media (max-width: 860px) { .estilos .mia { grid-column: 1 / -1; grid-row: 1; justify-self: center; width: calc(50% - 9px); } }
+  @media (max-width: 420px) { .estilos .mia { width: calc(50% - 5px); } }
+
   /* Qué hace */
   .rasgos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 0 56px; }
   .rasgo { display: grid; grid-template-columns: 7.2rem 1fr; gap: 18px; padding-block: 22px; border-top: 1px solid var(--linea); }
@@ -410,7 +423,7 @@
           <a class="boton boton-principal" href="#mac">Descargar gratis <small>Mac</small></a>
           <a class="boton boton-secundario" href="#antes">Ver el antes y después</a>
         </div>
-        <p class="portada-datos">Windows 10 y 11 · macOS 15 o posterior · en español e inglés · versión 1.4.3</p>
+        <p class="portada-datos">Windows 10 y 11 · macOS 15 o posterior · en español e inglés · versión 1.4.4</p>
       </div>
     </div>
     <p class="credito">Foto: Iker Zubizarreta</p>
@@ -466,6 +479,26 @@
     </div>
   </section>
 
+  <section id="estilos" aria-labelledby="t-estilos" style="padding-top:0">
+    <div class="envoltura">
+      <div class="cabecera-seccion">
+        <p class="etiqueta">Tu resultado</p>
+        <h2 id="t-estilos">Mismas fotos, siete resultados</h2>
+        <p class="entradilla">El mismo HDR, siete resultados. El primero es mi versión. Los otros seis salen tal cual de Easy Corona, sin retoques en otros programas: de menos a más detalle, con la corona blanca o con su color original, y la luz cenicienta de la Luna más suave o más fuerte. Los seis vienen dentro de la app como estilos: un clic y luego lo afinas con los deslizadores, con la vista previa enseñándote el resultado antes de guardarlo.</p>
+      </div>
+      <ul class="estilos">
+        <li class="mia"><figure class="estilo"><img src="img/estilos/7_mi_version.jpg" width="900" height="900" loading="lazy" alt="La corona de color crema con sus rayos largos sobre un cielo azul, la protuberancia roja en el borde de la Luna y la Luna con sus mares"><figcaption><b>Mi versión</b><span>La que más me gusta.</span></figcaption></figure></li>
+        <li><figure class="estilo"><img src="img/estilos/1_natural_blanca.jpg" width="900" height="900" loading="lazy" alt="La corona blanca, suave y luminosa, sin detalle añadido, sobre un cielo azul de eclipse; la Luna, apenas iluminada por la luz cenicienta"><figcaption><b>Natural</b><span>Corona blanca y luz cenicienta suave.</span></figcaption></figure></li>
+        <li><figure class="estilo"><img src="img/estilos/2_detalle_fino_blanca.jpg" width="900" height="900" loading="lazy" alt="La corona blanca con sus rayos realzados sobre un cielo azul con estrellas; en la Luna se adivinan sus mares"><figcaption><b>Detalle fino</b><span>Rayos finos, corona blanca y luz cenicienta media.</span></figcaption></figure></li>
+        <li><figure class="estilo"><img src="img/estilos/3_mas_detalle_blanca.jpg" width="900" height="900" loading="lazy" alt="La corona blanca con los rayos muy marcados hasta lejos del Sol y estrellas en el cielo azul; la Luna, con sus mares bien visibles por la luz cenicienta"><figcaption><b>Más detalle</b><span>Rayos muy marcados, corona blanca y luz cenicienta fuerte.</span></figcaption></figure></li>
+        <li><figure class="estilo"><img src="img/estilos/4_natural_color.jpg" width="900" height="900" loading="lazy" alt="La corona con su color original, naranja cálido, suave y sin detalle añadido; la Luna, apenas iluminada por la luz cenicienta"><figcaption><b>Natural</b><span>Color original y luz cenicienta suave.</span></figcaption></figure></li>
+        <li><figure class="estilo"><img src="img/estilos/5_detalle_fino_color.jpg" width="900" height="900" loading="lazy" alt="La corona con su color original, naranja, y sus rayos realzados; en la Luna se adivinan sus mares"><figcaption><b>Detalle fino</b><span>Rayos finos, color original y luz cenicienta media.</span></figcaption></figure></li>
+        <li><figure class="estilo"><img src="img/estilos/6_mas_detalle_color.jpg" width="900" height="900" loading="lazy" alt="La corona con su color original, naranja, con los rayos muy marcados y estrellas; la Luna, con sus mares bien visibles por la luz cenicienta"><figcaption><b>Más detalle</b><span>Rayos muy marcados, color original y luz cenicienta fuerte.</span></figcaption></figure></li>
+      </ul>
+      <div class="pie"><span>Foto: Iker Zubizarreta · 600 mm · las otras seis, tal cual salen de Easy Corona (recortadas)</span><span>Pruébala con tus fotos en la versión gratuita</span></div>
+    </div>
+  </section>
+
   <section aria-labelledby="t-hace" style="padding-top:0">
     <div class="envoltura">
       <div class="cabecera-seccion">
@@ -503,7 +536,7 @@
         </ol>
         <p style="margin-top:28px"><a class="boton boton-secundario" href="tutorial/">Tutorial paso a paso</a></p>
       </div>
-      <img class="captura" src="img/app.jpg" alt="La ventana de Easy Corona en el modo sencillo: deslizadores de brillo, corona exterior, detalle fino y color, con la vista previa del eclipse a la derecha" loading="lazy" width="1600" height="950">
+      <img class="captura" src="img/app.jpg" alt="La ventana de Easy Corona en el modo sencillo: los seis estilos con un clic (Natural, Detalle fino y Más detalle, con la corona blanca o con su color original) y la vista previa del eclipse a la derecha" loading="lazy" width="1600" height="950">
     </div>
   </section>
 
@@ -654,9 +687,9 @@
   // Enlaces de la tienda y de la descarga: se rellenan cuando existan.
   // Mientras estén vacíos, los botones avisan en vez de llevar a ninguna parte.
   const ENLACES = {
-    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.3/EasyCorona_Instalador_1.4.3.exe",
-    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.3/EasyCorona_1.4.3_mac_arm64.dmg",
-    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.3/EasyCorona_1.4.3_mac_x86_64.dmg",
+    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.4/EasyCorona_Instalador_1.4.4.exe",
+    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.4/EasyCorona_1.4.4_mac_arm64.dmg",
+    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.4/EasyCorona_1.4.4_mac_x86_64.dmg",
     premium: "https://buy.stripe.com/8x2eVe9Q7eXH8QddbUbo401",
     premium_plus: "https://buy.stripe.com/14AcN63rJeXH0jH0p8bo402",
   };

@@ -300,6 +300,19 @@
   .rotulo.der { right: 14px; color: var(--cobre-claro); }
   .pie { margin-top: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; color: var(--gris-2); font: 400 0.85rem/1.5 var(--mono); }
 
+  /* Estilos: la misma corona de siete maneras (la mía primero, sola en el centro de la primera fila) */
+  .estilos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px 18px; margin: 0; padding: 0; list-style: none; }
+  @media (max-width: 860px) { .estilos { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(4, auto); grid-auto-flow: column; } }
+  @media (max-width: 420px) { .estilos { gap: 16px 10px; } }
+  .estilo { margin: 0; display: grid; gap: 10px; align-content: start; }
+  .estilo img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 4px; border: 1px solid var(--linea); background: #0d1119; }
+  .estilo figcaption { display: grid; gap: 2px; }
+  .estilo b { font: 600 1.25rem/1.2 var(--display); }
+  .estilo span { color: var(--gris); font-size: 0.98rem; line-height: 1.4; }
+  .estilos .mia { grid-column: 1 / -1; justify-self: center; width: calc((100% - 36px) / 3); }
+  @media (max-width: 860px) { .estilos .mia { grid-column: 1 / -1; grid-row: 1; justify-self: center; width: calc(50% - 9px); } }
+  @media (max-width: 420px) { .estilos .mia { width: calc(50% - 5px); } }
+
   /* Qué hace */
   .rasgos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 0 56px; }
   .rasgo { display: grid; grid-template-columns: 7.2rem 1fr; gap: 18px; padding-block: 22px; border-top: 1px solid var(--linea); }
@@ -410,7 +423,7 @@
           <a class="boton boton-principal" href="#mac">Free download <small>Mac</small></a>
           <a class="boton boton-secundario" href="#antes">See the before and after</a>
         </div>
-        <p class="portada-datos">Windows 10 and 11 · macOS 15 or later · in English and Spanish · version 1.4.3</p>
+        <p class="portada-datos">Windows 10 and 11 · macOS 15 or later · in English and Spanish · version 1.4.4</p>
       </div>
     </div>
     <p class="credito">Photo: Iker Zubizarreta</p>
@@ -466,6 +479,26 @@
     </div>
   </section>
 
+  <section id="estilos" aria-labelledby="t-estilos" style="padding-top:0">
+    <div class="envoltura">
+      <div class="cabecera-seccion">
+        <p class="etiqueta">Your look</p>
+        <h2 id="t-estilos">Same photos, seven looks</h2>
+        <p class="entradilla">The same HDR, seven looks. The first one is my own version. The other six come straight out of Easy Corona, with no retouching in other programs: from less to more detail, with a white corona or its original color, and softer or stronger earthshine on the Moon. All six come inside the app as styles: one click, then you fine-tune it with the sliders while the live preview shows you the result before you save it.</p>
+      </div>
+      <ul class="estilos">
+        <li class="mia"><figure class="estilo"><img src="../img/estilos/7_mi_version.jpg" width="900" height="900" loading="lazy" alt="The cream-colored corona with its long streamers on a blue sky, the red prominence on the Moon's edge and the Moon with its maria"><figcaption><b>My version</b><span>My favourite.</span></figcaption></figure></li>
+        <li><figure class="estilo"><img src="../img/estilos/1_natural_blanca.jpg" width="900" height="900" loading="lazy" alt="The white corona, soft and bright, with no added detail, on an eclipse-blue sky; the Moon barely lit by earthshine"><figcaption><b>Natural</b><span>White corona and soft earthshine.</span></figcaption></figure></li>
+        <li><figure class="estilo"><img src="../img/estilos/2_detalle_fino_blanca.jpg" width="900" height="900" loading="lazy" alt="The white corona with its streamers enhanced on a blue sky with stars; the Moon's maria can just be made out"><figcaption><b>Fine detail</b><span>Fine streamers, white corona and medium earthshine.</span></figcaption></figure></li>
+        <li><figure class="estilo"><img src="../img/estilos/3_mas_detalle_blanca.jpg" width="900" height="900" loading="lazy" alt="The white corona with strongly defined streamers reaching far from the Sun and stars in the blue sky; the Moon with its maria clearly lit by earthshine"><figcaption><b>More detail</b><span>Bold streamers, white corona and strong earthshine.</span></figcaption></figure></li>
+        <li><figure class="estilo"><img src="../img/estilos/4_natural_color.jpg" width="900" height="900" loading="lazy" alt="The corona in its original color, a warm orange, soft and with no added detail; the Moon barely lit by earthshine"><figcaption><b>Natural</b><span>Original color and soft earthshine.</span></figcaption></figure></li>
+        <li><figure class="estilo"><img src="../img/estilos/5_detalle_fino_color.jpg" width="900" height="900" loading="lazy" alt="The corona in its original orange color, with its streamers enhanced; the Moon's maria can just be made out"><figcaption><b>Fine detail</b><span>Fine streamers, original color and medium earthshine.</span></figcaption></figure></li>
+        <li><figure class="estilo"><img src="../img/estilos/6_mas_detalle_color.jpg" width="900" height="900" loading="lazy" alt="The corona in its original orange color, with strongly defined streamers and stars; the Moon with its maria clearly lit by earthshine"><figcaption><b>More detail</b><span>Bold streamers, original color and strong earthshine.</span></figcaption></figure></li>
+      </ul>
+      <div class="pie"><span>Photo: Iker Zubizarreta · 600 mm · the other six straight out of Easy Corona (cropped)</span><span>Try it with your photos in the free version</span></div>
+    </div>
+  </section>
+
   <section aria-labelledby="t-hace" style="padding-top:0">
     <div class="envoltura">
       <div class="cabecera-seccion">
@@ -503,7 +536,7 @@
         </ol>
         <p style="margin-top:28px"><a class="boton boton-secundario" href="tutorial/">Step-by-step tutorial</a></p>
       </div>
-      <img class="captura" src="../img/app_en.jpg" alt="The Easy Corona window in the Simple mode: brightness, outer corona, fine detail and color sliders, with the eclipse preview on the right" loading="lazy" width="1600" height="950">
+      <img class="captura" src="../img/app_en.jpg" alt="The Easy Corona window in the Simple mode: the six one-click styles (Natural, Fine detail and More detail, with a white corona or its original color) and the eclipse preview on the right" loading="lazy" width="1600" height="950">
     </div>
   </section>
 
@@ -657,9 +690,9 @@
 <script>
   // Store and download links (the same as on the Spanish page).
   const ENLACES = {
-    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.3/EasyCorona_Instalador_1.4.3.exe",
-    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.3/EasyCorona_1.4.3_mac_arm64.dmg",
-    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.3/EasyCorona_1.4.3_mac_x86_64.dmg",
+    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.4/EasyCorona_Instalador_1.4.4.exe",
+    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.4/EasyCorona_1.4.4_mac_arm64.dmg",
+    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.4/EasyCorona_1.4.4_mac_x86_64.dmg",
     premium: "https://buy.stripe.com/8x2eVe9Q7eXH8QddbUbo401?locale=en&client_reference_id=en",
     premium_plus: "https://buy.stripe.com/14AcN63rJeXH0jH0p8bo402?locale=en&client_reference_id=en",
   };

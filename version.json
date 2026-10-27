@@ -1,16 +1,18 @@
 {
-  "version": "1.4.3",
-  "fecha": "2026-10-25",
+  "version": "1.4.4",
+  "fecha": "2026-10-27",
   "novedades": {
     "es": [
-      "Se actualiza desde la propia app. Con «Actualizar ahora» descarga la versión nueva, comprueba que ha llegado entera, guarda tu proyecto y la instala.",
-      "Avisa cuando hay una versión nueva. Al abrirse, Easy Corona mira si hay una versión nueva y te enseña sus novedades; nunca te interrumpe a mitad de un proceso.",
-      "Ayuda → Buscar actualizaciones… lo comprueba cuando quieras."
+      "Estilos con un clic. En el modo sencillo, «Elige un estilo» pone uno de seis aspectos: Natural, Detalle fino o Más detalle, con la corona blanca o con su color original.",
+      "Color original más fiel. «Conservar la saturación» da ahora el mismo color que tus RAW (antes la corona podía salir mucho más saturada) y el cielo ya no sale gris claro cuando hay protuberancias muy de color.",
+      "Vista previa más fiel. Enseña el mismo color que el resultado, también en las protuberancias, y el cielo lejano con el mismo brillo.",
+      "El borde de la Luna, sin quemar. El detalle fino ya no quema el borde de la Luna, y «Cielo más oscuro» ya no deja negro el disco de la Luna."
     ],
     "en": [
-      "Updates from the app itself. «Update now» downloads the new version, checks that it arrived complete, saves your project and installs it.",
-      "It tells you when there is a new version. When it opens, Easy Corona checks for a new version and shows you what's new; it never interrupts you in the middle of a process.",
-      "Help → Check for updates… checks whenever you want."
+      "One-click styles. In simple mode, «Choose a style» applies one of six looks: Natural, Fine detail or More detail, with a white corona or its original color.",
+      "Truer original color. «Keep the saturation» now gives the same color as your RAW files (the corona could come out much more saturated), and the sky no longer turns light gray when there are very colorful prominences.",
+      "A more faithful preview. It shows the same color as the result, prominences included, and the far sky with the same brightness.",
+      "The Moon's edge, not burnt. Fine detail no longer burns the Moon's edge, and «Darker sky» no longer turns the Moon's disc black."
     ]
   },
   "pagina": {
@@ -19,19 +21,19 @@
   },
   "descargas": {
     "windows": {
-      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.3/EasyCorona_Instalador_1.4.3.exe",
-      "sha256": "ced5bffbbde747cab0358465f16b9239feb41be2f07b90a6b9044082a3e631c6",
-      "bytes": 124920081
+      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.4/EasyCorona_Instalador_1.4.4.exe",
+      "sha256": "ba006db9bb6142dbf6052d40a1e5156673922b2674992e66e4b53762bd1e5bc4",
+      "bytes": 124972025
     },
     "mac_arm64": {
-      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.3/EasyCorona_1.4.3_mac_arm64.dmg",
-      "sha256": "3a08af82d5d974b51c6cc9ee722b43ef6fe5e344e5e8e7d24607d2e5dead4d37",
-      "bytes": 182592737
+      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.4/EasyCorona_1.4.4_mac_arm64.dmg",
+      "sha256": "db04e399540f680918dfa2e962f7080435cc1f67c2cc70057327d8964c3d0184",
+      "bytes": 183032207
     },
     "mac_x86_64": {
-      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.3/EasyCorona_1.4.3_mac_x86_64.dmg",
-      "sha256": "b1e0a545d100d74c76e0eb67d9053b76099ed52cd0dc7d3ce89e0c5fdc5c6fba",
-      "bytes": 185971836
+      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.4/EasyCorona_1.4.4_mac_x86_64.dmg",
+      "sha256": "0ea062a607ff3c77432d3e26b6ca8d76723a5158ba1b0aae7ca222881cd32ff7",
+      "bytes": 185733610
     }
   }
 }
