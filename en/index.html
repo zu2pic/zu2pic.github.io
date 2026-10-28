@@ -391,6 +391,9 @@
   /* Idioma (V0_70): visible también en el móvil */
   .barra nav a.idioma { font: 500 0.82rem/1 var(--mono); letter-spacing: 0.08em; color: var(--gris); text-decoration: none; }
   .barra nav a.idioma:hover { color: var(--corona); }
+  .aviso-sorteo { display: block; padding: 9px 16px; text-align: center; background: var(--cobre); color: var(--cobre-tinta); font-weight: 500; text-decoration: none; }
+  .aviso-sorteo:hover { background: var(--cobre-claro); }
+  .aviso-sorteo[hidden] { display: none; }
   @media (max-width: 720px) { .barra nav a.idioma { display: inline; } }
 </style>
 
@@ -409,6 +412,7 @@
     </nav>
   </div>
 </header>
+<a class="aviso-sorteo" id="aviso-sorteo" href="../sorteo/" hidden>Giveaway: 5 Premium+ licenses until Sunday 8 November · Rules (in Spanish)</a>
 
 <main id="inicio">
   <section class="portada" aria-labelledby="titulo">
@@ -698,6 +702,13 @@
   };
   // "Free download" (bar and free version): the Windows installer or, from a Mac, the Mac box
   // (there are two downloads and the browser can't tell whether the Mac is Apple or Intel).
+  // Aviso del sorteo de lanzamiento, solo mientras dura (30 oct – 8 nov 2026, hora de España).
+  (() => {
+    const ahora = Date.now();
+    if (ahora >= Date.parse("2026-10-30T00:00:00+01:00") && ahora <= Date.parse("2026-11-08T23:59:59+01:00")) {
+      document.getElementById("aviso-sorteo").hidden = false;
+    }
+  })();
   ENLACES.descarga = /Macintosh|Mac OS X/.test(navigator.userAgent) ? "#mac" : ENLACES.windows;
   try { localStorage.setItem("easycorona_idioma", "en"); } catch (e) {}
   document.querySelectorAll("[data-idioma]").forEach((a) => a.addEventListener("click", () => {
