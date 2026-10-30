@@ -1,18 +1,16 @@
 {
-  "version": "1.4.4",
-  "fecha": "2026-10-27",
+  "version": "1.4.5",
+  "fecha": "2026-10-30",
   "novedades": {
     "es": [
-      "Estilos con un clic. En el modo sencillo, «Elige un estilo» pone uno de seis aspectos: Natural, Detalle fino o Más detalle, con la corona blanca o con su color original.",
-      "Color original más fiel. «Conservar la saturación» da ahora el mismo color que tus RAW (antes la corona podía salir mucho más saturada) y el cielo ya no sale gris claro cuando hay protuberancias muy de color.",
-      "Vista previa más fiel. Enseña el mismo color que el resultado, también en las protuberancias, y el cielo lejano con el mismo brillo.",
-      "El borde de la Luna, sin quemar. El detalle fino ya no quema el borde de la Luna, y «Cielo más oscuro» ya no deja negro el disco de la Luna."
+      "Activar la licencia en Mac. La ventana «Activar licencia…» ya no deja la app parada al escribir en ella.",
+      "Siempre empieza por el modo sencillo. Al abrir o crear un HDR ya no pregunta «automático o paso a paso»: entra en el modo sencillo, con los estilos y los deslizadores.",
+      "Protuberancias y luz cenicienta desde el modo sencillo. Bajo «Protuberancias» y «Luz cenicienta» están «Elegir fotos…» y «Abrir archivo…»."
     ],
     "en": [
-      "One-click styles. In simple mode, «Choose a style» applies one of six looks: Natural, Fine detail or More detail, with a white corona or its original color.",
-      "Truer original color. «Keep the saturation» now gives the same color as your RAW files (the corona could come out much more saturated), and the sky no longer turns light gray when there are very colorful prominences.",
-      "A more faithful preview. It shows the same color as the result, prominences included, and the far sky with the same brightness.",
-      "The Moon's edge, not burnt. Fine detail no longer burns the Moon's edge, and «Darker sky» no longer turns the Moon's disc black."
+      "Activating the license on Mac. The «Activate license…» window no longer freezes the app when you type in it.",
+      "It always starts in simple mode. When you open or create an HDR it no longer asks «automatic or step by step»: it goes to simple mode, with the styles and the sliders.",
+      "Prominences and earthshine from simple mode. Under «Prominences» and «Earthshine» you have «Choose photos…» and «Open file…»."
     ]
   },
   "pagina": {
@@ -21,19 +19,19 @@
   },
   "descargas": {
     "windows": {
-      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.4/EasyCorona_Instalador_1.4.4.exe",
-      "sha256": "ba006db9bb6142dbf6052d40a1e5156673922b2674992e66e4b53762bd1e5bc4",
-      "bytes": 124972025
+      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.5/EasyCorona_Instalador_1.4.5.exe",
+      "sha256": "2fbdc69e9e5349529af0ba62844aa3814be1fb2f5d1c01535329f275561f531f",
+      "bytes": 124974452
     },
     "mac_arm64": {
-      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.4/EasyCorona_1.4.4_mac_arm64.dmg",
-      "sha256": "db04e399540f680918dfa2e962f7080435cc1f67c2cc70057327d8964c3d0184",
-      "bytes": 183032207
+      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.5/EasyCorona_1.4.5_mac_arm64.dmg",
+      "sha256": "cc78dc4406c21eb040c7e7e45d77c4906fba212f69d719b81d8d7c2cc838f92a",
+      "bytes": 180389799
     },
     "mac_x86_64": {
-      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.4/EasyCorona_1.4.4_mac_x86_64.dmg",
-      "sha256": "0ea062a607ff3c77432d3e26b6ca8d76723a5158ba1b0aae7ca222881cd32ff7",
-      "bytes": 185733610
+      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.5/EasyCorona_1.4.5_mac_x86_64.dmg",
+      "sha256": "92aa06b966b0b4bdb7fb334462d0b438284db3613c7c30b8f1ae682fd14f96cb",
+      "bytes": 185003727
     }
   }
 }

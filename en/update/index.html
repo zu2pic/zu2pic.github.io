@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Easy Corona 1.4.4 · Update</title>
+<title>Easy Corona 1.4.5 · Update</title>
 <link rel="icon" type="image/png" href="../../img/icono.png">
 <link rel="alternate" hreflang="es" href="https://zu2pic.github.io/actualizar/">
 <link rel="alternate" hreflang="en" href="https://zu2pic.github.io/en/update/">
@@ -194,9 +194,18 @@
   <a class="volver" href="../index.html">← Easy Corona</a>
   <div style="display:grid;gap:12px">
     <p class="etiqueta">Free update</p>
-    <h1>Easy Corona 1.4.4</h1>
+    <h1>Easy Corona 1.4.5</h1>
     <p class="gris">It installs over the previous version and keeps your license, your presets and your projects. If you're coming from an older version, below you also have everything released since.</p>
   </div>
+
+  <section style="display:grid;gap:14px">
+    <h2>What's new in 1.4.5</h2>
+    <ul class="novedades gris">
+      <li><b>Activating the license on Mac.</b> The «Activate license…» window no longer freezes the app when you type in it. It has a «Paste» button and, if the key is not valid, it says so in the same window.</li>
+      <li><b>It always starts in simple mode.</b> When you open or create an HDR it no longer asks «automatic or step by step»: it goes to simple mode, with the styles and the sliders. Advanced mode is still one click away, at the top right.</li>
+      <li><b>Prominences and earthshine from simple mode.</b> Under «Prominences» and «Earthshine» you have «Choose photos…» and «Open file…». With «Open file…» you use a layer you already stacked in another project without stacking it again; the app places it on the HDR you have open.</li>
+    </ul>
+  </section>
 
   <section style="display:grid;gap:14px">
     <h2>What's new in 1.4.4</h2>
@@ -271,7 +280,7 @@
 
   <ol class="pasos">
     <li><div>
-      <h2>Download version 1.4.4</h2>
+      <h2>Download version 1.4.5</h2>
       <div class="botones">
         <a class="boton" href="#" data-enlace="windows">Download for Windows <small>10 and 11</small></a>
         <a class="boton" href="#" data-enlace="mac_apple">Mac with Apple silicon <small>M1 or later</small></a>
@@ -286,7 +295,7 @@
     </div></li>
     <li><div>
       <h2>Open it</h2>
-      <p class="gris">At the top you'll see “Easy Corona 1.4.4” and your version. If the free version showed up, go to <b>License → Activate license…</b> and paste again the key you received by email. Any problem: <span class="correo">zu3run@gmail.com</span>.</p>
+      <p class="gris">At the top you'll see “Easy Corona 1.4.5” and your version. If the free version showed up, go to <b>License → Activate license…</b> and paste again the key you received by email. Any problem: <span class="correo">zu3run@gmail.com</span>.</p>
     </div></li>
   </ol>
 </main>
@@ -294,9 +303,9 @@
 <script>
   // The same download links as on the home page.
   const ENLACES = {
-    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.4/EasyCorona_Instalador_1.4.4.exe",
-    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.4/EasyCorona_1.4.4_mac_arm64.dmg",
-    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.4/EasyCorona_1.4.4_mac_x86_64.dmg",
+    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.5/EasyCorona_Instalador_1.4.5.exe",
+    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.5/EasyCorona_1.4.5_mac_arm64.dmg",
+    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.5/EasyCorona_1.4.5_mac_x86_64.dmg",
   };
   document.querySelectorAll("[data-enlace]").forEach((a) => { a.href = ENLACES[a.dataset.enlace]; });
 </script>
