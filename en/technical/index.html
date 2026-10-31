@@ -1,0 +1,1115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Under the hood · Easy Corona</title>
+<meta name="description" content="What Easy Corona computes at each step, explained with images from a real eclipse: reading the RAW files, calibration, alignment, HDR stacking, stretching, MGN, WOW, NAFE, enhancement passes, NRGF and FNRGF, sky, earthshine, chromosphere and stars.">
+<link rel="icon" type="image/png" href="../../img/icono.png">
+<link rel="alternate" hreflang="es" href="https://zu2pic.github.io/tecnica/">
+<link rel="alternate" hreflang="en" href="https://zu2pic.github.io/en/technical/">
+<style>
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-400i-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-400i-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-400-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-400-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-500-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-500-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-700-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-700-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../../fuentes/BarlowSemiCondensed-500-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../../fuentes/BarlowSemiCondensed-500-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(../../fuentes/BarlowSemiCondensed-600-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(../../fuentes/BarlowSemiCondensed-600-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../../fuentes/BarlowSemiCondensed-700-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../../fuentes/BarlowSemiCondensed-700-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../../fuentes/IBMPlexMono-400-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../../fuentes/IBMPlexMono-400-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../../fuentes/IBMPlexMono-500-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../../fuentes/IBMPlexMono-500-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+  /* Easy Corona · por dentro (V0_80). Los mismos colores y letras que la portada y el tutorial. */
+  :root {
+    color-scheme: dark;
+    --noche: #141a25; --cielo: #1f2736; --cielo-2: #262f40; --linea: #34405a; --corona: #efe9e1;
+    --gris: #9aa3b6; --gris-2: #717b90; --cobre: #cf8f55; --cobre-claro: #e0a770; --cobre-tinta: #24160a;
+    --azul: #8fb0e0; --rojo: #e07a7a;
+    --display: "Barlow Semi Condensed", "Bahnschrift", "Arial Narrow", sans-serif;
+    --texto: "Alegreya Sans", "Corbel", "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", "Consolas", monospace;
+    --ancho: 1120px; --lectura: 68ch;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; } }
+  body { margin: 0; background: var(--noche); color: var(--corona); font: 400 1.125rem/1.6 var(--texto); -webkit-font-smoothing: antialiased; }
+  img { max-width: 100%; display: block; height: auto; }
+  a { color: var(--cobre-claro); text-underline-offset: 3px; }
+  a:hover { color: var(--corona); }
+  :focus-visible { outline: 2px solid var(--cobre-claro); outline-offset: 3px; border-radius: 2px; }
+  .envoltura { max-width: var(--ancho); margin-inline: auto; padding-inline: 20px; }
+  h1, h2, h3 { font-family: var(--display); font-weight: 600; line-height: 1.08; margin: 0; text-wrap: balance; }
+  h1 { font-size: clamp(2.4rem, 5.6vw, 4rem); font-weight: 700; }
+  h2 { font-size: clamp(1.7rem, 3.4vw, 2.3rem); }
+  h3 { font-size: 1.25rem; }
+  p { margin: 0; }
+  .etiqueta { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cobre-claro); }
+  .entradilla { color: var(--gris); max-width: var(--lectura); font-size: 1.2rem; }
+
+  /* Barra superior (como el tutorial) */
+  .barra { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--noche) 82%, transparent);
+           backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid color-mix(in srgb, var(--linea) 60%, transparent); }
+  .barra .envoltura { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; }
+  .marca { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--corona); }
+  .marca img { width: 30px; height: 30px; border-radius: 50%; }
+  .marca span { font: 700 1.3rem/1 var(--display); letter-spacing: 0.02em; }
+  .barra nav { display: flex; align-items: center; gap: 22px; }
+  .barra nav a { color: var(--gris); text-decoration: none; font-size: 1rem; }
+  .barra nav a:hover { color: var(--corona); }
+  .barra nav a.idioma { font: 500 0.82rem/1 var(--mono); letter-spacing: 0.08em; }
+  .boton { display: inline-flex; align-items: center; gap: 10px; font: 600 1rem/1 var(--display); letter-spacing: 0.03em; text-decoration: none;
+           padding: 12px 18px; border-radius: 3px; background: var(--cobre); color: var(--cobre-tinta) !important; }
+  .boton:hover { background: var(--cobre-claro); }
+  @media (max-width: 720px) { .barra nav a.ocultable { display: none; } }
+
+  /* Cabecera y mapa del proceso */
+  .cabeza { padding-block: clamp(56px, 8vw, 96px) 28px; display: grid; gap: 18px; }
+  .mapa { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 18px; }
+  @media (max-width: 860px) { .mapa { grid-template-columns: 1fr; } }
+  .parte { background: var(--cielo); border: 1px solid var(--linea); border-radius: 4px; padding: 18px 20px 20px; display: grid; gap: 12px; align-content: start; }
+  .parte h3 { font-size: 1.15rem; }
+  .parte h3 span { color: var(--cobre); font-family: var(--mono); font-size: 0.85rem; margin-right: 8px; }
+  .parte ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .parte li a { display: inline-block; text-decoration: none; color: var(--corona); background: var(--cielo-2); border: 1px solid var(--linea);
+                border-radius: 3px; padding: 4px 9px; font-size: 0.95rem; line-height: 1.3; }
+  .parte li a:hover { border-color: var(--cobre); color: var(--cobre-claro); }
+
+  /* Visor de etapas */
+  .visor { margin-top: 8px; display: grid; gap: 14px; }
+  .visor-marco { position: relative; aspect-ratio: 1; max-width: 720px; width: 100%; margin-inline: auto; border-radius: 4px; overflow: hidden;
+                 border: 1px solid var(--linea); background: #05070b; }
+  .visor-marco img { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity .35s; }
+  .visor-marco img.activa { opacity: 1; }
+  .visor-botones { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+  .visor-botones button { font: 500 0.9rem/1.2 var(--texto); color: var(--gris); background: var(--cielo); border: 1px solid var(--linea);
+                          border-radius: 3px; padding: 7px 12px; cursor: pointer; }
+  .visor-botones button span { font-family: var(--mono); color: var(--cobre); margin-right: 6px; font-size: 0.8rem; }
+  .visor-botones button[aria-pressed="true"] { color: var(--corona); border-color: var(--cobre); background: var(--cielo-2); }
+  .visor-pie { text-align: center; color: var(--gris); max-width: 62ch; margin-inline: auto; min-height: 3.2em; }
+
+  /* Partes y pasos */
+  .titulo-parte { padding-block: clamp(56px, 8vw, 88px) 0; border-top: 1px solid var(--linea); }
+  .titulo-parte .envoltura { display: grid; gap: 12px; }
+  .titulo-parte h2 { font-size: clamp(2rem, 4.2vw, 3rem); }
+  .paso { padding-block: clamp(40px, 5.5vw, 64px); scroll-margin-top: 70px; }
+  .paso + .paso { border-top: 1px solid color-mix(in srgb, var(--linea) 55%, transparent); }
+  .paso > .envoltura { display: grid; gap: 18px; }
+  .num { font: 600 0.95rem/1 var(--mono); color: var(--cobre); letter-spacing: 0.08em; }
+  .dos { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 28px 44px; align-items: start; }
+  @media (max-width: 900px) { .dos { grid-template-columns: 1fr; } }
+  .texto { display: grid; gap: 12px; color: #d8d8dd; max-width: var(--lectura); }
+  .texto ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+  .texto b { color: var(--corona); font-weight: 500; }
+  .formula { font: 400 0.92rem/1.6 var(--mono); color: var(--corona); background: var(--cielo); border-left: 3px solid var(--cobre);
+             padding: 10px 14px; border-radius: 0 3px 3px 0; overflow-wrap: anywhere; }
+  .formula small { display: block; color: var(--gris); font-size: 0.8rem; white-space: normal; }
+  .nota { padding: 14px 18px; border-left: 3px solid var(--linea); background: var(--cielo); color: var(--gris); border-radius: 0 4px 4px 0; font-size: 1rem; }
+  .ref { color: var(--gris-2); font: 400 0.82rem/1.5 var(--mono); }
+  .beta { display: inline-block; font: 500 0.7rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--cobre-tinta);
+          background: var(--cobre); padding: 4px 6px; border-radius: 2px; vertical-align: middle; margin-left: 6px; }
+
+  /* Figuras, rejillas y comparadores */
+  figure { margin: 0; display: grid; gap: 8px; align-content: start; }
+  figure img { border: 1px solid var(--linea); border-radius: 4px; background: #05070b; width: 100%; }
+  figcaption { color: var(--gris-2); font: 400 0.84rem/1.5 var(--mono); }
+  figcaption b { color: var(--gris); font-weight: 500; }
+  .rejilla { display: grid; gap: 14px 12px; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); }
+  @media (max-width: 720px) { .rejilla { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .rejilla.cuatro { --n: 4; }
+  .rejilla.dos-col { --n: 2; }
+  .flechas { display: flex; align-items: center; gap: 10px; color: var(--cobre); font: 400 0.84rem var(--mono); }
+  .comparador { position: relative; aspect-ratio: 1; width: 100%; border-radius: 4px; overflow: hidden; border: 1px solid var(--linea);
+                background: #05070b; --pos: 50%; user-select: none; -webkit-user-select: none; }
+  .comparador img { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; border-radius: 0; }
+  .comparador .despues { clip-path: inset(0 0 0 var(--pos)); }
+  .comparador .raya { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; margin-left: -1px; background: var(--corona); pointer-events: none; }
+  .comparador .asa { position: absolute; top: 50%; left: var(--pos); width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%;
+                     background: var(--corona); color: var(--noche); display: grid; place-items: center; pointer-events: none;
+                     font: 600 0.95rem/1 var(--mono); box-shadow: 0 2px 14px rgba(0, 0, 0, 0.45); }
+  .comparador input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
+  .comparador input:focus-visible ~ .asa { outline: 2px solid var(--cobre-claro); outline-offset: 3px; }
+  .rotulo { position: absolute; top: 10px; z-index: 1; font: 500 0.72rem var(--mono); letter-spacing: 0.08em; text-transform: uppercase;
+            padding: 5px 8px; background: rgba(13, 17, 25, 0.75); border-radius: 2px; pointer-events: none; }
+  .rotulo.izq { left: 10px; color: var(--gris); }
+  .rotulo.der { right: 10px; color: var(--cobre-claro); }
+
+  /* Gráficas (generadas con los datos del HDR) y diagramas */
+  svg { display: block; width: 100%; height: auto; }
+  .grafica, .diagrama { background: var(--cielo); border: 1px solid var(--linea); border-radius: 4px; }
+  .grafica text, .diagrama text { font-family: var(--mono); }
+  .g-eje { stroke: var(--gris-2); stroke-width: 1; }
+  .g-red { stroke: var(--linea); stroke-width: 1; stroke-dasharray: 2 4; }
+  .g-n { fill: var(--gris); font-size: 11px; }
+  .g-t { fill: var(--gris); font-size: 12px; }
+  .g-tenue { fill: var(--gris-2); }
+  .g-cobre { fill: var(--cobre-claro); }
+  .g-c1 { fill: none; stroke: var(--cobre-claro); stroke-width: 2.5; stroke-linejoin: round; }
+  .g-c2 { fill: none; stroke: var(--azul); stroke-width: 2; stroke-linejoin: round; }
+  .g-c3 { fill: none; stroke: var(--gris); stroke-width: 1.5; stroke-dasharray: 5 4; }
+  .g-c4 { fill: none; stroke: var(--corona); stroke-width: 2; }
+  .g-c1-t { fill: var(--cobre-claro); } .g-c2-t { fill: var(--azul); } .g-c3-t { fill: var(--gris); } .g-c4-t { fill: var(--corona); }
+  .g-cielo { stroke: var(--azul); stroke-width: 1.2; stroke-dasharray: 6 5; opacity: 0.8; }
+  .g-zona { fill: var(--rojo); opacity: 0.16; }
+  .g-punto { fill: var(--gris); opacity: 0.85; }
+  .d-fondo { fill: #0d1119; }
+  .d-luna { fill: #05070b; stroke: var(--gris-2); stroke-width: 1; }
+  .d-luna-b { fill: none; stroke: var(--cobre-claro); stroke-width: 1.6; stroke-dasharray: 5 4; }
+  .d-linea { fill: none; stroke: var(--gris); stroke-width: 1.2; }
+  .d-fina { fill: none; stroke: var(--linea); stroke-width: 1; }
+  .d-cobre { fill: none; stroke: var(--cobre-claro); stroke-width: 2; }
+  .d-azul { fill: none; stroke: var(--azul); stroke-width: 1.6; }
+  .d-relleno { fill: var(--cobre); opacity: 0.85; }
+  .d-caja { fill: var(--cielo-2); stroke: var(--linea); stroke-width: 1; }
+  .d-t { fill: var(--gris); font-size: 12px; }
+  .d-tc { fill: var(--corona); font-size: 13px; }
+  .d-tco { fill: var(--cobre-claro); font-size: 12px; }
+  .d-op { fill: var(--cobre); font-size: 22px; font-weight: 500; }
+
+  .ui { font: 500 1em var(--texto); color: var(--corona); background: var(--cielo-2); padding: 1px 7px; border-radius: 3px; white-space: nowrap; }
+  .arriba { font: 400 0.85rem var(--mono); }
+  footer { padding-block: 44px 56px; color: var(--gris-2); font-size: 0.95rem; border-top: 1px solid var(--linea); }
+  footer .envoltura { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px; }
+  footer a { color: var(--gris); }
+  .correo { font-family: var(--mono); color: var(--corona); }
+</style>
+</head>
+<body>
+
+<header class="barra">
+  <div class="envoltura">
+    <a class="marca" href="../"><img src="../../img/icono.png" alt=""><span>Easy Corona</span></a>
+    <nav aria-label="Sections">
+      <a class="ocultable" href="../tutorial/">Tutorial</a>
+      <a class="ocultable" href="../#versiones">Versions</a>
+      <a class="idioma" href="../../tecnica/" hreflang="es" lang="es" data-idioma="es">Español</a>
+      <a class="boton" href="../#descargar">Free download</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+  <div class="envoltura cabeza">
+    <p class="etiqueta">Under the hood</p>
+    <h1>From RAW to corona: what Easy Corona computes</h1>
+    <p class="entradilla">Every step of the app explained without code: what is measured, what is computed and why. All the images come from the same eclipse (12 August 2026, 600 mm) and were computed with the app's own functions.</p>
+
+    <div class="visor" id="visor">
+      <div class="visor-marco">
+        <img src="../../img/tecnica/etapa_1.jpg" width="900" height="900" alt="The linear HDR as it is: almost all black, with a small bright ring around the Moon">
+        <img src="../../img/tecnica/etapa_2.jpg" width="900" height="900" alt="The HDR with neutral color and stretched: a gray halo around the Moon, no detail" loading="lazy">
+        <img src="../../img/tecnica/etapa_3.jpg" width="900" height="900" alt="After the enhancement: the corona with its rays and filaments, in gray" loading="lazy">
+        <img src="../../img/tecnica/etapa_4.jpg" width="900" height="900" alt="With the sky color: the white corona on a dark blue sky" loading="lazy">
+        <img src="../../img/tecnica/etapa_5.jpg" width="900" height="900" alt="The gray Moon with the maria lit by earthshine" loading="lazy">
+        <img class="activa" src="../../img/tecnica/etapa_6.jpg" width="900" height="900" alt="The final result with clean stars">
+      </div>
+      <div class="visor-botones" role="group" aria-label="Stage">
+        <button type="button" aria-pressed="false" data-pie="The HDR as it is: 32-bit linear. The whole corona is there, but on a screen it looks almost black."><span>1</span>HDR</button>
+        <button type="button" aria-pressed="false" data-pie="Neutral color and logarithmic stretch: the halo of the corona appears, still without detail."><span>2</span>Stretched</button>
+        <button type="button" aria-pressed="false" data-pie="Enhancement passes, the fine-detail tone curve and the final brightness: the rays and the filaments."><span>3</span>Enhanced</button>
+        <button type="button" aria-pressed="false" data-pie="Sky color: the blue of totality, only in the dark tones (the corona stays white)."><span>4</span>Sky</button>
+        <button type="button" aria-pressed="false" data-pie="Gray Moon with earthshine: the lunar maria, lit by the Earth."><span>5</span>Moon</button>
+        <button type="button" aria-pressed="true" data-pie="Clean stars: without the dark ring the filters leave, and without hot pixels."><span>6</span>Stars</button>
+      </div>
+      <p class="visor-pie" aria-live="polite">The final result. Press 1 to see the HDR as it comes out of the stacking and follow it stage by stage.</p>
+    </div>
+
+    <div class="mapa">
+      <div class="parte">
+        <h3><span>1</span>From RAW to HDR</h3>
+        <ol>
+          <li><a href="#problema">The problem</a></li>
+          <li><a href="#raw">Reading the RAW files</a></li>
+          <li><a href="#calibrar">Calibration</a></li>
+          <li><a href="#luna">Finding the Moon</a></li>
+          <li><a href="#alinear">Alignment</a></li>
+          <li><a href="#promediar">Averaging</a></li>
+          <li><a href="#hdr">HDR stacking</a></li>
+          <li><a href="#focales">Two focal lengths</a></li>
+        </ol>
+      </div>
+      <div class="parte">
+        <h3><span>2</span>Enhancing the corona</h3>
+        <ol>
+          <li><a href="#color">Color</a></li>
+          <li><a href="#degradado">Sky gradient</a></li>
+          <li><a href="#estirar">Stretching</a></li>
+          <li><a href="#ruido">Noise</a></li>
+          <li><a href="#detalle">MGN, WOW and NAFE</a></li>
+          <li><a href="#pases">Enhancement passes</a></li>
+          <li><a href="#interior">Inner corona</a></li>
+          <li><a href="#nrgf">NRGF and FNRGF</a></li>
+          <li><a href="#brillo">Final brightness</a></li>
+        </ol>
+      </div>
+      <div class="parte">
+        <h3><span>3</span>The final result</h3>
+        <ol>
+          <li><a href="#cielo">Sky color</a></li>
+          <li><a href="#luna-gris">The Moon</a></li>
+          <li><a href="#cenicienta">Earthshine</a></li>
+          <li><a href="#cromosfera">Chromosphere</a></li>
+          <li><a href="#estrellas">Stars</a></li>
+          <li><a href="#archivos">Files</a></li>
+          <li><a href="#vista-previa">Preview</a></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ 1 · FROM RAW TO HDR -->
+  <section class="titulo-parte" aria-labelledby="t-p1">
+    <div class="envoltura">
+      <p class="etiqueta">Part 1</p>
+      <h2 id="t-p1">From RAW to HDR</h2>
+      <p class="entradilla">Combining dozens of photos with different exposures into a single 32-bit image, without losing sharpness and with a single Moon.</p>
+    </div>
+  </section>
+
+  <section class="paso" id="problema">
+    <div class="envoltura">
+      <p class="num">1.1</p>
+      <h2>The problem: a brightness that drops almost a thousandfold</h2>
+      <div class="dos">
+        <div class="texto">
+          <p>The corona is very bright next to the Moon and fades quickly further out. The graph is the brightness measured, ring by ring, in the HDR used on this page: <b>from 1.04 to 2 lunar radii it drops about 60 times</b>, and beyond 2.5 radii it blends into the brightness of the totality sky itself. At 3 radii it is only 13 % brighter than the sky at 4 radii.</p>
+          <p>Once the sky is subtracted, between the edge of the Moon and 3 radii the corona loses <b>about 900 times</b> its brightness, and the prominences and the edge of the Moon are brighter still. No single photo captures all of it with little noise: for the outer corona to have a clean signal you have to expose so long that the edge of the Moon and the prominences burn out, and with the exposure that keeps the prominences the outer corona is lost in the noise.</p>
+          <p>And even once they are combined into an HDR, a screen only shows about 8 stops. That is why there are two different jobs: <b>gathering</b> the light without losing anything (part 1) and <b>compressing</b> that range so it can be seen, bringing out the detail (part 2).</p>
+        </div>
+        <figure>
+          <svg class="grafica" viewBox="0 0 640 300" role="img" aria-label="corona + sky, measured in the HDR"><line class="g-red" x1="64.0" y1="248.0" x2="64.0" y2="18.0"/><text class="g-n" x="64.0" y="266.0" text-anchor="middle">1</text><line class="g-red" x1="237.8" y1="248.0" x2="237.8" y2="18.0"/><text class="g-n" x="237.8" y="266.0" text-anchor="middle">2</text><line class="g-red" x1="411.5" y1="248.0" x2="411.5" y2="18.0"/><text class="g-n" x="411.5" y="266.0" text-anchor="middle">3</text><line class="g-red" x1="585.2" y1="248.0" x2="585.2" y2="18.0"/><text class="g-n" x="585.2" y="266.0" text-anchor="middle">4</text><line class="g-red" x1="64.0" y1="18.0" x2="620.0" y2="18.0"/><text class="g-n" x="56.0" y="22.0" text-anchor="end">1</text><line class="g-red" x1="64.0" y1="110.0" x2="620.0" y2="110.0"/><text class="g-n" x="56.0" y="114.0" text-anchor="end">1/10</text><line class="g-red" x1="64.0" y1="202.0" x2="620.0" y2="202.0"/><text class="g-n" x="56.0" y="206.0" text-anchor="end">1/100</text><line class="g-eje" x1="64.0" y1="248.0" x2="620.0" y2="248.0"/><line class="g-eje" x1="64.0" y1="248.0" x2="64.0" y2="18.0"/><text class="g-t" x="342.0" y="290.0" text-anchor="middle">Distance from the Moon's center (lunar radii)</text><text class="g-t" x="16.0" y="133.0" text-anchor="middle" transform="rotate(-90 16 133.0)">Brightness, log scale</text><line class="g-cielo" x1="64.0" y1="210.9" x2="620.0" y2="210.9"/><text class="g-t g-tenue" x="608.9" y="202.9" text-anchor="end">sky during totality</text><polyline class="g-c1" points="71.0,18.0 77.9,34.6 84.9,48.7 91.8,61.0 98.8,72.3 105.7,82.5 112.7,92.1 119.6,101.0 126.6,109.4 133.5,117.4 140.4,124.8 147.4,131.8 154.4,138.4 161.3,144.4 168.2,150.0 175.2,155.0 182.1,159.5 189.1,163.6 196.0,167.4 203.0,170.8 210.0,173.8 216.9,176.6 223.8,179.0 230.8,181.2 237.8,183.3 244.7,185.2 251.7,187.0 258.6,188.7 265.6,190.2 272.5,191.5 279.5,192.8 286.4,194.0 293.3,195.1 300.3,196.1 307.2,197.1 314.2,198.0 321.1,198.8 328.1,199.5 335.1,200.2 342.0,200.9 348.9,201.5 355.9,202.1 362.8,202.7 369.8,203.2 376.7,203.6 383.7,204.1 390.6,204.5 397.6,204.9 404.5,205.3 411.5,205.6 418.4,206.0 425.4,206.3 432.3,206.6 439.3,207.0 446.2,207.2 453.2,207.5 460.1,207.8 467.1,208.1 474.0,208.3 481.0,208.6 487.9,208.8 494.9,209.1 501.8,209.2 508.8,209.2 515.8,209.3 522.7,209.4 529.7,209.6 536.6,209.7 543.5,209.8 550.5,209.9 557.5,210.1 564.4,210.2 571.3,210.4 578.3,210.5 585.2,210.7 592.2,210.8 599.1,210.9 606.1,211.1 613.1,211.2 620.0,211.4"/><text class="g-t g-cobre" x="108.5" y="34.1" text-anchor="start">corona + sky, measured in the HDR</text></svg>
+          <figcaption>Median brightness of each ring around the Moon, measured in the linear HDR (1 = the value at 1.04 radii).</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="raw">
+    <div class="envoltura">
+      <p class="num">1.2</p>
+      <h2>Reading the RAW files: the light as it reached the sensor</h2>
+      <div class="dos">
+        <div class="texto">
+          <p>Each RAW file (Canon, Nikon, Sony, Fujifilm, Panasonic, Olympus, Pentax, DNG) is developed <b>linearly</b>: no tone curve, no white balance, no auto brightness, and in 16 bits. A pixel that received twice the light has twice the value. That is what makes it possible to add up photos with different exposures.</p>
+          <p>From each photo the app reads the shutter speed, ISO, aperture and focal length. With them, the photos are grouped by exposure and sorted by the light each one gathers:</p>
+          <p class="formula">light ∝ time × ISO ÷ f-number²</p>
+          <p>Dark, Bias (Offset) and Flat subfolders are recognized as calibration; «Chromosphere» and «Earthshine», as photos for those layers. Repeated photos, or photos with the same name, are detected before starting.</p>
+        </div>
+        <figure>
+          <svg class="diagrama" viewBox="0 0 480 250" role="img" aria-label="The photos are grouped by exposure and sorted by the light each one gathers">
+            <text class="d-t" x="20" y="28">loose photos</text>
+            <g class="d-caja"><rect x="20" y="40" width="36" height="26" rx="2"/><rect x="62" y="40" width="36" height="26" rx="2"/><rect x="104" y="40" width="36" height="26" rx="2"/><rect x="146" y="40" width="36" height="26" rx="2"/><rect x="188" y="40" width="36" height="26" rx="2"/><rect x="230" y="40" width="36" height="26" rx="2"/><rect x="272" y="40" width="36" height="26" rx="2"/><rect x="314" y="40" width="36" height="26" rx="2"/><rect x="356" y="40" width="36" height="26" rx="2"/><rect x="398" y="40" width="36" height="26" rx="2"/></g>
+            <path class="d-linea" d="M240 78 v26" marker-end="url(#raw-f)"/>
+            <defs><marker id="raw-f" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#9aa3b6"/></marker></defs>
+            <g class="d-t">
+              <text x="20" y="132">1/4000 s · ISO 100</text><text x="20" y="166">1/500 s · ISO 100</text><text x="20" y="200">1/30 s · ISO 400</text><text x="20" y="234">1/4 s · ISO 800</text>
+            </g>
+            <g class="d-caja">
+              <rect x="200" y="116" width="30" height="22" rx="2"/><rect x="234" y="116" width="30" height="22" rx="2"/><rect x="268" y="116" width="30" height="22" rx="2"/>
+              <rect x="200" y="150" width="30" height="22" rx="2"/><rect x="234" y="150" width="30" height="22" rx="2"/><rect x="268" y="150" width="30" height="22" rx="2"/>
+              <rect x="200" y="184" width="30" height="22" rx="2"/><rect x="234" y="184" width="30" height="22" rx="2"/>
+              <rect x="200" y="218" width="30" height="22" rx="2"/><rect x="234" y="218" width="30" height="22" rx="2"/>
+            </g>
+            <path class="d-cobre" d="M440 120 V236" marker-end="url(#raw-c)"/>
+            <defs><marker id="raw-c" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#e0a770"/></marker></defs>
+            <text class="d-tco" x="430" y="178" text-anchor="end">more light</text>
+          </svg>
+          <figcaption>Each group is one exposure; the order by light decides which photos are used for the chromosphere (the fastest) and which for the earthshine (the longest).</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="calibrar">
+    <div class="envoltura">
+      <p class="num">1.3</p>
+      <h2>Calibration: darks, bias and flats</h2>
+      <div class="dos">
+        <div class="texto">
+          <p>Optional, and done on the sensor data, before developing:</p>
+          <ul>
+            <li><b>Dark</b> (lens cap on, same ISO and same exposure): subtracted. Removes hot pixels, dark current and the sensor's fixed pattern.</li>
+            <li><b>Bias</b> (shortest time, same ISO): subtracted when there is no dark for that exposure, and it lets a dark from another exposure be scaled (dark current grows with time), only between ¼ and 4 times.</li>
+            <li><b>Flat</b> (same aperture and focus, even light): divided. Removes vignetting and dust spots.</li>
+          </ul>
+          <p>Each «master» is the mean of its photos, discarding, pixel by pixel, whatever is more than 3 deviations from the median (cosmic rays, odd pixels).</p>
+          <p class="formula">calibrated = (photo − dark) ÷ (normalized flat)</p>
+          <p class="nota">Measured with real photos: a 1/1000 s frame does not work as a dark for a 1/4 s one; the sensor pattern is not alike. That is why the app only uses darks with the same ISO and the same exposure.</p>
+        </div>
+        <figure>
+          <svg class="diagrama" viewBox="0 0 480 200" role="img" aria-label="Photo minus dark, divided by the flat, equals calibrated photo">
+            <defs>
+              <radialGradient id="cal-v" cx="50%" cy="50%" r="72%"><stop offset=".4" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></radialGradient>
+              <radialGradient id="cal-c" cx="50%" cy="50%" r="50%"><stop offset=".3" stop-color="#fbf8f0"/><stop offset=".55" stop-color="#e3e6ee" stop-opacity=".55"/><stop offset="1" stop-color="#e3e6ee" stop-opacity="0"/></radialGradient>
+            </defs>
+            <rect x="14" y="40" width="92" height="92" rx="3" fill="#56617a"/><circle cx="60" cy="86" r="40" fill="url(#cal-c)"/><circle cx="60" cy="86" r="12" fill="#07090d"/><rect x="14" y="40" width="92" height="92" rx="3" fill="url(#cal-v)"/><circle cx="38" cy="102" r="7" fill="#000" opacity=".3"/>
+            <rect x="134" y="40" width="92" height="92" rx="3" fill="#10141c" stroke="#34405a"/>
+            <rect x="254" y="40" width="92" height="92" rx="3" fill="#f2f4f8"/><rect x="254" y="40" width="92" height="92" rx="3" fill="url(#cal-v)"/><circle cx="278" cy="102" r="7" fill="#000" opacity=".3"/>
+            <rect x="374" y="40" width="92" height="92" rx="3" fill="#56617a"/><circle cx="420" cy="86" r="40" fill="url(#cal-c)"/><circle cx="420" cy="86" r="12" fill="#07090d"/>
+            <g fill="#ff6a6a"><circle cx="36" cy="60" r="2"/><circle cx="86" cy="112" r="2"/><circle cx="84" cy="66" r="1.6"/><circle cx="156" cy="60" r="2"/><circle cx="206" cy="112" r="2"/><circle cx="204" cy="66" r="1.6"/></g>
+            <text class="d-op" x="120" y="92" text-anchor="middle">−</text><text class="d-op" x="240" y="92" text-anchor="middle">÷</text><text class="d-op" x="360" y="92" text-anchor="middle">=</text>
+            <g class="d-t" text-anchor="middle"><text x="60" y="156">photo</text><text x="180" y="156">dark</text><text x="300" y="156">flat</text><text x="420" y="156">calibrated</text></g>
+            <g class="d-t" text-anchor="middle" font-size="11"><text x="60" y="174">vignetting, dust</text><text x="60" y="189">and hot pixels</text><text x="180" y="174">hot pixels</text><text x="300" y="174">white frame:</text><text x="300" y="189">vignetting and dust</text><text x="420" y="174">clean</text></g>
+          </svg>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="luna">
+    <div class="envoltura">
+      <p class="num">1.4</p>
+      <h2>Finding the Moon</h2>
+      <div class="dos">
+        <div class="texto">
+          <p>The Moon is the reference for almost everything that follows (aligning, stacking, the radial filters), so the app looks for it in every photo, even wide-angle shots, photos with trees in them, or with the Moon burned out.</p>
+          <ul>
+            <li>On a copy of about 900 pixels, the <b>Hough transform</b> proposes circles of every radius, with three different tone curves (square root, logarithm and a gentler one) so it works on both short and long exposures.</li>
+            <li>Each candidate is scored by the part of its outline where there is a <b>dark → bright step</b> (black Moon inside, corona outside) and by how the brightness changes outside.</li>
+            <li>The winner is <b>refined at full size</b>: the edge is measured at 360 angles and a circle is fitted, with sub-pixel precision.</li>
+          </ul>
+          <p>If a photo has no visible edge (Moon burned out in the long exposures), the common Moon of the others is used, never the saturated blob. And if nothing works, it can be marked by hand on the preview.</p>
+        </div>
+        <figure>
+          <svg class="diagrama" viewBox="0 0 480 260" role="img" aria-label="The edge of the Moon is measured at many angles: along each radius the brightness goes from dark to bright">
+            <defs><radialGradient id="luna-c" cx="50%" cy="50%" r="50%"><stop offset=".42" stop-color="#efe9e1"/><stop offset=".58" stop-color="#8e96a6"/><stop offset="1" stop-color="#0d1119"/></radialGradient></defs>
+            <rect class="d-fondo" x="0" y="0" width="480" height="260" rx="4"/>
+            <circle cx="130" cy="130" r="118" fill="url(#luna-c)"/>
+            <circle class="d-luna" cx="130" cy="130" r="52"/>
+            <g class="d-cobre" stroke-width="1.4">
+              <path d="M130 70 v-26"/><path d="M190 130 h26"/><path d="M130 190 v26"/><path d="M70 130 h-26"/>
+              <path d="M172.4 87.6 l18.4 -18.4"/><path d="M172.4 172.4 l18.4 18.4"/><path d="M87.6 172.4 l-18.4 18.4"/><path d="M87.6 87.6 l-18.4 -18.4"/>
+            </g>
+            <path class="d-cobre" d="M182 130 h40" stroke-width="2.4"/>
+            <rect x="268" y="40" width="196" height="150" rx="3" class="d-caja"/>
+            <path class="d-fina" d="M284 170 h168"/>
+            <path class="d-cobre" d="M284 166 h52 l6 -104 c20 18 40 38 60 52 c18 12 34 18 50 22"/>
+            <path class="d-fina" d="M339 54 v116" stroke-dasharray="3 3"/>
+            <text class="d-t" x="290" y="186" font-size="11">Moon</text><text class="d-t" x="400" y="186" font-size="11">corona</text>
+            <text class="d-tco" x="346" y="70" font-size="11">edge</text>
+            <text class="d-t" x="270" y="32" font-size="11">brightness along a radius</text>
+            <text class="d-t" x="130" y="250" text-anchor="middle" font-size="11">360 edge measurements → one circle</text>
+          </svg>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="alinear">
+    <div class="envoltura">
+      <p class="num">1.5</p>
+      <h2>Alignment: on the corona, not on the Moon</h2>
+      <div class="dos">
+        <div class="texto">
+          <p>During totality the Moon moves in front of the Sun: about 0.5 arcseconds per second, 3 % of its radius every minute. With the 600 mm lens used for these photos that is about <b>20 pixels per minute</b>. If all the photos were aligned on the Moon, the corona would be blurred; that is why the fine alignment of each group is measured on the <b>corona</b>, which does not move, and never on the Moon (the initial alignment can use either one).</p>
+          <ul>
+            <li>First, a whole-image alignment by <b>phase correlation</b> (in Fourier space, which gives the shift between two images in one go).</li>
+            <li>Then the <b>refinement</b>: each photo is compared with the median of its group in 8 to 16 full-size windows, placed where the corona has detail. Each window gives its shift with sub-pixel precision, and from all of them comes a robust fit of <b>rotation + shift</b>.</li>
+            <li>Photos that do not look like the others, or that would need more than 12 pixels or 0.3° of correction, are moved to a «_descartadas» (discarded) folder, never more than a third of them. Afterwards they can be checked one by one with their «Difference» view.</li>
+          </ul>
+          <p>The exposures are then aligned with each other, each one with its already aligned neighbor, from the reference outward. If the windows of a short exposure have little signal, the whole corona area is measured, or 16 small windows next to the edge of the Moon.</p>
+        </div>
+        <figure>
+          <svg class="diagrama" viewBox="0 0 540 300" role="img" aria-label="Windows around the Sun: each one measures its shift; the Moon moves relative to the corona during totality">
+            <defs>
+              <radialGradient id="ali-c" cx="50%" cy="50%" r="50%"><stop offset=".36" stop-color="#efe9e1"/><stop offset=".55" stop-color="#717b90"/><stop offset="1" stop-color="#0d1119"/></radialGradient>
+              <marker id="ali-f" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#e0a770"/></marker>
+            </defs>
+            <rect class="d-fondo" x="0" y="0" width="540" height="300" rx="4"/>
+            <circle cx="170" cy="150" r="140" fill="url(#ali-c)"/>
+            <circle class="d-luna" cx="164" cy="152" r="50"/>
+            <circle class="d-luna-b" cx="178" cy="148" r="50"/>
+            <path class="d-cobre" d="M150 210 l30 -8" marker-end="url(#ali-f)" stroke-width="1.6"/>
+            <g fill="none" stroke="#e0a770" stroke-width="1.4">
+              <rect x="158" y="56" width="24" height="24"/><rect x="216" y="72" width="24" height="24"/><rect x="246" y="128" width="24" height="24"/>
+              <rect x="230" y="190" width="24" height="24"/><rect x="172" y="222" width="24" height="24"/><rect x="108" y="206" width="24" height="24"/>
+              <rect x="78" y="146" width="24" height="24"/><rect x="96" y="84" width="24" height="24"/>
+            </g>
+            <text class="d-tc" x="326" y="60">windows</text>
+            <text class="d-t" x="326" y="78" font-size="11">each one measures</text>
+            <text class="d-t" x="326" y="93" font-size="11">its own shift</text>
+            <text class="d-t" x="326" y="108" font-size="11">→ rotation + shift</text>
+            <text class="d-tco" x="326" y="168">the Moon moves</text>
+            <text class="d-t" x="326" y="186" font-size="11">solid line: at the start</text>
+            <text class="d-t" x="326" y="201" font-size="11">dashed: minutes later</text>
+            <text class="d-t" x="326" y="216" font-size="11">(motion exaggerated)</text>
+          </svg>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="promediar">
+    <div class="envoltura">
+      <p class="num">1.6</p>
+      <h2>Averaging each exposure, with a single Moon</h2>
+      <div class="dos">
+        <div class="texto">
+          <p>The photos of one exposure are averaged: the noise drops with the square root of the number of photos (with 9 photos, to a third). That is what makes it possible to stretch the outer corona a lot without the sky filling up with grain.</p>
+          <p>But since the Moon moved from one photo to the next, a plain average leaves <b>ghosts</b>: the edge of the Moon repeated several times, a blurred ring. Easy Corona averages with <b>a single Moon</b>:</p>
+          <ul>
+            <li>The Moon of the average is the one in the middle photo of the group.</li>
+            <li>Each photo weighs more and more the further it is from <b>its own</b> Moon, so next to each edge only the photo that has it in place counts. No arcs from the other Moons are left.</li>
+            <li>A badly detected Moon (more than 0.2 radii away from the others) is left out.</li>
+          </ul>
+          <p>The HDR repeats the idea: its Moon is the one from the exposure with the most light whose edge is not burned out.</p>
+        </div>
+        <figure>
+          <svg class="diagrama" viewBox="0 0 480 240" role="img" aria-label="Plain average: the edge of the Moon repeated; with a single Moon: one sharp edge">
+            <defs><radialGradient id="pro-c" cx="50%" cy="50%" r="50%"><stop offset=".4" stop-color="#efe9e1"/><stop offset=".62" stop-color="#717b90"/><stop offset="1" stop-color="#1f2736"/></radialGradient></defs>
+            <circle cx="120" cy="110" r="96" fill="url(#pro-c)"/>
+            <circle cx="114" cy="112" r="40" fill="#05070b" opacity=".45"/><circle cx="120" cy="110" r="40" fill="#05070b" opacity=".45"/><circle cx="126" cy="108" r="40" fill="#05070b" opacity=".45"/>
+            <circle cx="360" cy="110" r="96" fill="url(#pro-c)"/>
+            <circle cx="360" cy="110" r="40" fill="#05070b"/>
+            <text class="d-t" x="120" y="228" text-anchor="middle">plain average: ghosts</text>
+            <text class="d-tco" x="360" y="228" text-anchor="middle">single Moon: sharp edge</text>
+          </svg>
+          <figcaption>Sketch: three photos with the Moon in different places.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="hdr">
+    <div class="envoltura">
+      <p class="num">1.7</p>
+      <h2>HDR stacking</h2>
+      <div class="texto">
+        <p>Each exposure sees part of the corona. Below, the same HDR with the light that four exposures would gather, from the shortest to the longest (simulated by multiplying the HDR and clipping at white, as the sensor does):</p>
+      </div>
+      <div class="rejilla cuatro">
+        <figure><img src="../../img/tecnica/expo_0.jpg" width="480" height="480" loading="lazy" alt="Very short exposure: only the edge of the Moon and the prominence"><figcaption><b>1×</b> · prominences and edge</figcaption></figure>
+        <figure><img src="../../img/tecnica/expo_1.jpg" width="480" height="480" loading="lazy" alt="Short exposure: the inner corona"><figcaption><b>7.5×</b> · inner corona</figcaption></figure>
+        <figure><img src="../../img/tecnica/expo_2.jpg" width="480" height="480" loading="lazy" alt="Medium exposure: the middle corona, with the inner corona already burned out"><figcaption><b>60×</b> · middle corona</figcaption></figure>
+        <figure><img src="../../img/tecnica/expo_3.jpg" width="480" height="480" loading="lazy" alt="Long exposure: the distant streamers, with the whole center burned out"><figcaption><b>500×</b> · distant streamers</figcaption></figure>
+      </div>
+      <div class="dos">
+        <div class="texto">
+          <p><b>Same scale.</b> Between each pair of exposures a straight line (gain and offset) is fitted using the pixels that are well exposed in both. Each photo is thus brought to the scale of the reference using what the photos themselves measure, not the EXIF shutter speed.</p>
+          <p><b>Weights.</b> Every pixel of every exposure counts according to its value: little if it is almost black (just noise), a lot in the middle of the range and <b>not at all if it is clipped</b> (above 99.5 % of that photo's maximum; CR3 files, for example, clip at 0.997, not at 1). The HDR is the weighted mean:</p>
+          <p class="formula">HDR = Σ weight · (photo − offset) ÷ gain  ÷  Σ weight</p>
+          <p><b>The Moon.</b> Inside and around the Moon, the clipped exposures do not count (they only bring halo) and the others hardly at all: the Moon in the HDR comes from a single exposure, sharp.</p>
+          <p><b>Crop.</b> At the end the image is cropped to the rectangle covered by <b>all</b> the aligned exposures: edges that only some photos reach would have different noise and brightness. The result is saved as 32-bit floating point.</p>
+        </div>
+        <figure>
+          <svg class="grafica" viewBox="0 0 640 300" role="img" aria-label="Weight in the HDR"><line class="g-red" x1="64.0" y1="248.0" x2="64.0" y2="18.0"/><text class="g-n" x="64.0" y="266.0" text-anchor="middle">0</text><line class="g-red" x1="203.0" y1="248.0" x2="203.0" y2="18.0"/><text class="g-n" x="203.0" y="266.0" text-anchor="middle">0.2</text><line class="g-red" x1="342.0" y1="248.0" x2="342.0" y2="18.0"/><text class="g-n" x="342.0" y="266.0" text-anchor="middle">0.5</text><line class="g-red" x1="481.0" y1="248.0" x2="481.0" y2="18.0"/><text class="g-n" x="481.0" y="266.0" text-anchor="middle">0.8</text><line class="g-red" x1="620.0" y1="248.0" x2="620.0" y2="18.0"/><text class="g-n" x="620.0" y="266.0" text-anchor="middle">1</text><line class="g-red" x1="64.0" y1="248.0" x2="620.0" y2="248.0"/><text class="g-n" x="56.0" y="252.0" text-anchor="end">0</text><line class="g-red" x1="64.0" y1="133.0" x2="620.0" y2="133.0"/><text class="g-n" x="56.0" y="137.0" text-anchor="end">0.5</text><line class="g-red" x1="64.0" y1="18.0" x2="620.0" y2="18.0"/><text class="g-n" x="56.0" y="22.0" text-anchor="end">1</text><line class="g-eje" x1="64.0" y1="248.0" x2="620.0" y2="248.0"/><line class="g-eje" x1="64.0" y1="248.0" x2="64.0" y2="18.0"/><text class="g-t" x="342.0" y="290.0" text-anchor="middle">Pixel value in one photo (0 = black, 1 = clipped)</text><text class="g-t" x="16.0" y="133.0" text-anchor="middle" transform="rotate(-90 16 133.0)">Weight in the HDR</text><rect class="g-zona" x="617.2" y="18.0" width="6.8" height="230.0"/><polyline class="g-c1" points="64.0,248.0 66.8,243.4 69.6,238.9 72.3,234.4 75.1,230.0 77.9,225.6 80.7,221.2 83.5,216.9 86.2,212.7 89.0,208.5 91.8,204.3 94.6,200.2 97.4,196.1 100.1,192.1 102.9,188.1 105.7,184.2 108.5,180.3 111.3,176.4 114.0,172.7 116.8,168.9 119.6,165.2 122.4,161.5 125.2,157.9 127.9,154.4 130.7,150.8 133.5,147.4 136.3,143.9 139.1,140.6 141.8,137.2 144.6,133.9 147.4,130.7 150.2,127.5 153.0,124.4 155.7,121.2 158.5,118.2 161.3,115.2 164.1,112.2 166.9,109.3 169.6,106.4 172.4,103.6 175.2,100.8 178.0,98.1 180.8,95.4 183.5,92.7 186.3,90.1 189.1,87.6 191.9,85.1 194.7,82.6 197.4,80.2 200.2,77.8 203.0,75.5 205.8,73.2 208.6,71.0 211.3,68.8 214.1,66.7 216.9,64.6 219.7,62.5 222.5,60.5 225.2,58.6 228.0,56.7 230.8,54.8 233.6,53.0 236.4,51.2 239.1,49.5 241.9,47.8 244.7,46.2 247.5,44.6 250.3,43.0 253.0,41.6 255.8,40.1 258.6,38.7 261.4,37.3 264.2,36.0 266.9,34.8 269.7,33.5 272.5,32.4 275.3,31.2 278.1,30.2 280.8,29.1 283.6,28.1 286.4,27.2 289.2,26.3 292.0,25.5 294.7,24.6 297.5,23.9 300.3,23.2 303.1,22.5 305.9,21.9 308.6,21.3 311.4,20.8 314.2,20.3 317.0,19.9 319.8,19.5 322.5,19.1 325.3,18.8 328.1,18.6 330.9,18.4 333.7,18.2 336.4,18.1 339.2,18.0 342.0,18.0 344.8,18.0 347.6,18.1 350.3,18.2 353.1,18.4 355.9,18.6 358.7,18.8 361.5,19.1 364.2,19.5 367.0,19.9 369.8,20.3 372.6,20.8 375.4,21.3 378.1,21.9 380.9,22.5 383.7,23.2 386.5,23.9 389.3,24.6 392.0,25.5 394.8,26.3 397.6,27.2 400.4,28.1 403.2,29.1 405.9,30.2 408.7,31.2 411.5,32.4 414.3,33.5 417.1,34.8 419.8,36.0 422.6,37.3 425.4,38.7 428.2,40.1 431.0,41.6 433.7,43.0 436.5,44.6 439.3,46.2 442.1,47.8 444.9,49.5 447.6,51.2 450.4,53.0 453.2,54.8 456.0,56.7 458.8,58.6 461.5,60.5 464.3,62.5 467.1,64.6 469.9,66.7 472.7,68.8 475.4,71.0 478.2,73.2 481.0,75.5 483.8,77.8 486.6,80.2 489.3,82.6 492.1,85.1 494.9,87.6 497.7,90.1 500.5,92.7 503.2,95.4 506.0,98.1 508.8,100.8 511.6,103.6 514.4,106.4 517.1,109.3 519.9,112.2 522.7,115.2 525.5,118.2 528.3,121.2 531.0,124.4 533.8,127.5 536.6,130.7 539.4,133.9 542.2,137.2 544.9,140.6 547.7,143.9 550.5,147.4 553.3,150.8 556.1,154.4 558.8,157.9 561.6,161.5 564.4,165.2 567.2,168.9 570.0,172.7 572.7,176.4 575.5,180.3 578.3,184.2 581.1,188.1 583.9,192.1 586.6,196.1 589.4,200.2 592.2,204.3 595.0,208.5 597.8,212.7 600.5,216.9 603.3,221.2 606.1,225.6 608.9,230.0 611.7,234.4 614.4,238.9 617.2,248.0 620.0,248.0"/><text class="g-t g-tenue" x="611.7" y="34.1" text-anchor="end">clipped: ignored</text><text class="g-t g-tenue" x="80.7" y="228.2" text-anchor="start">mostly noise</text></svg>
+          <figcaption>Weight of a pixel according to its value in the photo: the «hat» 4·x·(1 − x), and zero where clipped.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="focales">
+    <div class="envoltura">
+      <p class="num">1.8</p>
+      <h2>Two focal lengths in one image <span class="beta">beta</span></h2>
+      <div class="dos">
+        <div class="texto">
+          <p>With photos from two lenses (for example 600 and 300 mm), the app makes <b>one HDR per focal length</b> and merges them: the detail of the long one within the field of the short one.</p>
+          <ul>
+            <li><b>Placement</b>: the initial scale comes from the size of the Moon in exposures with the same light (a burned edge makes the Moon look smaller), and it is refined with an affine correlation registration (ECC) over the whole corona, leaving out what is clipped.</li>
+            <li><b>Brightness</b>: the short HDR is matched to the long one as a gain plus a plane, measured on smoothed copies of both (otherwise the noise biases the gain and leaves a step). Along the way, the vignetting of the long one is corrected.</li>
+            <li><b>Inside the long frame</b> the short one also contributes, by scale bands and rings, each one weighted by the noise of each HDR. Outside it, only the short one, with a smooth transition.</li>
+            <li>Afterwards, the noise and the black level for the filters are measured <b>only in the long frame</b>; otherwise the enlarged part (almost noise-free) and the landscape would mislead the filters.</li>
+          </ul>
+        </div>
+        <figure>
+          <svg class="diagrama" viewBox="0 0 480 260" role="img" aria-label="The 600 mm frame inside the wider field of the 300 mm">
+            <defs><radialGradient id="foc-c" cx="50%" cy="50%" r="50%"><stop offset=".12" stop-color="#efe9e1"/><stop offset=".4" stop-color="#717b90"/><stop offset="1" stop-color="#0d1119"/></radialGradient></defs>
+            <rect x="20" y="16" width="440" height="228" rx="3" fill="#0d1119" stroke="#9aa3b6"/>
+            <circle cx="240" cy="130" r="150" fill="url(#foc-c)"/>
+            <path d="M20 244 C 90 206 150 214 210 230 C 280 246 360 196 460 222 V244 Z" fill="#05070b"/>
+            <rect x="160" y="80" width="160" height="100" fill="none" stroke="#e0a770" stroke-width="2"/>
+            <circle cx="240" cy="130" r="18" fill="#05070b"/>
+            <text class="d-tco" x="166" y="74">600 mm: detail</text>
+            <text class="d-t" x="28" y="34">300 mm: wide field</text>
+          </svg>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ 2 · ENHANCING THE CORONA -->
+  <section class="titulo-parte" aria-labelledby="t-p2">
+    <div class="envoltura">
+      <p class="etiqueta">Part 2</p>
+      <h2 id="t-p2">Enhancing the corona</h2>
+      <p class="entradilla">Compressing a range of thousands to one into what fits on a screen, and making the fine structure visible: rays, plumes, loops and filaments.</p>
+    </div>
+  </section>
+
+  <section class="paso" id="color">
+    <div class="envoltura">
+      <p class="num">2.1</p>
+      <h2>Color: neutral or the camera's original</h2>
+      <div class="dos">
+        <div class="texto">
+          <p>The HDR comes out with the sensor's colors, without white balance (greenish). There are two ways to give it color:</p>
+          <ul>
+            <li><b>White corona (neutral).</b> For each channel the background (1st percentile) and the corona (99th percentile) are measured; the background is subtracted and each channel is divided so that the corona comes out white. The figures are measured on the full image, one in every 10 rows and columns.</li>
+            <li><b>Original color.</b> With a RAW file from the session, the app takes your camera's color matrix and the white balance you shot with, and converts the HDR from the sensor's colors to sRGB, as the camera would develop it. The sky is lifted only as much as needed (the «floor» is measured in the dark half of the image).</li>
+          </ul>
+          <p><b>Keep saturation.</b> When stretching, a faint color gets much brighter and would wash out. With this option the chroma is recomputed so the color is <b>the same</b> with the new lightness (going through XYZ): no more saturated, no less.</p>
+        </div>
+        <figure>
+          <img src="../../img/tecnica/etapa_2.jpg" width="900" height="900" loading="lazy" alt="The HDR with the neutral corona, stretched: a light gray halo around the Moon">
+          <figcaption>Neutral color plus the stretch from the next step: the corona appears, still without detail.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="degradado">
+    <div class="envoltura">
+      <p class="num">2.2</p>
+      <h2>Subtracting the sky gradient</h2>
+      <div class="texto">
+        <p>During totality the sky is not uniform: it is brighter toward the horizon and, around the Sun, scattered light falls off gradually. Once stretched, that gradient turns into one side of the photo being brighter than the other.</p>
+        <p>On a 700-pixel copy, and only in the sky furthest from the Sun, the app fits a model with two parts: <b>a plane</b> (the gradient) and <b>a radial falloff around the Moon</b> (the outer corona, which is also there). The fit is repeated discarding what stands out (stars, landscape) and <b>only the plane is subtracted</b>: the radial part is there so the corona is not mistaken for a gradient. The subtraction is done <b>in linear space</b>, before stretching; afterwards, it would distort the corona.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="estirar">
+    <div class="envoltura">
+      <p class="num">2.3</p>
+      <h2>Stretching: a logarithmic curve on lightness</h2>
+      <div class="dos">
+        <div class="texto">
+          <p>The stretch is applied to the lightness <b>L*</b> of the CIELAB color space (the one the eye sees), without touching the hue: the color is adjusted separately so it does not change. The curve is logarithmic:</p>
+          <p class="formula">L*′ = 100 · ln(1 + a · L) ÷ ln(1 + a)<small>L = HDR lightness (0-1); a = how much to stretch: 15,000 by default, 20,000-30,000 in the styles with more detail</small></p>
+          <p>With a large <b>a</b>, each decade of brightness takes a similar share of the tones: the inner and the outer corona fit at the same time. «Outer corona» in simple mode is this <b>a</b>: more = more distant corona, and more noise in the sky.</p>
+          <p>Optionally, a <b>black point</b>: the sky percentile that becomes pure black (measured without the Moon's disk).</p>
+        </div>
+        <figure>
+          <svg class="grafica" viewBox="0 0 640 300" role="img" aria-label="Lightness L*"><line class="g-red" x1="64.0" y1="248.0" x2="64.0" y2="18.0"/><text class="g-n" x="64.0" y="266.0" text-anchor="middle">10<tspan dy='-6' font-size='9'>-5</tspan></text><line class="g-red" x1="175.2" y1="248.0" x2="175.2" y2="18.0"/><text class="g-n" x="175.2" y="266.0" text-anchor="middle">10<tspan dy='-6' font-size='9'>-4</tspan></text><line class="g-red" x1="286.4" y1="248.0" x2="286.4" y2="18.0"/><text class="g-n" x="286.4" y="266.0" text-anchor="middle">10<tspan dy='-6' font-size='9'>-3</tspan></text><line class="g-red" x1="397.6" y1="248.0" x2="397.6" y2="18.0"/><text class="g-n" x="397.6" y="266.0" text-anchor="middle">10<tspan dy='-6' font-size='9'>-2</tspan></text><line class="g-red" x1="508.8" y1="248.0" x2="508.8" y2="18.0"/><text class="g-n" x="508.8" y="266.0" text-anchor="middle">10<tspan dy='-6' font-size='9'>-1</tspan></text><line class="g-red" x1="620.0" y1="248.0" x2="620.0" y2="18.0"/><text class="g-n" x="620.0" y="266.0" text-anchor="middle">1</text><line class="g-red" x1="64.0" y1="248.0" x2="620.0" y2="248.0"/><text class="g-n" x="56.0" y="252.0" text-anchor="end">0</text><line class="g-red" x1="64.0" y1="133.0" x2="620.0" y2="133.0"/><text class="g-n" x="56.0" y="137.0" text-anchor="end">50</text><line class="g-red" x1="64.0" y1="18.0" x2="620.0" y2="18.0"/><text class="g-n" x="56.0" y="22.0" text-anchor="end">100</text><line class="g-eje" x1="64.0" y1="248.0" x2="620.0" y2="248.0"/><line class="g-eje" x1="64.0" y1="248.0" x2="64.0" y2="18.0"/><text class="g-t" x="342.0" y="290.0" text-anchor="middle">Linear HDR brightness (log scale)</text><text class="g-t" x="16.0" y="133.0" text-anchor="middle" transform="rotate(-90 16 133.0)">Lightness L*</text><polyline class="g-c3" points="64.0,248.0 65.9,248.0 67.7,248.0 69.6,248.0 71.4,248.0 73.3,248.0 75.2,248.0 77.0,248.0 78.9,248.0 80.7,248.0 82.6,248.0 84.5,248.0 86.3,248.0 88.2,248.0 90.0,248.0 91.9,248.0 93.8,248.0 95.6,248.0 97.5,248.0 99.3,248.0 101.2,248.0 103.1,248.0 104.9,248.0 106.8,248.0 108.6,248.0 110.5,248.0 112.3,248.0 114.2,248.0 116.1,248.0 117.9,248.0 119.8,248.0 121.6,248.0 123.5,248.0 125.4,248.0 127.2,248.0 129.1,248.0 130.9,248.0 132.8,248.0 134.7,248.0 136.5,248.0 138.4,248.0 140.2,248.0 142.1,248.0 144.0,248.0 145.8,248.0 147.7,248.0 149.5,248.0 151.4,248.0 153.3,248.0 155.1,248.0 157.0,248.0 158.8,248.0 160.7,248.0 162.6,248.0 164.4,248.0 166.3,248.0 168.1,248.0 170.0,248.0 171.9,248.0 173.7,248.0 175.6,248.0 177.4,248.0 179.3,248.0 181.2,248.0 183.0,248.0 184.9,248.0 186.7,248.0 188.6,248.0 190.4,248.0 192.3,248.0 194.2,248.0 196.0,248.0 197.9,248.0 199.7,248.0 201.6,248.0 203.5,248.0 205.3,248.0 207.2,248.0 209.0,248.0 210.9,248.0 212.8,247.9 214.6,247.9 216.5,247.9 218.3,247.9 220.2,247.9 222.1,247.9 223.9,247.9 225.8,247.9 227.6,247.9 229.5,247.9 231.4,247.9 233.2,247.9 235.1,247.9 236.9,247.9 238.8,247.9 240.7,247.9 242.5,247.9 244.4,247.9 246.2,247.9 248.1,247.9 250.0,247.9 251.8,247.9 253.7,247.9 255.5,247.9 257.4,247.9 259.3,247.9 261.1,247.9 263.0,247.9 264.8,247.9 266.7,247.8 268.5,247.8 270.4,247.8 272.3,247.8 274.1,247.8 276.0,247.8 277.8,247.8 279.7,247.8 281.6,247.8 283.4,247.8 285.3,247.8 287.1,247.8 289.0,247.8 290.9,247.7 292.7,247.7 294.6,247.7 296.4,247.7 298.3,247.7 300.2,247.7 302.0,247.7 303.9,247.7 305.7,247.7 307.6,247.6 309.5,247.6 311.3,247.6 313.2,247.6 315.0,247.6 316.9,247.6 318.8,247.6 320.6,247.5 322.5,247.5 324.3,247.5 326.2,247.5 328.1,247.5 329.9,247.4 331.8,247.4 333.6,247.4 335.5,247.4 337.4,247.3 339.2,247.3 341.1,247.3 342.9,247.3 344.8,247.2 346.6,247.2 348.5,247.2 350.4,247.1 352.2,247.1 354.1,247.1 355.9,247.0 357.8,247.0 359.7,247.0 361.5,246.9 363.4,246.9 365.2,246.8 367.1,246.8 369.0,246.7 370.8,246.7 372.7,246.6 374.5,246.6 376.4,246.5 378.3,246.5 380.1,246.4 382.0,246.3 383.8,246.3 385.7,246.2 387.6,246.1 389.4,246.1 391.3,246.0 393.1,245.9 395.0,245.8 396.9,245.7 398.7,245.6 400.6,245.6 402.4,245.5 404.3,245.4 406.2,245.3 408.0,245.1 409.9,245.0 411.7,244.9 413.6,244.8 415.5,244.7 417.3,244.5 419.2,244.4 421.0,244.3 422.9,244.1 424.7,244.0 426.6,243.8 428.5,243.6 430.3,243.5 432.2,243.3 434.0,243.1 435.9,242.9 437.8,242.7 439.6,242.5 441.5,242.3 443.3,242.1 445.2,241.8 447.1,241.6 448.9,241.3 450.8,241.1 452.6,240.8 454.5,240.5 456.4,240.2 458.2,239.9 460.1,239.6 461.9,239.3 463.8,238.9 465.7,238.6 467.5,238.2 469.4,237.8 471.2,237.4 473.1,237.0 475.0,236.6 476.8,236.1 478.7,235.7 480.5,235.2 482.4,234.7 484.3,234.2 486.1,233.6 488.0,233.1 489.8,232.5 491.7,231.9 493.6,231.2 495.4,230.6 497.3,229.9 499.1,229.2 501.0,228.4 502.8,227.7 504.7,226.9 506.6,226.0 508.4,225.2 510.3,224.3 512.1,223.3 514.0,222.4 515.9,221.4 517.7,220.3 519.6,219.2 521.4,218.1 523.3,216.9 525.2,215.7 527.0,214.5 528.9,213.1 530.7,211.8 532.6,210.3 534.5,208.9 536.3,207.3 538.2,205.7 540.0,204.1 541.9,202.4 543.8,200.6 545.6,198.7 547.5,196.8 549.3,194.8 551.2,192.7 553.1,190.5 554.9,188.2 556.8,185.9 558.6,183.5 560.5,180.9 562.4,178.3 564.2,175.5 566.1,172.7 567.9,169.7 569.8,166.7 571.7,163.5 573.5,160.2 575.4,156.7 577.2,153.1 579.1,149.4 580.9,145.5 582.8,141.5 584.7,137.3 586.5,133.0 588.4,128.5 590.2,123.8 592.1,118.9 594.0,113.8 595.8,108.6 597.7,103.1 599.5,97.4 601.4,91.5 603.3,85.4 605.1,79.0 607.0,72.3 608.8,65.4 610.7,58.3 612.6,50.8 614.4,43.1 616.3,35.0 618.1,26.7 620.0,18.0"/><text class="g-t g-tenue" x="603.3" y="230.2" text-anchor="end">no stretch</text><polyline class="g-c2" points="64.0,247.8 65.9,247.8 67.7,247.8 69.6,247.8 71.4,247.8 73.3,247.8 75.2,247.8 77.0,247.8 78.9,247.7 80.7,247.7 82.6,247.7 84.5,247.7 86.3,247.7 88.2,247.7 90.0,247.7 91.9,247.7 93.8,247.7 95.6,247.6 97.5,247.6 99.3,247.6 101.2,247.6 103.1,247.6 104.9,247.6 106.8,247.6 108.6,247.5 110.5,247.5 112.3,247.5 114.2,247.5 116.1,247.5 117.9,247.4 119.8,247.4 121.6,247.4 123.5,247.4 125.4,247.3 127.2,247.3 129.1,247.3 130.9,247.3 132.8,247.2 134.7,247.2 136.5,247.2 138.4,247.1 140.2,247.1 142.1,247.1 144.0,247.0 145.8,247.0 147.7,247.0 149.5,246.9 151.4,246.9 153.3,246.8 155.1,246.8 157.0,246.8 158.8,246.7 160.7,246.7 162.6,246.6 164.4,246.5 166.3,246.5 168.1,246.4 170.0,246.4 171.9,246.3 173.7,246.2 175.6,246.2 177.4,246.1 179.3,246.0 181.2,246.0 183.0,245.9 184.9,245.8 186.7,245.7 188.6,245.6 190.4,245.5 192.3,245.5 194.2,245.4 196.0,245.3 197.9,245.2 199.7,245.0 201.6,244.9 203.5,244.8 205.3,244.7 207.2,244.6 209.0,244.4 210.9,244.3 212.8,244.2 214.6,244.0 216.5,243.9 218.3,243.7 220.2,243.6 222.1,243.4 223.9,243.2 225.8,243.1 227.6,242.9 229.5,242.7 231.4,242.5 233.2,242.3 235.1,242.1 236.9,241.9 238.8,241.7 240.7,241.4 242.5,241.2 244.4,241.0 246.2,240.7 248.1,240.5 250.0,240.2 251.8,239.9 253.7,239.6 255.5,239.3 257.4,239.0 259.3,238.7 261.1,238.4 263.0,238.1 264.8,237.7 266.7,237.4 268.5,237.0 270.4,236.6 272.3,236.3 274.1,235.9 276.0,235.5 277.8,235.1 279.7,234.6 281.6,234.2 283.4,233.7 285.3,233.3 287.1,232.8 289.0,232.3 290.9,231.8 292.7,231.3 294.6,230.8 296.4,230.3 298.3,229.7 300.2,229.1 302.0,228.6 303.9,228.0 305.7,227.4 307.6,226.8 309.5,226.1 311.3,225.5 313.2,224.8 315.0,224.2 316.9,223.5 318.8,222.8 320.6,222.1 322.5,221.3 324.3,220.6 326.2,219.9 328.1,219.1 329.9,218.3 331.8,217.5 333.6,216.7 335.5,215.9 337.4,215.1 339.2,214.2 341.1,213.4 342.9,212.5 344.8,211.6 346.6,210.7 348.5,209.8 350.4,208.9 352.2,207.9 354.1,207.0 355.9,206.0 357.8,205.0 359.7,204.1 361.5,203.1 363.4,202.1 365.2,201.0 367.1,200.0 369.0,199.0 370.8,197.9 372.7,196.9 374.5,195.8 376.4,194.7 378.3,193.6 380.1,192.5 382.0,191.4 383.8,190.3 385.7,189.1 387.6,188.0 389.4,186.9 391.3,185.7 393.1,184.5 395.0,183.4 396.9,182.2 398.7,181.0 400.6,179.8 402.4,178.6 404.3,177.4 406.2,176.2 408.0,174.9 409.9,173.7 411.7,172.5 413.6,171.2 415.5,170.0 417.3,168.7 419.2,167.5 421.0,166.2 422.9,164.9 424.7,163.7 426.6,162.4 428.5,161.1 430.3,159.8 432.2,158.5 434.0,157.2 435.9,155.9 437.8,154.6 439.6,153.3 441.5,152.0 443.3,150.6 445.2,149.3 447.1,148.0 448.9,146.7 450.8,145.3 452.6,144.0 454.5,142.7 456.4,141.3 458.2,140.0 460.1,138.6 461.9,137.3 463.8,135.9 465.7,134.5 467.5,133.2 469.4,131.8 471.2,130.5 473.1,129.1 475.0,127.7 476.8,126.4 478.7,125.0 480.5,123.6 482.4,122.2 484.3,120.9 486.1,119.5 488.0,118.1 489.8,116.7 491.7,115.3 493.6,113.9 495.4,112.6 497.3,111.2 499.1,109.8 501.0,108.4 502.8,107.0 504.7,105.6 506.6,104.2 508.4,102.8 510.3,101.4 512.1,100.0 514.0,98.6 515.9,97.2 517.7,95.8 519.6,94.4 521.4,93.0 523.3,91.6 525.2,90.2 527.0,88.8 528.9,87.4 530.7,86.0 532.6,84.6 534.5,83.2 536.3,81.8 538.2,80.4 540.0,78.9 541.9,77.5 543.8,76.1 545.6,74.7 547.5,73.3 549.3,71.9 551.2,70.5 553.1,69.1 554.9,67.7 556.8,66.2 558.6,64.8 560.5,63.4 562.4,62.0 564.2,60.6 566.1,59.2 567.9,57.7 569.8,56.3 571.7,54.9 573.5,53.5 575.4,52.1 577.2,50.7 579.1,49.2 580.9,47.8 582.8,46.4 584.7,45.0 586.5,43.6 588.4,42.1 590.2,40.7 592.1,39.3 594.0,37.9 595.8,36.5 597.7,35.1 599.5,33.6 601.4,32.2 603.3,30.8 605.1,29.4 607.0,27.9 608.8,26.5 610.7,25.1 612.6,23.7 614.4,22.3 616.3,20.8 618.1,19.4 620.0,18.0"/><line class="g-c2" x1="80.7" y1="36.4" x2="108.5" y2="36.4"/><text class="g-n g-c2-t" x="116.8" y="40.4" text-anchor="start">a = 500</text><polyline class="g-c1" points="64.0,244.7 65.9,244.5 67.7,244.4 69.6,244.3 71.4,244.1 73.3,244.0 75.2,243.9 77.0,243.7 78.9,243.6 80.7,243.4 82.6,243.2 84.5,243.1 86.3,242.9 88.2,242.7 90.0,242.5 91.9,242.3 93.8,242.1 95.6,241.9 97.5,241.7 99.3,241.5 101.2,241.3 103.1,241.1 104.9,240.8 106.8,240.6 108.6,240.3 110.5,240.1 112.3,239.8 114.2,239.5 116.1,239.3 117.9,239.0 119.8,238.7 121.6,238.4 123.5,238.1 125.4,237.8 127.2,237.4 129.1,237.1 130.9,236.8 132.8,236.4 134.7,236.1 136.5,235.7 138.4,235.3 140.2,234.9 142.1,234.5 144.0,234.1 145.8,233.7 147.7,233.3 149.5,232.9 151.4,232.4 153.3,232.0 155.1,231.5 157.0,231.1 158.8,230.6 160.7,230.1 162.6,229.6 164.4,229.1 166.3,228.6 168.1,228.1 170.0,227.6 171.9,227.1 173.7,226.5 175.6,226.0 177.4,225.4 179.3,224.8 181.2,224.3 183.0,223.7 184.9,223.1 186.7,222.5 188.6,221.9 190.4,221.3 192.3,220.6 194.2,220.0 196.0,219.4 197.9,218.7 199.7,218.1 201.6,217.4 203.5,216.8 205.3,216.1 207.2,215.4 209.0,214.7 210.9,214.0 212.8,213.3 214.6,212.6 216.5,211.9 218.3,211.2 220.2,210.4 222.1,209.7 223.9,209.0 225.8,208.2 227.6,207.5 229.5,206.7 231.4,206.0 233.2,205.2 235.1,204.4 236.9,203.7 238.8,202.9 240.7,202.1 242.5,201.3 244.4,200.5 246.2,199.7 248.1,198.9 250.0,198.1 251.8,197.3 253.7,196.5 255.5,195.7 257.4,194.9 259.3,194.0 261.1,193.2 263.0,192.4 264.8,191.5 266.7,190.7 268.5,189.9 270.4,189.0 272.3,188.2 274.1,187.3 276.0,186.5 277.8,185.6 279.7,184.8 281.6,183.9 283.4,183.1 285.3,182.2 287.1,181.3 289.0,180.5 290.9,179.6 292.7,178.7 294.6,177.9 296.4,177.0 298.3,176.1 300.2,175.2 302.0,174.4 303.9,173.5 305.7,172.6 307.6,171.7 309.5,170.8 311.3,170.0 313.2,169.1 315.0,168.2 316.9,167.3 318.8,166.4 320.6,165.5 322.5,164.6 324.3,163.7 326.2,162.8 328.1,161.9 329.9,161.0 331.8,160.1 333.6,159.2 335.5,158.3 337.4,157.4 339.2,156.5 341.1,155.6 342.9,154.7 344.8,153.8 346.6,152.9 348.5,152.0 350.4,151.1 352.2,150.2 354.1,149.3 355.9,148.4 357.8,147.5 359.7,146.6 361.5,145.7 363.4,144.8 365.2,143.9 367.1,143.0 369.0,142.0 370.8,141.1 372.7,140.2 374.5,139.3 376.4,138.4 378.3,137.5 380.1,136.6 382.0,135.7 383.8,134.8 385.7,133.8 387.6,132.9 389.4,132.0 391.3,131.1 393.1,130.2 395.0,129.3 396.9,128.4 398.7,127.4 400.6,126.5 402.4,125.6 404.3,124.7 406.2,123.8 408.0,122.9 409.9,121.9 411.7,121.0 413.6,120.1 415.5,119.2 417.3,118.3 419.2,117.4 421.0,116.4 422.9,115.5 424.7,114.6 426.6,113.7 428.5,112.8 430.3,111.9 432.2,110.9 434.0,110.0 435.9,109.1 437.8,108.2 439.6,107.3 441.5,106.4 443.3,105.4 445.2,104.5 447.1,103.6 448.9,102.7 450.8,101.8 452.6,100.8 454.5,99.9 456.4,99.0 458.2,98.1 460.1,97.2 461.9,96.2 463.8,95.3 465.7,94.4 467.5,93.5 469.4,92.6 471.2,91.6 473.1,90.7 475.0,89.8 476.8,88.9 478.7,88.0 480.5,87.0 482.4,86.1 484.3,85.2 486.1,84.3 488.0,83.4 489.8,82.4 491.7,81.5 493.6,80.6 495.4,79.7 497.3,78.8 499.1,77.8 501.0,76.9 502.8,76.0 504.7,75.1 506.6,74.2 508.4,73.2 510.3,72.3 512.1,71.4 514.0,70.5 515.9,69.6 517.7,68.6 519.6,67.7 521.4,66.8 523.3,65.9 525.2,65.0 527.0,64.0 528.9,63.1 530.7,62.2 532.6,61.3 534.5,60.4 536.3,59.4 538.2,58.5 540.0,57.6 541.9,56.7 543.8,55.8 545.6,54.8 547.5,53.9 549.3,53.0 551.2,52.1 553.1,51.2 554.9,50.2 556.8,49.3 558.6,48.4 560.5,47.5 562.4,46.5 564.2,45.6 566.1,44.7 567.9,43.8 569.8,42.9 571.7,41.9 573.5,41.0 575.4,40.1 577.2,39.2 579.1,38.3 580.9,37.3 582.8,36.4 584.7,35.5 586.5,34.6 588.4,33.7 590.2,32.7 592.1,31.8 594.0,30.9 595.8,30.0 597.7,29.1 599.5,28.1 601.4,27.2 603.3,26.3 605.1,25.4 607.0,24.4 608.8,23.5 610.7,22.6 612.6,21.7 614.4,20.8 616.3,19.8 618.1,18.9 620.0,18.0"/><line class="g-c1" x1="80.7" y1="57.1" x2="108.5" y2="57.1"/><text class="g-n g-c1-t" x="116.8" y="61.1" text-anchor="start">a = 15,000</text><polyline class="g-c4" points="64.0,242.1 65.9,241.9 67.7,241.7 69.6,241.5 71.4,241.3 73.3,241.1 75.2,240.8 77.0,240.6 78.9,240.4 80.7,240.1 82.6,239.9 84.5,239.6 86.3,239.3 88.2,239.0 90.0,238.7 91.9,238.4 93.8,238.1 95.6,237.8 97.5,237.5 99.3,237.2 101.2,236.9 103.1,236.5 104.9,236.2 106.8,235.8 108.6,235.4 110.5,235.1 112.3,234.7 114.2,234.3 116.1,233.9 117.9,233.5 119.8,233.1 121.6,232.7 123.5,232.2 125.4,231.8 127.2,231.3 129.1,230.9 130.9,230.4 132.8,229.9 134.7,229.5 136.5,229.0 138.4,228.5 140.2,228.0 142.1,227.5 144.0,226.9 145.8,226.4 147.7,225.9 149.5,225.3 151.4,224.8 153.3,224.2 155.1,223.6 157.0,223.1 158.8,222.5 160.7,221.9 162.6,221.3 164.4,220.7 166.3,220.1 168.1,219.5 170.0,218.9 171.9,218.2 173.7,217.6 175.6,216.9 177.4,216.3 179.3,215.6 181.2,215.0 183.0,214.3 184.9,213.6 186.7,213.0 188.6,212.3 190.4,211.6 192.3,210.9 194.2,210.2 196.0,209.5 197.9,208.8 199.7,208.1 201.6,207.4 203.5,206.6 205.3,205.9 207.2,205.2 209.0,204.4 210.9,203.7 212.8,203.0 214.6,202.2 216.5,201.5 218.3,200.7 220.2,199.9 222.1,199.2 223.9,198.4 225.8,197.7 227.6,196.9 229.5,196.1 231.4,195.3 233.2,194.6 235.1,193.8 236.9,193.0 238.8,192.2 240.7,191.4 242.5,190.6 244.4,189.8 246.2,189.0 248.1,188.2 250.0,187.4 251.8,186.6 253.7,185.8 255.5,185.0 257.4,184.2 259.3,183.4 261.1,182.6 263.0,181.8 264.8,180.9 266.7,180.1 268.5,179.3 270.4,178.5 272.3,177.7 274.1,176.8 276.0,176.0 277.8,175.2 279.7,174.4 281.6,173.5 283.4,172.7 285.3,171.9 287.1,171.1 289.0,170.2 290.9,169.4 292.7,168.6 294.6,167.7 296.4,166.9 298.3,166.0 300.2,165.2 302.0,164.4 303.9,163.5 305.7,162.7 307.6,161.8 309.5,161.0 311.3,160.2 313.2,159.3 315.0,158.5 316.9,157.6 318.8,156.8 320.6,155.9 322.5,155.1 324.3,154.3 326.2,153.4 328.1,152.6 329.9,151.7 331.8,150.9 333.6,150.0 335.5,149.2 337.4,148.3 339.2,147.5 341.1,146.6 342.9,145.8 344.8,144.9 346.6,144.1 348.5,143.2 350.4,142.4 352.2,141.5 354.1,140.7 355.9,139.8 357.8,139.0 359.7,138.1 361.5,137.3 363.4,136.4 365.2,135.5 367.1,134.7 369.0,133.8 370.8,133.0 372.7,132.1 374.5,131.3 376.4,130.4 378.3,129.6 380.1,128.7 382.0,127.9 383.8,127.0 385.7,126.1 387.6,125.3 389.4,124.4 391.3,123.6 393.1,122.7 395.0,121.9 396.9,121.0 398.7,120.2 400.6,119.3 402.4,118.4 404.3,117.6 406.2,116.7 408.0,115.9 409.9,115.0 411.7,114.2 413.6,113.3 415.5,112.4 417.3,111.6 419.2,110.7 421.0,109.9 422.9,109.0 424.7,108.2 426.6,107.3 428.5,106.4 430.3,105.6 432.2,104.7 434.0,103.9 435.9,103.0 437.8,102.2 439.6,101.3 441.5,100.4 443.3,99.6 445.2,98.7 447.1,97.9 448.9,97.0 450.8,96.2 452.6,95.3 454.5,94.4 456.4,93.6 458.2,92.7 460.1,91.9 461.9,91.0 463.8,90.1 465.7,89.3 467.5,88.4 469.4,87.6 471.2,86.7 473.1,85.9 475.0,85.0 476.8,84.1 478.7,83.3 480.5,82.4 482.4,81.6 484.3,80.7 486.1,79.8 488.0,79.0 489.8,78.1 491.7,77.3 493.6,76.4 495.4,75.5 497.3,74.7 499.1,73.8 501.0,73.0 502.8,72.1 504.7,71.3 506.6,70.4 508.4,69.5 510.3,68.7 512.1,67.8 514.0,67.0 515.9,66.1 517.7,65.2 519.6,64.4 521.4,63.5 523.3,62.7 525.2,61.8 527.0,60.9 528.9,60.1 530.7,59.2 532.6,58.4 534.5,57.5 536.3,56.7 538.2,55.8 540.0,54.9 541.9,54.1 543.8,53.2 545.6,52.4 547.5,51.5 549.3,50.6 551.2,49.8 553.1,48.9 554.9,48.1 556.8,47.2 558.6,46.3 560.5,45.5 562.4,44.6 564.2,43.8 566.1,42.9 567.9,42.1 569.8,41.2 571.7,40.3 573.5,39.5 575.4,38.6 577.2,37.8 579.1,36.9 580.9,36.0 582.8,35.2 584.7,34.3 586.5,33.5 588.4,32.6 590.2,31.7 592.1,30.9 594.0,30.0 595.8,29.2 597.7,28.3 599.5,27.4 601.4,26.6 603.3,25.7 605.1,24.9 607.0,24.0 608.8,23.2 610.7,22.3 612.6,21.4 614.4,20.6 616.3,19.7 618.1,18.9 620.0,18.0"/><line class="g-c4" x1="80.7" y1="77.8" x2="108.5" y2="77.8"/><text class="g-n g-c4-t" x="116.8" y="81.8" text-anchor="start">a = 30,000</text></svg>
+          <figcaption>The curve for three values of a, with the HDR brightness on a log scale.</figcaption>
+        </figure>
+      </div>
+      <div class="rejilla dos-col">
+        <div class="comparador" style="--pos:50%">
+          <img src="../../img/tecnica/estirar_500.jpg" width="900" height="900" loading="lazy" alt="Gentle stretch (a = 500): only the inner corona">
+          <img class="despues" src="../../img/tecnica/estirar_15000.jpg" width="900" height="900" loading="lazy" alt="Strong stretch (a = 15,000): the corona far out">
+          <span class="rotulo izq" style="text-transform:none">a = 500</span><span class="rotulo der" style="text-transform:none">a = 15,000</span>
+          <input type="range" min="0" max="100" value="50" step="0.5" aria-label="Compare a = 500 and a = 15,000">
+          <span class="raya" aria-hidden="true"></span><span class="asa" aria-hidden="true">↔</span>
+        </div>
+        <div class="texto" style="align-content:center">
+          <p>Move the line. With a gentle stretch only the inner corona shows; with the default one, the corona reaches the edges. Neither of them has any detail yet: the corona is a soft halo because the brightness falls so fast that the structure (variations of a few percent) stays hidden. That is what the next filters bring out.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="ruido">
+    <div class="envoltura">
+      <p class="num">2.4</p>
+      <h2>Noise: the distant sky and the color</h2>
+      <div class="texto">
+        <p>Detail filters enhance everything small, grain included. Before them:</p>
+        <ul>
+          <li><b>Non-local means (NLM)</b> on lightness, only far from the Sun: it fades in from 1.5 to 3 radii, so the inner corona is untouched. Each pixel is replaced by the mean of the pixels whose <b>neighborhood</b> (7 × 7 patches within a 21 × 21 area) resembles its own: the grain goes away and the rays, which resemble themselves along their length, stay. The strength is 0.6 times the noise measured in the distant sky (more leaves «worms»).</li>
+          <li><b>Color noise</b>: the color channels (a*, b*) are smoothed from 1.2 radii outward. The eye sees detail in lightness, so the corona does not lose sharpness and the colored speckles disappear.</li>
+        </ul>
+        <p class="ref">Non-local means: Buades, Coll and Morel, 2005.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="detalle">
+    <div class="envoltura">
+      <p class="num">2.5</p>
+      <h2>Fine detail: MGN, WOW and NAFE</h2>
+      <div class="texto">
+        <p>All three are published methods for images of the corona, and they solve the same problem: the contrast of the structure is small and changes enormously from the inside out, so it has to be <b>equalized locally</b>. Each one gives a detail map <b>D</b> between −1 and +1 (below, in gray: white = brighter than its surroundings, black = darker), which is then added to the image.</p>
+      </div>
+      <div class="rejilla">
+        <figure><img src="../../img/tecnica/d_mgn.jpg" width="600" height="600" loading="lazy" alt="MGN detail map: rays and filaments in gray on mid gray"><figcaption><b>MGN</b> · what the filter sees</figcaption></figure>
+        <figure><img src="../../img/tecnica/d_wow.jpg" width="600" height="600" loading="lazy" alt="WOW detail map: very strong rays far out and grain in the sky"><figcaption><b>WOW</b> · what the filter sees</figcaption></figure>
+        <figure><img src="../../img/tecnica/d_nafe.jpg" width="600" height="600" loading="lazy" alt="NAFE detail map: structure next to the Moon and a smooth sky"><figcaption><b>NAFE</b> · what the filter sees</figcaption></figure>
+      </div>
+      <div class="dos">
+        <div class="texto">
+          <h3>MGN · multi-scale Gaussian normalization</h3>
+          <p>At 6 scales (from 1 to 32 pixels with a 620-pixel Moon, doubling each time), each pixel has the <b>mean of its surroundings</b> subtracted and is divided by the <b>deviation of its surroundings</b>. A detail is thus worth the same next to the Sun as far away: what counts is how much it departs from what surrounds it. Each scale is compressed with an arctangent and they are averaged.</p>
+          <p class="formula">D = mean over the scales of arctan(k · (L − mean) ÷ deviation)</p>
+          <p>The app's improvement: in a smooth sky the deviation is only noise, and the MGN would raise it to the level of the rays. It gets a <b>floor</b>, the standard deviation of the distant sky (beyond 3.5 radii): where there is only noise it is no longer amplified, and where there is structure hardly anything changes.</p>
+          <p class="ref">Morgan and Druckmüller, 2014.</p>
+        </div>
+        <div class="texto">
+          <h3>WOW · wavelet optimized whitening</h3>
+          <p>The image is split into <b>scale bands</b> (differences between successive blurs: each band carries only the detail of its size) and each band is divided by its <b>local power</b>. All scales and all areas end up with the same power: the spectrum is «whitened». Then they are added up and compressed.</p>
+          <p>The app's improvement: each coefficient is attenuated when its power gets close to the noise of that band (the larger of the pixel noise and what the band measures in the distant sky), as the paper proposes. Without it, the sky comes out as «detailed» as the corona.</p>
+          <p class="ref">Auchère, Soubrié, Pelouze and Buchlin, 2023.</p>
+          <h3 style="margin-top:10px">NAFE · noise adaptive fuzzy equalization</h3>
+          <p>A <b>local</b> histogram equalization: each pixel takes the value of the fraction of its surroundings (4 % of the lunar radius) that is darker than it. The comparison is «fuzzy»: two values that differ by less than the noise count as half equal, so the smooth sky stays gray and the real structure does not.</p>
+          <p class="ref">Druckmüller, 2013.</p>
+        </div>
+      </div>
+      <div class="dos">
+        <div class="texto">
+          <p><b>How it is added.</b> The stretched image first goes through a tone curve (power 0.6, which lifts the midtones without burning the edge of the Moon) and then the detail multiplies:</p>
+          <p class="formula">result = base · (1 + amount · D)</p>
+          <p>The color is scaled by how much each pixel gets brighter, so the faint corona does not wash out. «Fine detail» in simple mode moves the mix and the amount. The app's styles use only the curve (amount 0) and get the detail from the passes: WOW added to the passes can give «scales» at full size.</p>
+        </div>
+        <div class="nota">The three maps were computed from the same stretched HDR with the default values. WOW brings out more distant structure and also more grain in the sky; NAFE, the structure next to the Moon with a smoother sky; MGN sits in between.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="pases">
+    <div class="envoltura">
+      <p class="num">2.6</p>
+      <h2>Enhancement passes: unsharp masking in polar coordinates</h2>
+      <div class="dos">
+        <div class="texto">
+          <p>The corona is made of <b>radial</b> structures: rays coming out of the Sun. A normal sharpening blurs in a circle and also enhances the grain. The passes blur with a spot <b>stretched along the circle</b> around the Sun, with one radius for the radial direction (σr) and another for the tangential one (σt):</p>
+          <p class="formula">result = image + intensity · (image − polar blur)</p>
+          <p>With a very small σr and a large σt, what is subtracted is the mean of each ring over an arc: what remains is exactly what changes <b>from one angle to the next</b>, the rays. The styles use tangential-only passes (σr 0.35 px, σt 8, 20 and 40 px at full size).</p>
+          <ul>
+            <li><b>Next to the Moon</b>: before blurring, the disk pixels near the edge are filled in with the adjacent corona; otherwise the black disk would enter the blur and leave a dark ring.</li>
+            <li><b>Far from the Sun</b>: in the styles, the image going into the passes is smoothed (4 px) from 1 to 1.5 radii outward, so the passes mark the rays and not the grain.</li>
+            <li>The computation is done only over the band of radii that can affect each pixel: the same result, up to about 37 times faster than the full sum.</li>
+          </ul>
+        </div>
+        <figure>
+          <svg class="diagrama" viewBox="0 0 520 300" role="img" aria-label="Blur spots stretched in the tangential direction, around the Moon">
+            <rect class="d-fondo" x="0" y="0" width="520" height="300" rx="4"/>
+            <g class="d-fina"><circle cx="170" cy="150" r="78"/><circle cx="170" cy="150" r="112"/></g>
+            <circle class="d-luna" cx="170" cy="150" r="52"/>
+            <g fill="#e0a770" opacity=".75">
+              <ellipse cx="170" cy="72" rx="26" ry="4"/><ellipse cx="248" cy="150" rx="4" ry="26"/><ellipse cx="170" cy="228" rx="26" ry="4"/><ellipse cx="92" cy="150" rx="4" ry="26"/>
+              <ellipse cx="0" cy="0" rx="26" ry="4" transform="translate(225 95) rotate(45)"/><ellipse cx="0" cy="0" rx="26" ry="4" transform="translate(225 205) rotate(-45)"/>
+              <ellipse cx="0" cy="0" rx="26" ry="4" transform="translate(115 205) rotate(45)"/><ellipse cx="0" cy="0" rx="26" ry="4" transform="translate(115 95) rotate(-45)"/>
+              <ellipse cx="170" cy="38" rx="40" ry="5"/><ellipse cx="282" cy="150" rx="5" ry="40"/>
+            </g>
+            <path class="d-linea" d="M170 150 L170 30" stroke-dasharray="3 3"/>
+            <text class="d-tc" x="318" y="64">σt: along</text>
+            <text class="d-t" x="318" y="82" font-size="11">the circle (8-40 px)</text>
+            <text class="d-tc" x="318" y="122">σr: outward</text>
+            <text class="d-t" x="318" y="140" font-size="11">almost none (0.35 px)</text>
+            <text class="d-t" x="318" y="196" font-size="11">subtracts the arc's mean:</text>
+            <text class="d-tco" x="318" y="214">the rays remain</text>
+          </svg>
+        </figure>
+      </div>
+      <div class="rejilla">
+        <div class="comparador">
+          <img src="../../img/tecnica/z_estirada.jpg" width="560" height="560" loading="lazy" alt="Detail of the corona next to the Moon, only stretched">
+          <img class="despues" src="../../img/tecnica/z_pases.jpg" width="560" height="560" loading="lazy" alt="The same detail with the passes of the Fine detail style: marked rays">
+          <span class="rotulo izq">Stretched</span><span class="rotulo der">Passes</span>
+          <input type="range" min="0" max="100" value="50" step="0.5" aria-label="Compare without and with passes">
+          <span class="raya" aria-hidden="true"></span><span class="asa" aria-hidden="true">↔</span>
+        </div>
+        <figure><img src="../../img/tecnica/z_pases_mas.jpg" width="560" height="560" loading="lazy" alt="With the passes of the More detail style: stronger rays"><figcaption><b>More detail</b> · three passes, up to σt 40 px</figcaption></figure>
+        <figure><img src="../../img/tecnica/z_mascara.jpg" width="560" height="560" loading="lazy" alt="What the passes add: mid gray where nothing changes, light and dark where a ray is marked"><figcaption><b>Mask</b> · only what the passes add</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="interior">
+    <div class="envoltura">
+      <p class="num">2.7</p>
+      <h2>Inner corona: less filtering next to the Moon</h2>
+      <div class="dos">
+        <div class="texto">
+          <p>Next to the edge of the Moon the corona is so bright and changes so fast that any detail filter tends to burn it or leave dark spots. «Inner corona» is a <b>radial gradient</b> that multiplies <b>what each filter adds</b> (passes, fine detail and radial normalization): little at the edge of the Moon, fully from «Reach» outward.</p>
+          <p class="formula">weight(r) = 1 − protection · (1 − s(r))<small>s = smooth transition from 0 (edge of the Moon) to 1 (the «Reach» radius)</small></p>
+          <p>In the fine detail the mean of each ring is also kept, so the brightness of the inner corona does not change: only what departs from it is softened. With protection 0, the filters act as always.</p>
+        </div>
+        <figure>
+          <svg class="grafica" viewBox="0 0 640 300" role="img" aria-label="How much the filters act"><line class="g-red" x1="64.0" y1="248.0" x2="64.0" y2="18.0"/><text class="g-n" x="64.0" y="266.0" text-anchor="middle">1.0</text><line class="g-red" x1="175.2" y1="248.0" x2="175.2" y2="18.0"/><text class="g-n" x="175.2" y="266.0" text-anchor="middle">1.2</text><line class="g-red" x1="286.4" y1="248.0" x2="286.4" y2="18.0"/><text class="g-n" x="286.4" y="266.0" text-anchor="middle">1.4</text><line class="g-red" x1="397.6" y1="248.0" x2="397.6" y2="18.0"/><text class="g-n" x="397.6" y="266.0" text-anchor="middle">1.6</text><line class="g-red" x1="508.8" y1="248.0" x2="508.8" y2="18.0"/><text class="g-n" x="508.8" y="266.0" text-anchor="middle">1.8</text><line class="g-red" x1="620.0" y1="248.0" x2="620.0" y2="18.0"/><text class="g-n" x="620.0" y="266.0" text-anchor="middle">2.0</text><line class="g-red" x1="64.0" y1="248.0" x2="620.0" y2="248.0"/><text class="g-n" x="56.0" y="252.0" text-anchor="end">0 %</text><line class="g-red" x1="64.0" y1="133.0" x2="620.0" y2="133.0"/><text class="g-n" x="56.0" y="137.0" text-anchor="end">50 %</text><line class="g-red" x1="64.0" y1="18.0" x2="620.0" y2="18.0"/><text class="g-n" x="56.0" y="22.0" text-anchor="end">100 %</text><line class="g-eje" x1="64.0" y1="248.0" x2="620.0" y2="248.0"/><line class="g-eje" x1="64.0" y1="248.0" x2="64.0" y2="18.0"/><text class="g-t" x="342.0" y="290.0" text-anchor="middle">Distance from the Moon's center (radii)</text><text class="g-t" x="16.0" y="133.0" text-anchor="middle" transform="rotate(-90 16 133.0)">How much the filters act</text><polyline class="g-c1" points="64.0,229.6 66.8,229.5 69.6,229.2 72.3,228.7 75.1,228.1 77.9,227.2 80.7,226.2 83.5,225.0 86.2,223.7 89.0,222.2 91.8,220.5 94.6,218.7 97.4,216.7 100.1,214.7 102.9,212.4 105.7,210.1 108.5,207.6 111.3,205.0 114.0,202.3 116.8,199.5 119.6,196.5 122.4,193.5 125.2,190.4 127.9,187.2 130.7,183.9 133.5,180.5 136.3,177.1 139.1,173.6 141.8,170.0 144.6,166.3 147.4,162.6 150.2,158.9 153.0,155.1 155.7,151.3 158.5,147.4 161.3,143.5 164.1,139.6 166.9,135.7 169.6,131.7 172.4,127.8 175.2,123.8 178.0,119.8 180.8,115.9 183.5,111.9 186.3,108.0 189.1,104.1 191.9,100.2 194.7,96.3 197.4,92.5 200.2,88.7 203.0,85.0 205.8,81.3 208.6,77.6 211.3,74.0 214.1,70.5 216.9,67.1 219.7,63.7 222.5,60.4 225.2,57.2 228.0,54.1 230.8,51.1 233.6,48.1 236.4,45.3 239.1,42.6 241.9,40.0 244.7,37.5 247.5,35.2 250.3,32.9 253.0,30.9 255.8,28.9 258.6,27.1 261.4,25.4 264.2,23.9 266.9,22.6 269.7,21.4 272.5,20.4 275.3,19.5 278.1,18.9 280.8,18.4 283.6,18.1 286.4,18.0 289.2,18.0 292.0,18.0 294.7,18.0 297.5,18.0 300.3,18.0 303.1,18.0 305.9,18.0 308.6,18.0 311.4,18.0 314.2,18.0 317.0,18.0 319.8,18.0 322.5,18.0 325.3,18.0 328.1,18.0 330.9,18.0 333.7,18.0 336.4,18.0 339.2,18.0 342.0,18.0 344.8,18.0 347.6,18.0 350.3,18.0 353.1,18.0 355.9,18.0 358.7,18.0 361.5,18.0 364.2,18.0 367.0,18.0 369.8,18.0 372.6,18.0 375.4,18.0 378.1,18.0 380.9,18.0 383.7,18.0 386.5,18.0 389.3,18.0 392.0,18.0 394.8,18.0 397.6,18.0 400.4,18.0 403.2,18.0 405.9,18.0 408.7,18.0 411.5,18.0 414.3,18.0 417.1,18.0 419.8,18.0 422.6,18.0 425.4,18.0 428.2,18.0 431.0,18.0 433.7,18.0 436.5,18.0 439.3,18.0 442.1,18.0 444.9,18.0 447.6,18.0 450.4,18.0 453.2,18.0 456.0,18.0 458.8,18.0 461.5,18.0 464.3,18.0 467.1,18.0 469.9,18.0 472.7,18.0 475.4,18.0 478.2,18.0 481.0,18.0 483.8,18.0 486.6,18.0 489.3,18.0 492.1,18.0 494.9,18.0 497.7,18.0 500.5,18.0 503.2,18.0 506.0,18.0 508.8,18.0 511.6,18.0 514.4,18.0 517.1,18.0 519.9,18.0 522.7,18.0 525.5,18.0 528.3,18.0 531.0,18.0 533.8,18.0 536.6,18.0 539.4,18.0 542.2,18.0 544.9,18.0 547.7,18.0 550.5,18.0 553.3,18.0 556.1,18.0 558.8,18.0 561.6,18.0 564.4,18.0 567.2,18.0 570.0,18.0 572.7,18.0 575.5,18.0 578.3,18.0 581.1,18.0 583.9,18.0 586.6,18.0 589.4,18.0 592.2,18.0 595.0,18.0 597.8,18.0 600.5,18.0 603.3,18.0 606.1,18.0 608.9,18.0 611.7,18.0 614.4,18.0 617.2,18.0 620.0,18.0"/><line class="g-cielo" x1="286.4" y1="248.0" x2="286.4" y2="18.0"/><text class="g-t g-tenue" x="297.5" y="190.5" text-anchor="start">Reach: 1.4 R</text><text class="g-t g-tenue" x="75.1" y="41.0" text-anchor="start">protection 92 %</text></svg>
+          <figcaption>The weight used by the styles with detail: 92 % protection at the edge, up to 1.4 radii.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="nrgf">
+    <div class="envoltura">
+      <p class="num">2.8</p>
+      <h2>Radial normalization: NRGF, FNRGF and RHEF</h2>
+      <div class="dos">
+        <div class="texto">
+          <p>Another way to compress the range, used in scientific images of the corona: each pixel has the <b>mean of its ring</b> around the Sun subtracted and is divided by the <b>deviation of its ring</b>. Every ring uses the whole range of tones, so the inner and outer corona end up with the same contrast and only the <b>structure</b> shows.</p>
+          <p class="formula">z = (L − ring mean) ÷ ring deviation<small>4 px rings with a 620 px Moon; tone: z up to ±6 σ, with the highlights compressed smoothly</small></p>
+          <ul>
+            <li><b>NRGF</b>: one whole ring, one mean and one deviation.</li>
+            <li><b>FNRGF</b>: in addition, the ring is split into 50 sectors and its mean and deviation are approximated with a <b>Fourier series of 10 harmonics</b> in angle (graph). The contrast is thus also equalized from one side of the Sun to the other: a bright plume does not dim the rest of its ring.</li>
+            <li><b>RHEF</b>: each pixel becomes its <b>percentile</b> within its ring, with the fuzzy comparison of NAFE and histograms smoothed between neighboring rings.</li>
+          </ul>
+          <p>Before normalizing, the noise of each ring is cleaned with wavelets (more where the filter amplifies it) and hot pixels are removed. The result is blended with your image at the percentage you choose («Structure» in simple mode; 0 by default).</p>
+          <p class="ref">NRGF: Morgan, Habbal and Woo, 2006 · FNRGF: Druckmüllerová, Morgan and Habbal, 2011 · RHEF: Gilly and Cranmer, 2025.</p>
+        </div>
+        <div style="display:grid;gap:14px">
+          <figure>
+            <svg class="grafica" viewBox="0 0 640 300" role="img" aria-label="Fourier series, 10 harmonics"><line class="g-red" x1="64.0" y1="248.0" x2="64.0" y2="18.0"/><text class="g-n" x="64.0" y="266.0" text-anchor="middle">0°</text><line class="g-red" x1="203.0" y1="248.0" x2="203.0" y2="18.0"/><text class="g-n" x="203.0" y="266.0" text-anchor="middle">90°</text><line class="g-red" x1="342.0" y1="248.0" x2="342.0" y2="18.0"/><text class="g-n" x="342.0" y="266.0" text-anchor="middle">180°</text><line class="g-red" x1="481.0" y1="248.0" x2="481.0" y2="18.0"/><text class="g-n" x="481.0" y="266.0" text-anchor="middle">270°</text><line class="g-red" x1="620.0" y1="248.0" x2="620.0" y2="18.0"/><text class="g-n" x="620.0" y="266.0" text-anchor="middle">360°</text><line class="g-eje" x1="64.0" y1="248.0" x2="620.0" y2="248.0"/><line class="g-eje" x1="64.0" y1="248.0" x2="64.0" y2="18.0"/><text class="g-t" x="342.0" y="290.0" text-anchor="middle">Angle around the Sun (degrees)</text><text class="g-t" x="16.0" y="133.0" text-anchor="middle" transform="rotate(-90 16 133.0)">Sector brightness at 1.5 R</text><circle class="g-punto" cx="69.6" cy="144.7" r="3"/><circle class="g-punto" cx="80.7" cy="133.0" r="3"/><circle class="g-punto" cx="91.8" cy="133.6" r="3"/><circle class="g-punto" cx="102.9" cy="154.4" r="3"/><circle class="g-punto" cx="114.0" cy="161.1" r="3"/><circle class="g-punto" cx="125.2" cy="162.3" r="3"/><circle class="g-punto" cx="136.3" cy="166.7" r="3"/><circle class="g-punto" cx="147.4" cy="163.3" r="3"/><circle class="g-punto" cx="158.5" cy="159.1" r="3"/><circle class="g-punto" cx="169.6" cy="152.6" r="3"/><circle class="g-punto" cx="180.8" cy="143.2" r="3"/><circle class="g-punto" cx="191.9" cy="143.7" r="3"/><circle class="g-punto" cx="203.0" cy="131.9" r="3"/><circle class="g-punto" cx="214.1" cy="123.3" r="3"/><circle class="g-punto" cx="225.2" cy="114.8" r="3"/><circle class="g-punto" cx="236.4" cy="105.3" r="3"/><circle class="g-punto" cx="247.5" cy="92.8" r="3"/><circle class="g-punto" cx="258.6" cy="85.4" r="3"/><circle class="g-punto" cx="269.7" cy="50.1" r="3"/><circle class="g-punto" cx="280.8" cy="33.9" r="3"/><circle class="g-punto" cx="292.0" cy="44.7" r="3"/><circle class="g-punto" cx="303.1" cy="56.8" r="3"/><circle class="g-punto" cx="314.2" cy="66.7" r="3"/><circle class="g-punto" cx="325.3" cy="91.2" r="3"/><circle class="g-punto" cx="336.4" cy="101.7" r="3"/><circle class="g-punto" cx="347.6" cy="117.7" r="3"/><circle class="g-punto" cx="358.7" cy="122.0" r="3"/><circle class="g-punto" cx="369.8" cy="120.0" r="3"/><circle class="g-punto" cx="380.9" cy="119.5" r="3"/><circle class="g-punto" cx="392.0" cy="136.5" r="3"/><circle class="g-punto" cx="403.2" cy="184.9" r="3"/><circle class="g-punto" cx="414.3" cy="213.9" r="3"/><circle class="g-punto" cx="425.4" cy="227.1" r="3"/><circle class="g-punto" cx="436.5" cy="230.2" r="3"/><circle class="g-punto" cx="447.6" cy="230.6" r="3"/><circle class="g-punto" cx="458.8" cy="229.9" r="3"/><circle class="g-punto" cx="469.9" cy="225.7" r="3"/><circle class="g-punto" cx="481.0" cy="207.7" r="3"/><circle class="g-punto" cx="492.1" cy="164.2" r="3"/><circle class="g-punto" cx="503.2" cy="151.5" r="3"/><circle class="g-punto" cx="514.4" cy="151.9" r="3"/><circle class="g-punto" cx="525.5" cy="149.9" r="3"/><circle class="g-punto" cx="536.6" cy="146.5" r="3"/><circle class="g-punto" cx="547.7" cy="147.0" r="3"/><circle class="g-punto" cx="558.8" cy="149.8" r="3"/><circle class="g-punto" cx="570.0" cy="162.7" r="3"/><circle class="g-punto" cx="581.1" cy="158.9" r="3"/><circle class="g-punto" cx="592.2" cy="144.7" r="3"/><circle class="g-punto" cx="603.3" cy="138.5" r="3"/><circle class="g-punto" cx="614.4" cy="143.7" r="3"/><polyline class="g-c1" points="64.0,138.0 65.5,138.3 67.1,138.6 68.6,138.8 70.2,139.1 71.7,139.3 73.3,139.6 74.8,139.8 76.4,140.0 77.9,140.2 79.4,140.4 81.0,140.6 82.5,140.8 84.1,141.0 85.6,141.3 87.2,141.7 88.7,142.1 90.3,142.6 91.8,143.2 93.3,143.9 94.9,144.7 96.4,145.6 98.0,146.6 99.5,147.8 101.1,149.1 102.6,150.4 104.2,151.9 105.7,153.4 107.2,155.0 108.8,156.7 110.3,158.3 111.9,159.9 113.4,161.5 115.0,163.1 116.5,164.5 118.1,165.8 119.6,167.0 121.1,168.0 122.7,168.9 124.2,169.5 125.8,170.0 127.3,170.2 128.9,170.2 130.4,170.0 132.0,169.6 133.5,169.0 135.0,168.3 136.6,167.4 138.1,166.3 139.7,165.2 141.2,163.9 142.8,162.6 144.3,161.3 145.9,160.0 147.4,158.7 148.9,157.4 150.5,156.2 152.0,155.1 153.6,154.1 155.1,153.2 156.7,152.5 158.2,151.8 159.8,151.3 161.3,150.9 162.8,150.5 164.4,150.3 165.9,150.1 167.5,150.0 169.0,149.8 170.6,149.7 172.1,149.6 173.7,149.4 175.2,149.1 176.7,148.7 178.3,148.3 179.8,147.7 181.4,146.9 182.9,146.0 184.5,145.0 186.0,143.8 187.6,142.5 189.1,141.0 190.6,139.4 192.2,137.8 193.7,136.0 195.3,134.2 196.8,132.4 198.4,130.5 199.9,128.7 201.5,126.9 203.0,125.2 204.5,123.5 206.1,122.0 207.6,120.6 209.2,119.3 210.7,118.2 212.3,117.1 213.8,116.2 215.4,115.5 216.9,114.8 218.4,114.2 220.0,113.7 221.5,113.3 223.1,112.8 224.6,112.3 226.2,111.8 227.7,111.2 229.3,110.5 230.8,109.6 232.3,108.6 233.9,107.4 235.4,106.0 237.0,104.4 238.5,102.5 240.1,100.4 241.6,98.0 243.2,95.5 244.7,92.7 246.2,89.7 247.8,86.5 249.3,83.2 250.9,79.8 252.4,76.4 254.0,72.8 255.5,69.3 257.1,65.9 258.6,62.5 260.1,59.2 261.7,56.1 263.2,53.2 264.8,50.5 266.3,48.1 267.9,45.9 269.4,44.1 271.0,42.5 272.5,41.3 274.0,40.3 275.6,39.7 277.1,39.4 278.7,39.3 280.2,39.6 281.8,40.0 283.3,40.8 284.9,41.7 286.4,42.8 287.9,44.1 289.5,45.5 291.0,47.1 292.6,48.8 294.1,50.5 295.7,52.3 297.2,54.2 298.8,56.1 300.3,58.1 301.8,60.1 303.4,62.1 304.9,64.2 306.5,66.3 308.0,68.5 309.6,70.7 311.1,72.9 312.7,75.2 314.2,77.6 315.7,80.0 317.3,82.5 318.8,85.1 320.4,87.7 321.9,90.3 323.5,93.0 325.0,95.6 326.6,98.3 328.1,100.9 329.6,103.5 331.2,106.0 332.7,108.4 334.3,110.6 335.8,112.8 337.4,114.7 338.9,116.4 340.5,117.9 342.0,119.2 343.5,120.2 345.1,121.0 346.6,121.5 348.2,121.7 349.7,121.8 351.3,121.6 352.8,121.2 354.4,120.7 355.9,120.0 357.4,119.3 359.0,118.5 360.5,117.7 362.1,116.9 363.6,116.3 365.2,115.8 366.7,115.6 368.3,115.6 369.8,115.8 371.3,116.4 372.9,117.4 374.4,118.8 376.0,120.5 377.5,122.7 379.1,125.3 380.6,128.4 382.2,131.8 383.7,135.6 385.2,139.8 386.8,144.3 388.3,149.0 389.9,154.0 391.4,159.2 393.0,164.5 394.5,169.8 396.1,175.1 397.6,180.4 399.1,185.6 400.7,190.6 402.2,195.5 403.8,200.0 405.3,204.3 406.9,208.3 408.4,211.9 410.0,215.2 411.5,218.1 413.0,220.6 414.6,222.8 416.1,224.7 417.7,226.2 419.2,227.4 420.8,228.4 422.3,229.1 423.9,229.7 425.4,230.0 426.9,230.3 428.5,230.4 430.0,230.5 431.6,230.5 433.1,230.6 434.7,230.6 436.2,230.7 437.8,230.8 439.3,231.0 440.8,231.1 442.4,231.4 443.9,231.6 445.5,231.8 447.0,232.0 448.6,232.1 450.1,232.1 451.7,232.1 453.2,231.8 454.7,231.5 456.3,230.9 457.8,230.0 459.4,228.9 460.9,227.6 462.5,226.0 464.0,224.0 465.6,221.8 467.1,219.3 468.6,216.5 470.2,213.4 471.7,210.1 473.3,206.6 474.8,202.9 476.4,199.1 477.9,195.1 479.5,191.1 481.0,187.1 482.5,183.1 484.1,179.1 485.6,175.3 487.2,171.6 488.7,168.1 490.3,164.9 491.8,161.8 493.4,159.0 494.9,156.5 496.4,154.3 498.0,152.4 499.5,150.8 501.1,149.4 502.6,148.4 504.2,147.6 505.7,147.0 507.3,146.6 508.8,146.4 510.3,146.4 511.9,146.5 513.4,146.7 515.0,146.9 516.5,147.3 518.1,147.6 519.6,147.9 521.2,148.2 522.7,148.5 524.2,148.8 525.8,149.0 527.3,149.1 528.9,149.2 530.4,149.3 532.0,149.3 533.5,149.3 535.1,149.3 536.6,149.3 538.1,149.3 539.7,149.3 541.2,149.3 542.8,149.4 544.3,149.5 545.9,149.7 547.4,150.0 549.0,150.4 550.5,150.8 552.0,151.3 553.6,151.8 555.1,152.4 556.7,153.0 558.2,153.7 559.8,154.3 561.3,155.0 562.9,155.6 564.4,156.1 565.9,156.6 567.5,157.0 569.0,157.3 570.6,157.4 572.1,157.5 573.7,157.3 575.2,157.1 576.8,156.7 578.3,156.1 579.8,155.5 581.4,154.7 582.9,153.7 584.5,152.7 586.0,151.6 587.6,150.4 589.1,149.2 590.7,147.9 592.2,146.7 593.7,145.4 595.3,144.2 596.8,143.1 598.4,142.0 599.9,141.1 601.5,140.2 603.0,139.4 604.6,138.8 606.1,138.3 607.6,137.9 609.2,137.6 610.7,137.4 612.3,137.3 613.8,137.3 615.4,137.4 616.9,137.6 618.5,137.8 620.0,138.0"/><text class="g-n g-tenue" x="75.1" y="27.2" text-anchor="start">● 50 sectors</text><text class="g-n g-cobre" x="230.8" y="27.2" text-anchor="start">— Fourier series, 10 harmonics</text></svg>
+            <figcaption>Mean brightness of 50 sectors at 1.5 radii in this HDR, and the Fourier series used by FNRGF.</figcaption>
+          </figure>
+          <div class="rejilla dos-col">
+            <figure><img src="../../img/tecnica/nrgf.jpg" width="600" height="600" loading="lazy" alt="NRGF at 100 %: the corona in even gray with the rays marked"><figcaption><b>NRGF</b> at 100 %</figcaption></figure>
+            <figure><img src="../../img/tecnica/fnrgf.jpg" width="600" height="600" loading="lazy" alt="FNRGF at 100 %: more contrast in the rays on every side"><figcaption><b>FNRGF</b> at 100 %</figcaption></figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="brillo">
+    <div class="envoltura">
+      <p class="num">2.9</p>
+      <h2>Final brightness: measured on the corona</h2>
+      <div class="texto">
+        <p>The filters change the brightness, so at the end the image is stretched again with the same logarithmic curve. In automatic mode, the amount is searched for (by bisection) so that the <b>median L* in the ring from 1.3 to 1.5 radii</b> is the one you choose (55-60 by default), with a cap so the sky does not get too bright.</p>
+        <p>Measuring in that ring, and not with a percentile of the whole image, makes the result independent of the framing and the grain: the same corona comes out with the same brightness whether tightly cropped or with a lot of sky. The reference was measured in that same ring on a professional eclipse photo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ 3 · THE FINAL RESULT -->
+  <section class="titulo-parte" aria-labelledby="t-p3">
+    <div class="envoltura">
+      <p class="etiqueta">Part 3</p>
+      <h2 id="t-p3">The final result</h2>
+      <p class="entradilla">What is added at the end, on top of the already enhanced image: the sky color, the Moon, the earthshine, the chromosphere and the stars. That is why changing them is redone in seconds.</p>
+    </div>
+  </section>
+
+  <section class="paso" id="cielo">
+    <div class="envoltura">
+      <p class="num">3.1</p>
+      <h2>Sky color</h2>
+      <div class="dos">
+        <div class="comparador">
+          <img src="../../img/tecnica/etapa_3.jpg" width="900" height="900" loading="lazy" alt="The result in gray, without sky color">
+          <img class="despues" src="../../img/tecnica/etapa_4.jpg" width="900" height="900" loading="lazy" alt="The result with the blue sky of totality">
+          <span class="rotulo izq">No color</span><span class="rotulo der">Blue sky</span>
+          <input type="range" min="0" max="100" value="50" step="0.5" aria-label="Compare without and with the sky color">
+          <span class="raya" aria-hidden="true"></span><span class="asa" aria-hidden="true">↔</span>
+        </div>
+        <div class="texto">
+          <p>A <b>shadow toning</b> in CIELAB: the dark tones are given the color of the sky during totality (hue 274°, chroma 14, measured on eclipse photos) and it fades toward the light tones, so the corona stays white. The lightness <b>does not change</b>: only the color.</p>
+          <p>«Blue sky» is the strength (0-200 %) and «Hue» turns it toward violet or turquoise. In the «Original color» styles, the sky already has the camera's color and the toning is set to 0.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="luna-gris">
+    <div class="envoltura">
+      <p class="num">3.2</p>
+      <h2>The Moon</h2>
+      <div class="texto">
+        <p>The filters leave the disk black (otherwise the passes would find a false circle). At the end it is painted an <b>even gray</b> of your choice (L* 9-13 in the styles), or left «as is» from the enhancement.</p>
+      </div>
+      <div class="rejilla cuatro">
+        <figure><img src="../../img/tecnica/luna_1.jpg" width="560" height="560" loading="lazy" alt="The black Moon, as it comes out of the filters"><figcaption><b>Black</b> · as it comes out of the filters</figcaption></figure>
+        <figure><img src="../../img/tecnica/luna_2.jpg" width="560" height="560" loading="lazy" alt="The Moon in an even gray"><figcaption><b>Gray</b> · L* 11</figcaption></figure>
+        <figure><img src="../../img/tecnica/luna_3.jpg" width="560" height="560" loading="lazy" alt="The Moon with earthshine: the maria are visible"><figcaption><b>Earthshine</b> · 140 %</figcaption></figure>
+        <figure><img src="../../img/tecnica/luna_4.jpg" width="560" height="560" loading="lazy" alt="The Moon with stronger earthshine"><figcaption><b>Earthshine</b> · 200 %</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="cenicienta">
+    <div class="envoltura">
+      <p class="num">3.3</p>
+      <h2>Earthshine: the lunar maria</h2>
+      <div class="dos">
+        <div class="texto">
+          <p>During totality the Moon is not black: it is lit by the Earth (the «full Earth» seen from the Moon). It is a very faint light that only the long exposures capture, and it sits beneath the brightest corona. Easy Corona makes a <b>separate layer</b> from it:</p>
+          <ul>
+            <li>The long photos are aligned <b>on the Moon</b> (not on the corona, like everything else): its edge is fitted in each one and the photo is shifted with sub-pixel precision.</li>
+            <li>Each one is equalized by the brightness of its disk (whatever the exposure), leaving out what is clipped, and they are averaged.</li>
+            <li>The <b>radial profile</b> (the scattered light from the corona, coming in from the edge) and a gradient are removed from the disk. What remains are the <b>maria</b>, darker than the highlands.</li>
+            <li>The detail reaches the edge, without a smooth ring, and without the arc of scattered light next to the limb.</li>
+          </ul>
+          <p><b>From the HDR itself</b>: if there are no separate photos, it is extracted from the HDR's disk, weighting each scale band by its signal-to-noise ratio. It is only accepted if <b>it looks like the real maria</b>: it is compared with a template of the near side of the Moon at every rotation (and mirrored), and it has to stand out from the other rotations. If not, the app says the maria cannot be seen.</p>
+        </div>
+        <figure>
+          <img src="../../img/tecnica/luna_3.jpg" width="560" height="560" loading="lazy" alt="The Moon with the maria lit by earthshine, surrounded by the corona">
+          <figcaption>The earthshine layer on the gray Moon (140 %).</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="cromosfera">
+    <div class="envoltura">
+      <p class="num">3.4</p>
+      <h2>Chromosphere and prominences</h2>
+      <div class="dos">
+        <div class="texto">
+          <p>The pink chromosphere and prominences only show in the fastest exposures, at the edge of the Moon. But the Moon moves: in some photos it covers the chromosphere on one side and in others on the other side, and stacked together with the corona they would end up blurred or hidden.</p>
+          <p>That is why the fast photos are stacked <b>separately, in the Sun's frame, erasing the Moon from each one</b>:</p>
+          <ul>
+            <li>In each photo the edge of its Moon is fitted and what lies inside does not count. What one photo does not see is supplied by another, in which the Moon was further along.</li>
+            <li>They are aligned with shifts only, against the one that gathers the most light; each one weighs according to its light (less noise) and nothing where clipped. If a prominence is clipped in all of them, the clipped channel is rebuilt from the color ratio of its surroundings.</li>
+            <li><b>Atmospheric dispersion</b> separates the colors slightly (blue higher than red): each channel is placed by its own edge of the Moon.</li>
+            <li>The layer is placed on the HDR and added <b>at the end</b>: the brightness, from the highest channel with a logarithmic curve (it does not burn out), and the Moon is the one from <b>a single moment</b>, sharp, in front of everything. The band around it, where the HDR's Moon and its ghosts were, is rebuilt with the corona of the result itself, mirrored.</li>
+          </ul>
+          <p>«Exposure» (−1 to +1 EV) only moves what is brighter than the corona.</p>
+        </div>
+        <div style="display:grid;gap:14px">
+          <svg class="diagrama" viewBox="0 0 480 200" role="img" aria-label="Two photos with the Moon covering different sides of the chromosphere; stacked in the Sun's frame, the chromosphere is complete">
+            <defs>
+              <radialGradient id="cro-c" cx="50%" cy="50%" r="50%"><stop offset=".5" stop-color="#3b4253"/><stop offset="1" stop-color="#1f2736"/></radialGradient>
+            </defs>
+            <g>
+              <circle cx="80" cy="90" r="62" fill="url(#cro-c)"/>
+              <circle cx="80" cy="90" r="40" fill="none" stroke="#e07a7a" stroke-width="3"/>
+              <path d="M44 72 q-10 -8 -6 -18 q8 4 10 14z" fill="#e07a7a"/><path d="M116 108 q12 4 12 14 q-10 -2 -14 -10z" fill="#e07a7a"/>
+              <circle cx="72" cy="92" r="41" fill="#05070b"/>
+              <text class="d-t" x="80" y="186" text-anchor="middle">photo A</text>
+            </g>
+            <text class="d-op" x="163" y="98" text-anchor="middle">+</text>
+            <g>
+              <circle cx="246" cy="90" r="62" fill="url(#cro-c)"/>
+              <circle cx="246" cy="90" r="40" fill="none" stroke="#e07a7a" stroke-width="3"/>
+              <path d="M210 72 q-10 -8 -6 -18 q8 4 10 14z" fill="#e07a7a"/><path d="M282 108 q12 4 12 14 q-10 -2 -14 -10z" fill="#e07a7a"/>
+              <circle cx="254" cy="88" r="41" fill="#05070b"/>
+              <text class="d-t" x="246" y="186" text-anchor="middle">photo B</text>
+            </g>
+            <text class="d-op" x="329" y="98" text-anchor="middle">=</text>
+            <g>
+              <circle cx="410" cy="90" r="62" fill="url(#cro-c)"/>
+              <circle cx="410" cy="90" r="40" fill="none" stroke="#e07a7a" stroke-width="3"/>
+              <path d="M374 72 q-10 -8 -6 -18 q8 4 10 14z" fill="#e07a7a"/><path d="M446 108 q12 4 12 14 q-10 -2 -14 -10z" fill="#e07a7a"/>
+              <circle cx="410" cy="90" r="38" fill="#05070b"/>
+              <text class="d-tco" x="410" y="186" text-anchor="middle">layer: whole edge</text>
+            </g>
+          </svg>
+          <figure>
+            <img src="../../img/tecnica/z_corta.jpg" width="560" height="560" loading="lazy" alt="Very short exposure: the edge of the Moon with the chromosphere and a pink prominence">
+            <figcaption>In the shortest exposure, the prominence and the arc of the chromosphere at the edge of the Moon; in the long ones, all that is already burned out.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="estrellas">
+    <div class="envoltura">
+      <p class="num">3.5</p>
+      <h2>Stars <span class="beta">beta</span></h2>
+      <div class="dos">
+        <div class="texto">
+          <p>The detail filters treat a star as one more detail: they enhance it and leave a <b>dark ring</b> around it (the negative part of the unsharp mask). On top of that, stacking leaves stray colored hot pixels.</p>
+          <ul>
+            <li><b>Finding them in the HDR</b> (linear, before the filters), in strips: a difference of Gaussians brings out what is point-like; the noise is measured in blocks and each candidate is measured on a planar background: flux, width, shape, color and signal-to-noise ratio. Hot pixels (isolated red, green or blue dots) are recognized separately, by their color. Nothing is searched next to the Sun.</li>
+            <li><b>Removing them</b> from the result along with their ring: the gap is filled with an infill that follows the edges of the corona (Navier-Stokes inpainting) plus grain copied from the area next to it, so no smooth patch is left.</li>
+            <li><b>Putting them back clean</b>, the ones you choose from brightest to faintest, with a Moffat profile (that of a real star seen through the atmosphere), their color and the brightness you want. Or none, for a clean sky: «Remove them» also removes the faint and the deformed ones.</li>
+          </ul>
+          <p>The mask (white = star with its halo) can be saved for other programs.</p>
+          <p class="ref">Moffat profile: Moffat, 1969 · Inpainting: Bertalmío, Bertozzi and Sapiro, 2001.</p>
+        </div>
+        <figure>
+          <svg class="grafica" viewBox="0 0 640 300" role="img" aria-label="clean (Moffat profile)"><line class="g-red" x1="64.0" y1="248.0" x2="64.0" y2="18.0"/><text class="g-n" x="64.0" y="266.0" text-anchor="middle">-8</text><line class="g-red" x1="203.0" y1="248.0" x2="203.0" y2="18.0"/><text class="g-n" x="203.0" y="266.0" text-anchor="middle">-4</text><line class="g-red" x1="342.0" y1="248.0" x2="342.0" y2="18.0"/><text class="g-n" x="342.0" y="266.0" text-anchor="middle">0</text><line class="g-red" x1="481.0" y1="248.0" x2="481.0" y2="18.0"/><text class="g-n" x="481.0" y="266.0" text-anchor="middle">+4</text><line class="g-red" x1="620.0" y1="248.0" x2="620.0" y2="18.0"/><text class="g-n" x="620.0" y="266.0" text-anchor="middle">+8</text><line class="g-eje" x1="64.0" y1="248.0" x2="620.0" y2="248.0"/><line class="g-eje" x1="64.0" y1="248.0" x2="64.0" y2="18.0"/><text class="g-t" x="342.0" y="290.0" text-anchor="middle">Position across a star (pixels)</text><text class="g-t" x="16.0" y="133.0" text-anchor="middle" transform="rotate(-90 16 133.0)"></text><line class="g-cielo" x1="64.0" y1="199.9" x2="620.0" y2="199.9"/><text class="g-n g-tenue" x="69.6" y="215.9" text-anchor="start">background</text><polyline class="g-c3" points="64.0,199.9 66.3,199.9 68.6,199.9 71.0,199.9 73.3,199.9 75.6,199.9 77.9,199.9 80.2,199.9 82.5,199.9 84.8,199.9 87.2,199.9 89.5,199.9 91.8,199.9 94.1,199.9 96.4,199.9 98.8,199.9 101.1,199.9 103.4,199.9 105.7,199.9 108.0,199.9 110.3,199.9 112.7,199.9 115.0,199.9 117.3,199.9 119.6,199.9 121.9,199.9 124.2,199.9 126.5,199.9 128.9,199.9 131.2,199.9 133.5,199.9 135.8,199.9 138.1,199.9 140.4,199.9 142.8,199.9 145.1,199.9 147.4,199.9 149.7,199.9 152.0,199.8 154.3,199.8 156.7,199.8 159.0,199.8 161.3,199.8 163.6,199.7 165.9,199.7 168.2,199.7 170.6,199.6 172.9,199.6 175.2,199.5 177.5,199.4 179.8,199.4 182.2,199.3 184.5,199.2 186.8,199.0 189.1,198.9 191.4,198.7 193.7,198.6 196.0,198.3 198.4,198.1 200.7,197.8 203.0,197.5 205.3,197.2 207.6,196.8 210.0,196.4 212.3,195.9 214.6,195.3 216.9,194.7 219.2,194.1 221.5,193.3 223.8,192.5 226.2,191.6 228.5,190.6 230.8,189.6 233.1,188.4 235.4,187.1 237.8,185.7 240.1,184.2 242.4,182.6 244.7,180.8 247.0,178.9 249.3,176.9 251.7,174.7 254.0,172.5 256.3,170.0 258.6,167.4 260.9,164.7 263.2,161.9 265.5,158.8 267.9,155.7 270.2,152.4 272.5,149.0 274.8,145.5 277.1,141.9 279.5,138.2 281.8,134.3 284.1,130.4 286.4,126.5 288.7,122.4 291.0,118.4 293.4,114.3 295.7,110.2 298.0,106.2 300.3,102.2 302.6,98.2 304.9,94.3 307.2,90.6 309.6,86.9 311.9,83.4 314.2,80.0 316.5,76.9 318.8,73.9 321.1,71.2 323.5,68.7 325.8,66.4 328.1,64.4 330.4,62.7 332.7,61.3 335.1,60.2 337.4,59.4 339.7,58.9 342.0,58.8 344.3,58.9 346.6,59.4 348.9,60.2 351.3,61.3 353.6,62.7 355.9,64.4 358.2,66.4 360.5,68.7 362.8,71.2 365.2,73.9 367.5,76.9 369.8,80.0 372.1,83.4 374.4,86.9 376.8,90.6 379.1,94.3 381.4,98.2 383.7,102.2 386.0,106.2 388.3,110.2 390.7,114.3 393.0,118.4 395.3,122.4 397.6,126.5 399.9,130.4 402.2,134.3 404.6,138.2 406.9,141.9 409.2,145.5 411.5,149.0 413.8,152.4 416.1,155.7 418.4,158.8 420.8,161.9 423.1,164.7 425.4,167.4 427.7,170.0 430.0,172.5 432.3,174.7 434.7,176.9 437.0,178.9 439.3,180.8 441.6,182.6 443.9,184.2 446.2,185.7 448.6,187.1 450.9,188.4 453.2,189.6 455.5,190.6 457.8,191.6 460.2,192.5 462.5,193.3 464.8,194.1 467.1,194.7 469.4,195.3 471.7,195.9 474.1,196.4 476.4,196.8 478.7,197.2 481.0,197.5 483.3,197.8 485.6,198.1 487.9,198.3 490.3,198.6 492.6,198.7 494.9,198.9 497.2,199.0 499.5,199.2 501.8,199.3 504.2,199.4 506.5,199.4 508.8,199.5 511.1,199.6 513.4,199.6 515.8,199.7 518.1,199.7 520.4,199.7 522.7,199.8 525.0,199.8 527.3,199.8 529.7,199.8 532.0,199.8 534.3,199.9 536.6,199.9 538.9,199.9 541.2,199.9 543.5,199.9 545.9,199.9 548.2,199.9 550.5,199.9 552.8,199.9 555.1,199.9 557.5,199.9 559.8,199.9 562.1,199.9 564.4,199.9 566.7,199.9 569.0,199.9 571.3,199.9 573.7,199.9 576.0,199.9 578.3,199.9 580.6,199.9 582.9,199.9 585.2,199.9 587.6,199.9 589.9,199.9 592.2,199.9 594.5,199.9 596.8,199.9 599.1,199.9 601.5,199.9 603.8,199.9 606.1,199.9 608.4,199.9 610.7,199.9 613.0,199.9 615.4,199.9 617.7,199.9 620.0,199.9"/><polyline class="g-c2" points="64.0,201.4 66.3,201.5 68.6,201.6 71.0,201.7 73.3,201.9 75.6,202.0 77.9,202.1 80.2,202.2 82.5,202.4 84.8,202.5 87.2,202.7 89.5,202.8 91.8,203.0 94.1,203.2 96.4,203.3 98.8,203.5 101.1,203.7 103.4,203.9 105.7,204.2 108.0,204.4 110.3,204.6 112.7,204.9 115.0,205.1 117.3,205.4 119.6,205.7 121.9,205.9 124.2,206.2 126.5,206.5 128.9,206.9 131.2,207.2 133.5,207.5 135.8,207.9 138.1,208.2 140.4,208.6 142.8,209.0 145.1,209.4 147.4,209.8 149.7,210.2 152.0,210.6 154.3,211.1 156.7,211.5 159.0,212.0 161.3,212.4 163.6,212.9 165.9,213.3 168.2,213.8 170.6,214.3 172.9,214.8 175.2,215.2 177.5,215.7 179.8,216.1 182.2,216.6 184.5,217.0 186.8,217.4 189.1,217.8 191.4,218.2 193.7,218.5 196.0,218.8 198.4,219.1 200.7,219.3 203.0,219.4 205.3,219.5 207.6,219.5 210.0,219.5 212.3,219.3 214.6,219.1 216.9,218.7 219.2,218.2 221.5,217.6 223.8,216.9 226.2,216.0 228.5,214.9 230.8,213.7 233.1,212.3 235.4,210.7 237.8,208.9 240.1,206.8 242.4,204.5 244.7,202.0 247.0,199.3 249.3,196.3 251.7,193.0 254.0,189.4 256.3,185.6 258.6,181.5 260.9,177.1 263.2,172.5 265.5,167.5 267.9,162.3 270.2,156.9 272.5,151.1 274.8,145.2 277.1,139.0 279.5,132.6 281.8,126.0 284.1,119.2 286.4,112.3 288.7,105.3 291.0,98.2 293.4,91.1 295.7,83.9 298.0,76.7 300.3,69.6 302.6,62.6 304.9,55.7 307.2,49.0 309.6,42.5 311.9,36.2 314.2,30.2 316.5,24.5 318.8,19.2 321.1,14.3 323.5,9.8 325.8,5.7 328.1,2.1 330.4,-0.9 332.7,-3.5 335.1,-5.4 337.4,-6.9 339.7,-7.7 342.0,-8.0 344.3,-7.7 346.6,-6.9 348.9,-5.4 351.3,-3.5 353.6,-0.9 355.9,2.1 358.2,5.7 360.5,9.8 362.8,14.3 365.2,19.2 367.5,24.5 369.8,30.2 372.1,36.2 374.4,42.5 376.8,49.0 379.1,55.7 381.4,62.6 383.7,69.6 386.0,76.7 388.3,83.9 390.7,91.1 393.0,98.2 395.3,105.3 397.6,112.3 399.9,119.2 402.2,126.0 404.6,132.6 406.9,139.0 409.2,145.2 411.5,151.1 413.8,156.9 416.1,162.3 418.4,167.5 420.8,172.5 423.1,177.1 425.4,181.5 427.7,185.6 430.0,189.4 432.3,193.0 434.7,196.3 437.0,199.3 439.3,202.0 441.6,204.5 443.9,206.8 446.2,208.9 448.6,210.7 450.9,212.3 453.2,213.7 455.5,214.9 457.8,216.0 460.2,216.9 462.5,217.6 464.8,218.2 467.1,218.7 469.4,219.1 471.7,219.3 474.1,219.5 476.4,219.5 478.7,219.5 481.0,219.4 483.3,219.3 485.6,219.1 487.9,218.8 490.3,218.5 492.6,218.2 494.9,217.8 497.2,217.4 499.5,217.0 501.8,216.6 504.2,216.1 506.5,215.7 508.8,215.2 511.1,214.8 513.4,214.3 515.8,213.8 518.1,213.3 520.4,212.9 522.7,212.4 525.0,212.0 527.3,211.5 529.7,211.1 532.0,210.6 534.3,210.2 536.6,209.8 538.9,209.4 541.2,209.0 543.5,208.6 545.9,208.2 548.2,207.9 550.5,207.5 552.8,207.2 555.1,206.9 557.5,206.5 559.8,206.2 562.1,205.9 564.4,205.7 566.7,205.4 569.0,205.1 571.3,204.9 573.7,204.6 576.0,204.4 578.3,204.2 580.6,203.9 582.9,203.7 585.2,203.5 587.6,203.3 589.9,203.2 592.2,203.0 594.5,202.8 596.8,202.7 599.1,202.5 601.5,202.4 603.8,202.2 606.1,202.1 608.4,202.0 610.7,201.9 613.0,201.7 615.4,201.6 617.7,201.5 620.0,201.4"/><polyline class="g-c1" points="64.0,199.7 66.3,199.7 68.6,199.7 71.0,199.7 73.3,199.7 75.6,199.6 77.9,199.6 80.2,199.6 82.5,199.6 84.8,199.6 87.2,199.6 89.5,199.6 91.8,199.6 94.1,199.5 96.4,199.5 98.8,199.5 101.1,199.5 103.4,199.5 105.7,199.4 108.0,199.4 110.3,199.4 112.7,199.4 115.0,199.4 117.3,199.3 119.6,199.3 121.9,199.3 124.2,199.2 126.5,199.2 128.9,199.2 131.2,199.1 133.5,199.1 135.8,199.1 138.1,199.0 140.4,199.0 142.8,198.9 145.1,198.9 147.4,198.8 149.7,198.8 152.0,198.7 154.3,198.6 156.7,198.6 159.0,198.5 161.3,198.4 163.6,198.3 165.9,198.2 168.2,198.1 170.6,198.0 172.9,197.9 175.2,197.8 177.5,197.7 179.8,197.6 182.2,197.4 184.5,197.3 186.8,197.1 189.1,196.9 191.4,196.7 193.7,196.5 196.0,196.3 198.4,196.1 200.7,195.8 203.0,195.6 205.3,195.3 207.6,195.0 210.0,194.6 212.3,194.3 214.6,193.9 216.9,193.5 219.2,193.0 221.5,192.5 223.8,192.0 226.2,191.4 228.5,190.8 230.8,190.1 233.1,189.4 235.4,188.7 237.8,187.8 240.1,186.9 242.4,185.9 244.7,184.9 247.0,183.7 249.3,182.5 251.7,181.1 254.0,179.6 256.3,178.1 258.6,176.3 260.9,174.5 263.2,172.5 265.5,170.3 267.9,168.0 270.2,165.5 272.5,162.8 274.8,159.9 277.1,156.8 279.5,153.5 281.8,149.9 284.1,146.1 286.4,142.0 288.7,137.7 291.0,133.2 293.4,128.4 295.7,123.4 298.0,118.1 300.3,112.7 302.6,107.0 304.9,101.2 307.2,95.3 309.6,89.3 311.9,83.3 314.2,77.3 316.5,71.4 318.8,65.6 321.1,60.1 323.5,54.9 325.8,50.1 328.1,45.7 330.4,41.9 332.7,38.6 335.1,36.0 337.4,34.2 339.7,33.0 342.0,32.6 344.3,33.0 346.6,34.2 348.9,36.0 351.3,38.6 353.6,41.9 355.9,45.7 358.2,50.1 360.5,54.9 362.8,60.1 365.2,65.6 367.5,71.4 369.8,77.3 372.1,83.3 374.4,89.3 376.8,95.3 379.1,101.2 381.4,107.0 383.7,112.7 386.0,118.1 388.3,123.4 390.7,128.4 393.0,133.2 395.3,137.7 397.6,142.0 399.9,146.1 402.2,149.9 404.6,153.5 406.9,156.8 409.2,159.9 411.5,162.8 413.8,165.5 416.1,168.0 418.4,170.3 420.8,172.5 423.1,174.5 425.4,176.3 427.7,178.1 430.0,179.6 432.3,181.1 434.7,182.5 437.0,183.7 439.3,184.9 441.6,185.9 443.9,186.9 446.2,187.8 448.6,188.7 450.9,189.4 453.2,190.1 455.5,190.8 457.8,191.4 460.2,192.0 462.5,192.5 464.8,193.0 467.1,193.5 469.4,193.9 471.7,194.3 474.1,194.6 476.4,195.0 478.7,195.3 481.0,195.6 483.3,195.8 485.6,196.1 487.9,196.3 490.3,196.5 492.6,196.7 494.9,196.9 497.2,197.1 499.5,197.3 501.8,197.4 504.2,197.6 506.5,197.7 508.8,197.8 511.1,197.9 513.4,198.0 515.8,198.1 518.1,198.2 520.4,198.3 522.7,198.4 525.0,198.5 527.3,198.6 529.7,198.6 532.0,198.7 534.3,198.8 536.6,198.8 538.9,198.9 541.2,198.9 543.5,199.0 545.9,199.0 548.2,199.1 550.5,199.1 552.8,199.1 555.1,199.2 557.5,199.2 559.8,199.2 562.1,199.3 564.4,199.3 566.7,199.3 569.0,199.4 571.3,199.4 573.7,199.4 576.0,199.4 578.3,199.4 580.6,199.5 582.9,199.5 585.2,199.5 587.6,199.5 589.9,199.5 592.2,199.6 594.5,199.6 596.8,199.6 599.1,199.6 601.5,199.6 603.8,199.6 606.1,199.6 608.4,199.6 610.7,199.7 613.0,199.7 615.4,199.7 617.7,199.7 620.0,199.7"/><text class="g-n g-c3-t" x="419.8" y="50.2" text-anchor="start">in the HDR</text><text class="g-n g-c2-t" x="419.8" y="68.6" text-anchor="start">after enhancement: dark ring</text><text class="g-n g-c1-t" x="419.8" y="87.0" text-anchor="start">clean (Moffat profile)</text></svg>
+          <figcaption>Profile across a star: in the HDR, after the enhancement (with the dark ring) and put back clean (sketch).</figcaption>
+        </figure>
+      </div>
+      <div class="rejilla">
+        <figure><img src="../../img/tecnica/estrellas_1.jpg" width="540" height="540" loading="lazy" alt="Sky next to the corona with the stars as they come out of the enhancement: faint and ringed"><figcaption><b>As is</b> · as they come out of the enhancement</figcaption></figure>
+        <figure><img src="../../img/tecnica/estrellas_2.jpg" width="540" height="540" loading="lazy" alt="The same sky with the stars put back, clean and round"><figcaption><b>Clean</b> · all of them, at 100 %</figcaption></figure>
+        <figure><img src="../../img/tecnica/estrellas_3.jpg" width="540" height="540" loading="lazy" alt="The same sky without stars"><figcaption><b>Remove them</b> · clean sky</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="archivos">
+    <div class="envoltura">
+      <p class="num">3.6</p>
+      <h2>The files</h2>
+      <div class="texto">
+        <ul>
+          <li><b>06_final_16bit.tiff</b>: 16 bits with the sRGB curve and its color profile. This is the one to open in Photoshop, Lightroom, Affinity or GIMP.</li>
+          <li><b>06_final.tiff</b>: the app's own, in 64 bits, with the same sRGB curve.</li>
+          <li><b>32-bit copies</b> (with «All intermediate files» or «Save the current image»): <b>linear</b>, with a linear sRGB profile. Editing programs assume that a floating-point TIFF is linear; if it carried the sRGB curve, converting it to 16 bits would make it look burned out and blue.</li>
+          <li>The HDR, the result and the PNG/JPEG files go to the destination folder; the intermediate files go to a working folder that is deleted if you choose «Final result only».</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="vista-previa">
+    <div class="envoltura">
+      <p class="num">3.7</p>
+      <h2>The preview is the result</h2>
+      <div class="texto">
+        <p>The preview is not an imitation: it calls <b>the same functions</b> as the real process, in the same order, on a reduced copy (from 500 to 2200 pixels), with the radii of every filter scaled with the Moon.</p>
+        <p>What depends on the noise of each pixel or on the whole image (the neutral color, the black level of the fine detail, the FNRGF normalization, the NAFE noise) is measured on the <b>full image</b>, or on a copy taken pixel by pixel without averaging, which keeps the real noise. Otherwise the reduced copy, with much less noise, would come out darker or with more contrast than the result.</p>
+        <p>The app's tests compare the preview with the real file, pixel by pixel in L*, a* and b*. The only thing that cannot be seen at a small size is the finest grain: that is what <span class="ui">Zoom</span> is for, at full size.</p>
+        <p class="arriba" style="margin-top:12px"><a href="#inicio">Back to top</a> · <a href="../tutorial/">Step-by-step tutorial</a> · <a href="../">Back to the home page</a></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="envoltura">
+    <p>Easy Corona © 2026 Iker Zubizarreta · Contact: <span class="correo">zu3run@gmail.com</span></p>
+    <p><a href="../legal/license.html">License agreement</a> · <a href="../legal/privacy.html">Privacy</a></p>
+  </div>
+</footer>
+<script>
+  try { localStorage.setItem("easycorona_idioma", "en"); } catch (e) {}
+  document.querySelectorAll("[data-idioma]").forEach((a) => a.addEventListener("click", () => {
+    try { localStorage.setItem("easycorona_idioma", a.dataset.idioma); } catch (e) {}
+  }));
+  // Visor de etapas: un botón por imagen
+  document.querySelectorAll(".visor").forEach((visor) => {
+    const imgs = visor.querySelectorAll(".visor-marco img");
+    const botones = visor.querySelectorAll(".visor-botones button");
+    const pie = visor.querySelector(".visor-pie");
+    botones.forEach((b, i) => b.addEventListener("click", () => {
+      imgs.forEach((img, j) => img.classList.toggle("activa", j === i));
+      botones.forEach((o, j) => o.setAttribute("aria-pressed", String(j === i)));
+      pie.textContent = b.dataset.pie;
+    }));
+  });
+  // Comparadores antes / después
+  document.querySelectorAll(".comparador").forEach((c) => {
+    const input = c.querySelector("input");
+    const mover = () => c.style.setProperty("--pos", input.value + "%");
+    input.addEventListener("input", mover);
+    mover();
+  });
+</script>
+</body>
+</html>
