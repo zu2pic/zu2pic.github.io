@@ -211,12 +211,13 @@
   .num { font: 600 1rem/1 var(--mono); color: var(--cobre); letter-spacing: 0.08em; }
   figure { margin: 8px 0 0; }
   figure img { border: 1px solid var(--linea); border-radius: 4px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45); }
-  figure.pequena img { max-width: 640px; }
+  figure.pequena img { max-width: min(640px, 100%); }
   figcaption { margin-top: 10px; color: var(--gris-2); font: 400 0.85rem/1.5 var(--mono); }
   .beta { display: inline-block; font: 500 0.7rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--cobre-tinta);
           background: var(--cobre); padding: 4px 6px; border-radius: 2px; vertical-align: middle; margin-left: 6px; }
   .nota { padding: 16px 20px; border-left: 3px solid var(--cobre); background: var(--cielo); color: var(--gris) !important; border-radius: 0 4px 4px 0; }
   kbd, .ui { font: 500 1em var(--texto); color: var(--corona); background: var(--cielo-2); padding: 1px 7px; border-radius: 3px; white-space: nowrap; }
+  @media (max-width: 600px) { kbd, .ui { white-space: normal; -webkit-box-decoration-break: clone; box-decoration-break: clone; } }
   .arriba { margin-top: 6px; font: 400 0.85rem var(--mono); }
   footer { padding-block: 44px 56px; color: var(--gris-2); font-size: 0.95rem; border-top: 1px solid var(--linea); }
   footer .envoltura { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px; }
