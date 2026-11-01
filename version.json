@@ -1,16 +1,20 @@
 {
-  "version": "1.4.5",
-  "fecha": "2026-10-30",
+  "version": "1.4.6",
+  "fecha": "2026-11-01",
   "novedades": {
     "es": [
-      "Activar la licencia en Mac. La ventana «Activar licencia…» ya no deja la app parada al escribir en ella.",
-      "Siempre empieza por el modo sencillo. Al abrir o crear un HDR ya no pregunta «automático o paso a paso»: entra en el modo sencillo, con los estilos y los deslizadores.",
-      "Protuberancias y luz cenicienta desde el modo sencillo. Bajo «Protuberancias» y «Luz cenicienta» están «Elegir fotos…» y «Abrir archivo…»."
+      "Brillo de la corona interior. «Brillo interior» en el modo sencillo (y «Corona interior» en «Resultado final») sube o baja la luz junto a la Luna sin tocar la corona exterior.",
+      "Cada pase de realce, desde donde quieras. En la tabla de pases, «Desde (R)» hace que un pase empiece a tantos radios de la Luna: puedes subir mucho el realce tangencial para la corona exterior sin oscurecer la de dentro.",
+      "Nunca sobrescribe un resultado. Si ya hay un archivo con ese nombre, guarda el nuevo como «_1», «_2»…",
+      "Imágenes ya reveladas. Si abres como HDR una imagen ya editada (por ejemplo, un TIFF retocado en Photoshop), te avisa, y el brillo automático llega igualmente al nivel elegido.",
+      "Luz cenicienta sin mares. Si en tus fotos no se distinguen los mares de la Luna, la luz cenicienta se aplica igual y la app te lo dice."
     ],
     "en": [
-      "Activating the license on Mac. The «Activate license…» window no longer freezes the app when you type in it.",
-      "It always starts in simple mode. When you open or create an HDR it no longer asks «automatic or step by step»: it goes to simple mode, with the styles and the sliders.",
-      "Prominences and earthshine from simple mode. Under «Prominences» and «Earthshine» you have «Choose photos…» and «Open file…»."
+      "Inner corona brightness. «Inner brightness» in simple mode (and «Inner corona» in «Final result») raises or lowers the light next to the Moon without touching the outer corona.",
+      "Each enhancement pass, from wherever you want. In the passes table, «From (R)» makes a pass start at a given number of Moon radii: you can push the tangential enhancement hard for the outer corona without darkening the inner one.",
+      "Never overwrites a result. If a file with that name already exists, the new one is saved as «_1», «_2»…",
+      "Already developed images. If you open an already edited image as the HDR (for example, a TIFF retouched in Photoshop), the app warns you, and the automatic brightness still reaches the chosen level.",
+      "Earthshine without maria. If the lunar maria can't be made out in your photos, the earthshine is applied anyway and the app tells you so."
     ]
   },
   "pagina": {
@@ -19,19 +23,19 @@
   },
   "descargas": {
     "windows": {
-      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.5/EasyCorona_Instalador_1.4.5.exe",
-      "sha256": "2fbdc69e9e5349529af0ba62844aa3814be1fb2f5d1c01535329f275561f531f",
-      "bytes": 124974452
+      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.6/EasyCorona_Instalador_1.4.6.exe",
+      "sha256": "8f217284f3a7f999f488ab467dc5c60be553cdf1d4fdf40282bd3bda9e7ebeab",
+      "bytes": 124994688
     },
     "mac_arm64": {
-      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.5/EasyCorona_1.4.5_mac_arm64.dmg",
-      "sha256": "cc78dc4406c21eb040c7e7e45d77c4906fba212f69d719b81d8d7c2cc838f92a",
-      "bytes": 180389799
+      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.6/EasyCorona_1.4.6_mac_arm64.dmg",
+      "sha256": "b931fa8279444226580307291fbc705606c7d956f67021c3f2d4fa7a8c22af62",
+      "bytes": 183024613
     },
     "mac_x86_64": {
-      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.5/EasyCorona_1.4.5_mac_x86_64.dmg",
-      "sha256": "92aa06b966b0b4bdb7fb334462d0b438284db3613c7c30b8f1ae682fd14f96cb",
-      "bytes": 185003727
+      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.6/EasyCorona_1.4.6_mac_x86_64.dmg",
+      "sha256": "6543b06a74d9a6fd303d750abf20e7ed8a354755ab042b829f10a795ef200f0d",
+      "bytes": 186627688
     }
   }
 }

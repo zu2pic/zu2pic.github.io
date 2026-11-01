@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Easy Corona 1.4.5 · Actualización</title>
+<title>Easy Corona 1.4.6 · Actualización</title>
 <link rel="icon" type="image/png" href="../img/icono.png">
 <link rel="alternate" hreflang="es" href="https://zu2pic.github.io/actualizar/">
 <link rel="alternate" hreflang="en" href="https://zu2pic.github.io/en/update/">
@@ -201,9 +201,20 @@
   <a class="volver" href="../index.html">← Easy Corona</a>
   <div style="display:grid;gap:12px">
     <p class="etiqueta">Actualización gratuita</p>
-    <h1>Easy Corona 1.4.5</h1>
+    <h1>Easy Corona 1.4.6</h1>
     <p class="gris">Se instala encima de la versión anterior y conserva tu licencia, tus presets y tus proyectos. Si vienes de una versión anterior, abajo tienes también todo lo que ha salido desde entonces.</p>
   </div>
+
+  <section style="display:grid;gap:14px">
+    <h2>Novedades de la 1.4.6</h2>
+    <ul class="novedades gris">
+      <li><b>Brillo de la corona interior.</b> «Brillo interior» en el modo sencillo (y «Corona interior» en «Resultado final») sube o baja la luz junto a la Luna sin tocar la corona exterior.</li>
+      <li><b>Cada pase de realce, desde donde quieras.</b> En la tabla de pases, «Desde (R)» hace que un pase empiece a tantos radios de la Luna: puedes subir mucho el realce tangencial para la corona exterior sin oscurecer la de dentro.</li>
+      <li><b>Nunca sobrescribe un resultado.</b> Si ya hay un archivo con ese nombre, guarda el nuevo como «_1», «_2»…</li>
+      <li><b>Imágenes ya reveladas.</b> Si abres como HDR una imagen ya editada (por ejemplo, un TIFF retocado en Photoshop), te avisa, y el brillo automático llega igualmente al nivel elegido.</li>
+      <li><b>Luz cenicienta sin mares.</b> Si en tus fotos no se distinguen los mares de la Luna, la luz cenicienta se aplica igual y la app te lo dice.</li>
+    </ul>
+  </section>
 
   <section style="display:grid;gap:14px">
     <h2>Novedades de la 1.4.5</h2>
@@ -287,7 +298,7 @@
 
   <ol class="pasos">
     <li><div>
-      <h2>Descarga la versión 1.4.5</h2>
+      <h2>Descarga la versión 1.4.6</h2>
       <div class="botones">
         <a class="boton" href="#" data-enlace="windows">Descargar para Windows <small>10 y 11</small></a>
         <a class="boton" href="#" data-enlace="mac_apple">Mac con chip Apple <small>M1 o posterior</small></a>
@@ -302,7 +313,7 @@
     </div></li>
     <li><div>
       <h2>Ábrela</h2>
-      <p class="gris">Arriba verás «Easy Corona 1.4.5» y tu versión. Si saliera la gratuita, ve a <b>Licencia → Activar licencia…</b> y pega otra vez la clave que te llegó por correo. Cualquier problema: <span class="correo">zu3run@gmail.com</span>.</p>
+      <p class="gris">Arriba verás «Easy Corona 1.4.6» y tu versión. La primera vez que la abras, la licencia se activa sola en tu ordenador (hace falta internet). Si saliera la gratuita, ve a <b>Licencia → Activar licencia…</b>: la clave ya aparece puesta. Cualquier problema: <span class="correo">zu3run@gmail.com</span>.</p>
     </div></li>
   </ol>
 </main>
@@ -310,9 +321,9 @@
 <script>
   // Los mismos enlaces de descarga que en la portada.
   const ENLACES = {
-    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.5/EasyCorona_Instalador_1.4.5.exe",
-    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.5/EasyCorona_1.4.5_mac_arm64.dmg",
-    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.5/EasyCorona_1.4.5_mac_x86_64.dmg",
+    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.6/EasyCorona_Instalador_1.4.6.exe",
+    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.6/EasyCorona_1.4.6_mac_arm64.dmg",
+    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.6/EasyCorona_1.4.6_mac_x86_64.dmg",
   };
   document.querySelectorAll("[data-enlace]").forEach((a) => { a.href = ENLACES[a.dataset.enlace]; });
 </script>
