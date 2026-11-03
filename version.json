@@ -1,20 +1,22 @@
 {
-  "version": "1.4.6",
-  "fecha": "2026-11-01",
+  "version": "1.5",
+  "fecha": "2026-11-03",
   "novedades": {
     "es": [
-      "Brillo de la corona interior. «Brillo interior» en el modo sencillo (y «Corona interior» en «Resultado final») sube o baja la luz junto a la Luna sin tocar la corona exterior.",
-      "Cada pase de realce, desde donde quieras. En la tabla de pases, «Desde (R)» hace que un pase empiece a tantos radios de la Luna: puedes subir mucho el realce tangencial para la corona exterior sin oscurecer la de dentro.",
-      "Nunca sobrescribe un resultado. Si ya hay un archivo con ese nombre, guarda el nuevo como «_1», «_2»…",
-      "Imágenes ya reveladas. Si abres como HDR una imagen ya editada (por ejemplo, un TIFF retocado en Photoshop), te avisa, y el brillo automático llega igualmente al nivel elegido.",
-      "Luz cenicienta sin mares. Si en tus fotos no se distinguen los mares de la Luna, la luz cenicienta se aplica igual y la app te lo dice."
+      "Mucho menos ruido en el HDR. Al apilar, cada exposición cuenta ahora según el ruido que trae, y las cortas ya no añaden grano lejos del Sol: con las mismas fotos y el mismo realce, la corona exterior tiene entre 2 y 12 veces menos grano.",
+      "Color original mejorado. El color de tus RAW llega ahora hasta el resultado final: antes se perdía por el camino y el cielo azul lo tapaba.",
+      "Elige el realce. En el modo sencillo, «Elige el realce» tiene el color y el realce: Alto, Medio o Bajo, los mismos pases con menos intensidad para fotos con más ruido.",
+      "Nuevos valores de partida. Más corona exterior, detalle fino MGN, pases tangenciales, cielo azul y Luna gris: con «Ejecutar el proceso» ya sale un resultado completo.",
+      "Sin bandas en los bordes. Las fotos de una misma exposición no cubren todas lo mismo, y hacia el borde quedaban líneas en forma de marco.",
+      "Deslizadores que responden. Los que no pueden hacer nada se apagan, los que se quedaban cortos llegan más lejos y «Brillo interior» se ve al momento en la vista previa."
     ],
     "en": [
-      "Inner corona brightness. «Inner brightness» in simple mode (and «Inner corona» in «Final result») raises or lowers the light next to the Moon without touching the outer corona.",
-      "Each enhancement pass, from wherever you want. In the passes table, «From (R)» makes a pass start at a given number of Moon radii: you can push the tangential enhancement hard for the outer corona without darkening the inner one.",
-      "Never overwrites a result. If a file with that name already exists, the new one is saved as «_1», «_2»…",
-      "Already developed images. If you open an already edited image as the HDR (for example, a TIFF retouched in Photoshop), the app warns you, and the automatic brightness still reaches the chosen level.",
-      "Earthshine without maria. If the lunar maria can't be made out in your photos, the earthshine is applied anyway and the app tells you so."
+      "Much less noise in the HDR. When stacking, each exposure now counts according to its own noise, and the short ones no longer add grain far from the Sun: with the same photos and the same enhancement, the outer corona has 2 to 12 times less grain.",
+      "Better original color. The color of your RAW files now reaches the final result: before, it got lost along the way and the blue sky covered it.",
+      "Choose the enhancement. In simple mode, «Choose the enhancement» has the color and the enhancement: High, Medium or Low, the same passes with less intensity for noisier photos.",
+      "New default values. More outer corona, MGN fine detail, tangential passes, blue sky and gray Moon: «Run the process» already gives a complete result.",
+      "No bands at the edges. The photos of one exposure don't all cover the same area, and near the edge they left frame-like lines.",
+      "Sliders that respond. The ones that can't do anything are turned off, the ones that fell short go further and «Inner brightness» shows up in the preview right away."
     ]
   },
   "pagina": {
@@ -23,19 +25,19 @@
   },
   "descargas": {
     "windows": {
-      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.6/EasyCorona_Instalador_1.4.6.exe",
-      "sha256": "8f217284f3a7f999f488ab467dc5c60be553cdf1d4fdf40282bd3bda9e7ebeab",
-      "bytes": 124994688
+      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.5/EasyCorona_Instalador_1.5.exe",
+      "sha256": "cef3b15115d104b970342f8f5bc18f7aac6182c9a40f41c5bd5b5c630d722573",
+      "bytes": 125000536
     },
     "mac_arm64": {
-      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.6/EasyCorona_1.4.6_mac_arm64.dmg",
-      "sha256": "b931fa8279444226580307291fbc705606c7d956f67021c3f2d4fa7a8c22af62",
-      "bytes": 183024613
+      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.5/EasyCorona_1.5_mac_arm64.dmg",
+      "sha256": "a807cb63b7369e88912172f74ccf066bf0be9910bd47ebce7cbf24153877e84e",
+      "bytes": 183025629
     },
     "mac_x86_64": {
-      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.6/EasyCorona_1.4.6_mac_x86_64.dmg",
-      "sha256": "6543b06a74d9a6fd303d750abf20e7ed8a354755ab042b829f10a795ef200f0d",
-      "bytes": 186627688
+      "url": "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.5/EasyCorona_1.5_mac_x86_64.dmg",
+      "sha256": "277d88298532e863118385ed7f9765dd7f1fb17271a66055b41bad904627d107",
+      "bytes": 186243235
     }
   }
 }

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Easy Corona 1.4.6 · Update</title>
+<title>Easy Corona 1.5 · Update</title>
 <link rel="icon" type="image/png" href="../../img/icono.png">
 <link rel="alternate" hreflang="es" href="https://zu2pic.github.io/actualizar/">
 <link rel="alternate" hreflang="en" href="https://zu2pic.github.io/en/update/">
@@ -187,6 +187,10 @@
   .boton:has(small) { flex-wrap: wrap; row-gap: 6px; text-align: center; }
   .correo { font-family: "IBM Plex Mono", Consolas, monospace; font-size: 0.95rem; user-select: all; color: var(--corona); }
   :focus-visible { outline: 2px solid var(--cobre-claro); outline-offset: 3px; }
+  .muestras { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 6px 0 0; }
+  .muestras figure, figure.sola { margin: 0; display: grid; gap: 6px; }
+  .muestras img, figure.sola img { width: 100%; height: auto; display: block; border-radius: 3px; }
+  figcaption { font: 400 0.8rem/1.4 "IBM Plex Mono", Consolas, monospace; color: var(--gris-2); }
 </style>
 </head>
 <body>
@@ -194,9 +198,27 @@
   <a class="volver" href="../index.html">← Easy Corona</a>
   <div style="display:grid;gap:12px">
     <p class="etiqueta">Free update</p>
-    <h1>Easy Corona 1.4.6</h1>
+    <h1>Easy Corona 1.5</h1>
     <p class="gris">It installs over the previous version and keeps your license, your presets and your projects. If you're coming from an older version, below you also have everything released since.</p>
   </div>
+
+  <section style="display:grid;gap:14px">
+    <h2>What's new in 1.5</h2>
+    <ul class="novedades gris">
+      <li><b>Much less noise in the HDR.</b> When stacking, each exposure now counts according to its own noise, and the short ones no longer add grain far from the Sun: with the same photos and the same enhancement, the outer corona has 2 to 12 times less grain. To see it, create the HDR again from your photos; if you open an older one, the app tells you and offers a gentler enhancement.</li>
+      <li><b>Better original color.</b> The color of your RAW files now reaches the final result: before, it got lost along the way and the blue sky covered it. There are two color modes, «Neutral corona» and «Original color», and in the latter the blue of the sky is added to the color of the corona.</li>
+      <li><b>Choose the enhancement.</b> In simple mode, «Choose the enhancement» has the color and the enhancement: High, Medium or Low, the same passes with less intensity for noisier photos. «Enhancement strength» applies more or less of it. It replaces the six styles.</li>
+      <li><b>New default values.</b> More outer corona, MGN fine detail, tangential passes, blue sky and gray Moon: «Run the process» already gives a complete result.</li>
+      <li><b>No bands at the edges.</b> The photos of one exposure don't all cover the same area, and near the edge they left frame-like lines. When creating the HDR, it now keeps only what all of them cover.</li>
+      <li><b>Sliders that respond.</b> The ones that can't do anything are turned off, the ones that fell short go further and «Inner brightness» shows up in the preview right away.</li>
+    </ul>
+    <div class="muestras">
+      <figure><img src="../../img/novedades/ruido_1_4.jpg" width="600" height="600" loading="lazy" alt="Sky and outer corona at full size with an HDR from an earlier version: lots of grain"><figcaption>HDR from an earlier version</figcaption></figure>
+      <figure><img src="../../img/novedades/ruido_1_5.jpg" width="600" height="600" loading="lazy" alt="The same area with a 1.5 HDR: clean coronal rays"><figcaption>1.5 HDR</figcaption></figure>
+    </div>
+    <p class="gris" style="font-size:0.95rem">The same photos and the same settings, at full size, about three Moon radii out, where a coronal streamer passes; straight out of Easy Corona.</p>
+    <figure class="sola"><img src="../../img/estilos/mi_version_1_5.jpg" width="900" height="900" loading="lazy" alt="The corona of the 2026 eclipse in color, orange and cream, streamers marked to the edge, a red prominence and the Moon with its maria"><figcaption>My version · Iker Zubizarreta · 600 mm</figcaption></figure>
+  </section>
 
   <section style="display:grid;gap:14px">
     <h2>What's new in 1.4.6</h2>
@@ -291,7 +313,7 @@
 
   <ol class="pasos">
     <li><div>
-      <h2>Download version 1.4.6</h2>
+      <h2>Download version 1.5</h2>
       <div class="botones">
         <a class="boton" href="#" data-enlace="windows">Download for Windows <small>10 and 11</small></a>
         <a class="boton" href="#" data-enlace="mac_apple">Mac with Apple silicon <small>M1 or later</small></a>
@@ -306,7 +328,7 @@
     </div></li>
     <li><div>
       <h2>Open it</h2>
-      <p class="gris">At the top you'll see “Easy Corona 1.4.6” and your version. The first time you open it, the license activates by itself on your computer (an internet connection is needed). If the free version showed up, go to <b>License → Activate license…</b>: the key is already filled in. Any problem: <span class="correo">zu3run@gmail.com</span>.</p>
+      <p class="gris">At the top you'll see “Easy Corona 1.5” and your version. The first time you open it, the license activates by itself on your computer (an internet connection is needed). If the free version showed up, go to <b>License → Activate license…</b>: the key is already filled in. Any problem: <span class="correo">zu3run@gmail.com</span>.</p>
     </div></li>
   </ol>
 </main>
@@ -314,9 +336,9 @@
 <script>
   // The same download links as on the home page.
   const ENLACES = {
-    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.6/EasyCorona_Instalador_1.4.6.exe",
-    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.6/EasyCorona_1.4.6_mac_arm64.dmg",
-    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.4.6/EasyCorona_1.4.6_mac_x86_64.dmg",
+    windows: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.5/EasyCorona_Instalador_1.5.exe",
+    mac_apple: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.5/EasyCorona_1.5_mac_arm64.dmg",
+    mac_intel: "https://github.com/zu2pic/zu2pic.github.io/releases/download/v1.5/EasyCorona_1.5_mac_x86_64.dmg",
   };
   document.querySelectorAll("[data-enlace]").forEach((a) => { a.href = ENLACES[a.dataset.enlace]; });
 </script>

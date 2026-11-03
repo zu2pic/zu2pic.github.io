@@ -334,21 +334,21 @@
       <p class="num">5</p>
       <h2>Enhancing the corona: Simple mode</h2>
       <div class="texto">
-        <p>In <span class="ui">Automation</span>, with the HDR chosen, <span class="ui">Choose a style</span> applies one of six looks with one click: Natural, Fine detail or More detail, with a white corona or its original color (that one needs a RAW file from the session). Then you fine-tune it with the sliders, and each one shows up instantly in the preview. Hover over any of them to see what it does.</p>
+        <p>In <span class="ui">Automation</span>, with the HDR chosen, <span class="ui">Choose the enhancement</span> has two things: the <b>Color</b>, «Neutral corona» or «Original color» (that one needs a RAW file from the session), and the <b>Enhancement</b>, High, Medium or Low: the same enhancement passes with less intensity, for noisier photos. Changing one doesn't undo what you have moved on the sliders. Then you fine-tune it with the sliders, and each one shows up instantly in the preview. Hover over any of them to see what it does.</p>
         <ul>
-          <li><b>Brightness</b>: that of the corona at 1.3-1.5 lunar radii, in L* (0-100).</li>
+          <li><b>Enhancement strength</b>: how much of the enhancement passes is applied, like the opacity of a layer. If you see grain or «scales» at full size, lower it or choose a lower enhancement.</li>
+          <li><b>Brightness</b>: that of the corona at 1.3-1.5 lunar radii, in L* (0-100). <b>Inner brightness</b>: that of the corona next to the Moon, less and less up to 2 radii (lower = darker, if it looks burned out).</li>
           <li><b>Outer corona</b>: how much the image is stretched before the enhancement. More = more distant corona (and more noise in the sky).</li>
-          <li><b>Fine detail</b>: the fine filaments of the whole corona (MGN or WOW filters). 0 = none.</li>
-          <li><b>Sharpness</b>: the strength of the enhancement passes, the finest detail. If you see «scales» at full size, lower it.</li>
+          <li><b>Fine detail</b>: the fine filaments of the whole corona (MGN filter). 0 = none.</li>
           <li><b>Structure (FNRGF)</b>: rays with the same contrast from inside to outside.</li>
           <li><b>Inner corona</b>: protects the corona next to the Moon from the filters (if it looks burned or with dark dots there).</li>
-          <li><b>Corona color</b>: the real color of your RAW (a RAW of the session next to the HDR is needed); 0 = white corona. <b>Blue sky</b>: the blue of eclipse photos. <b>Darker sky</b>: the black point.</li>
+          <li><b>Corona color</b>: how much of the real color of your RAW (a RAW of the session next to the HDR is needed); 0 = neutral corona. <b>Blue sky</b>: the blue of eclipse photos. <b>Darker sky</b>: the black point.</li>
           <li><b>Moon</b>: the gray of the disc («as is» = as it comes out of the enhancement). <b>Earthshine</b>: the Moon's maria. <b>Prominences</b>: the exposure of the chromosphere.</li>
           <li><b>Stars</b> <span class="beta">beta</span>: when you move it, the app finds the stars in the HDR, removes them from the result together with the dark ring the filters leave around them (and the hot pixels too) and puts them back clean with that brightness. <b>How many</b>: from the brightest to the faintest. <span class="ui">Remove the stars</span>: for a clean sky, it removes almost all of them, the faint ones too, without putting any back. <span class="ui">Save star mask…</span> saves their mask for other programs.</li>
         </ul>
         <p><span class="ui">Run the process</span> does the whole enhancement and saves the result. If afterwards you only change something of the final result (brightness, sky, Moon, chromosphere or stars), only that step is redone, in seconds. <span class="ui">Recommended values</span> goes back to the starting values.</p>
       </div>
-      <figure><img src="../../img/tutorial/en_estilos.jpg" alt="Simple mode: the six one-click styles, with the eclipse preview on the right" loading="lazy" width="1600" height="950"><figcaption>Simple mode: the styles</figcaption></figure>
+      <figure><img src="../../img/tutorial/en_estilos.jpg" alt="Simple mode: «Choose the enhancement», with the color (neutral corona or original color) and high, medium or low enhancement, and the eclipse preview on the right" loading="lazy" width="1600" height="950"><figcaption>Simple mode: color and enhancement</figcaption></figure>
       <figure><img src="../../img/tutorial/en_sencillo.jpg" alt="Simple mode: corona and color sliders, with the eclipse preview on the right" loading="lazy" width="1600" height="950"><figcaption>Simple mode: corona and color</figcaption></figure>
       <figure><img src="../../img/tutorial/en_sencillo_abajo.jpg" alt="Simple mode further down: Moon, earthshine, prominences and stars (beta)" loading="lazy" width="1600" height="950"><figcaption>Simple mode: Moon, chromosphere and stars</figcaption></figure>
     </div>
@@ -443,7 +443,8 @@
       <h2>Tips</h2>
       <div class="texto">
         <ul>
-          <li>Always judge the result at full size (<span class="ui">Zoom</span>): if you see «scales» or grain, lower <b>Sharpness</b> or <b>Fine detail</b>.</li>
+          <li>Always judge the result at full size (<span class="ui">Zoom</span>): if you see «scales» or grain, lower <b>Enhancement strength</b> or <b>Fine detail</b>, or choose a lower enhancement.</li>
+          <li>If your HDR was made with a version before 1.5, create it again from your photos: it comes out with much less noise far from the Sun.</li>
           <li>If the area next to the Moon looks burned or has dark dots, raise <b>Inner corona</b>.</li>
           <li>If the Moon is misplaced or shows a ring, use <span class="ui">Mark the Moon</span>.</li>
           <li>To retouch in another program, use the <b>16-bit TIFF</b>: the 32-bit one is linear and many programs treat it as HDR.</li>
