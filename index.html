@@ -3,12 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Easy Corona</title>
-<meta name="description" content="Easy Corona une todas tus exposiciones de un eclipse total en un HDR y saca a la luz los filamentos de la corona. Para Windows y Mac, en español e inglés.">
-<link rel="icon" type="image/png" href="img/icono.png">
+<link rel="canonical" href="https://zu2pic.github.io/">
+<title>Easy Corona: procesar fotos de eclipse total y HDR de la corona</title>
+<meta name="description" content="Programa para Windows y Mac que une las exposiciones de un eclipse total en un HDR y realza los filamentos de la corona solar. Gratis para probar.">
 <link rel="alternate" hreflang="es" href="https://zu2pic.github.io/">
 <link rel="alternate" hreflang="en" href="https://zu2pic.github.io/en/">
 <link rel="alternate" hreflang="x-default" href="https://zu2pic.github.io/en/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Easy Corona">
+<meta property="og:title" content="Easy Corona: procesar fotos de eclipse total y HDR de la corona">
+<meta property="og:description" content="Programa para Windows y Mac que une las exposiciones de un eclipse total en un HDR y realza los filamentos de la corona solar. Gratis para probar.">
+<meta property="og:url" content="https://zu2pic.github.io/">
+<meta property="og:image" content="https://zu2pic.github.io/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Eclipse total de Sol con la corona extendida alrededor de la Luna, procesado con Easy Corona">
+<meta property="og:locale" content="es_ES">
+<meta property="og:locale:alternate" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Easy Corona: procesar fotos de eclipse total y HDR de la corona">
+<meta name="twitter:description" content="Programa para Windows y Mac que une las exposiciones de un eclipse total en un HDR y realza los filamentos de la corona solar. Gratis para probar.">
+<meta name="twitter:image" content="https://zu2pic.github.io/img/og.jpg">
+<meta name="twitter:image:alt" content="Eclipse total de Sol con la corona extendida alrededor de la Luna, procesado con Easy Corona">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Easy Corona","url":"https://zu2pic.github.io/","applicationCategory":"MultimediaApplication","operatingSystem":"Windows 10, Windows 11, macOS 15","softwareVersion":"1.5","inLanguage":["es","en"],"image":"https://zu2pic.github.io/img/og.jpg","description":"Programa para Windows y Mac que une las exposiciones de un eclipse total en un HDR y realza los filamentos de la corona solar. Gratis para probar.","author":{"@type":"Person","name":"Iker Zubizarreta"},"offers":[{"@type":"Offer","name":"Gratuita","price":"0","priceCurrency":"EUR"},{"@type":"Offer","name":"Premium","price":"19.99","priceCurrency":"EUR"},{"@type":"Offer","name":"Premium+","price":"49.99","priceCurrency":"EUR"}]}</script>
+<link rel="icon" type="image/png" href="img/icono.png">
 <style>
 @font-face {
   font-family: 'Alegreya Sans';
@@ -385,6 +403,8 @@
   .proximo h2 { font-size: clamp(1.7rem, 3.2vw, 2.3rem); }
   .proximo .cuenta { font: 500 1rem/1.5 var(--mono); color: var(--gris); }
   .proximo .cuenta b { color: var(--cobre-claro); font-weight: 500; font-variant-numeric: tabular-nums; }
+  .proximo .guias { flex-basis: 100%; display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 0; }
+  .proximo .guias a { color: var(--cobre-claro); }
   footer { padding-block: 44px 56px; color: var(--gris-2); font-size: 0.95rem; }
   footer .envoltura { display: grid; gap: 18px; }
   footer .fila { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px; }
@@ -398,6 +418,11 @@
   .aviso-sorteo:hover { background: var(--cobre-claro); }
   .aviso-sorteo[hidden] { display: none; }
   @media (max-width: 720px) { .barra nav a.idioma { display: inline; } }
+</style>
+<style>
+  .pie-guias { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 14px 0 0; padding: 0; font-size: 0.95rem; }
+  .pie-guias a { color: var(--gris, #9aa3b6); }
+  .pie-solo { max-width: 760px; margin: 0 auto; padding: 8px 20px 40px; color: var(--gris-2, #717b90); }
 </style>
 </head>
 <body>
@@ -675,6 +700,7 @@
         <h2 id="t-proximo">Eclipse total del 2 de agosto de 2027</h2>
       </div>
       <p class="cuenta" id="cuenta">La franja de totalidad cruza el sur de Andalucía y Ceuta</p>
+      <p class="guias"><a href="guias/fotografiar-eclipse-2027/">Cómo fotografiar el eclipse de 2027</a> <a href="guias/procesar-fotos-eclipse/">Cómo procesar las fotos de un eclipse total</a></p>
     </div>
   </aside>
 </main>
@@ -690,6 +716,7 @@
     </div>
     <p>Easy Corona usa EclipseTools, de Samuli Vuorinen (licencia MIT), y otras bibliotecas de código abierto.</p>
   </div>
+<nav class="pie-guias" aria-label="Guías"><span>Guías:</span><a href="guias/fotografiar-eclipse-2027/">Fotografiar el eclipse de 2027</a><a href="guias/procesar-fotos-eclipse/">Procesar las fotos de un eclipse</a></nav>
 </footer>
 
 <script>

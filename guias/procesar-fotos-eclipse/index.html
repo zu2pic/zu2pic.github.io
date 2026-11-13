@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://zu2pic.github.io/guias/procesar-fotos-eclipse/">
+<title>Procesar las fotos de un eclipse total: HDR de la corona solar</title>
+<meta name="description" content="Cómo procesar las fotos de un eclipse total: alinear, apilar el HDR de la corona solar y realzar los filamentos paso a paso, y cómo lo hace Easy Corona en un clic.">
+<link rel="alternate" hreflang="es" href="https://zu2pic.github.io/guias/procesar-fotos-eclipse/">
+<link rel="alternate" hreflang="en" href="https://zu2pic.github.io/en/guides/process-eclipse-photos/">
+<link rel="alternate" hreflang="x-default" href="https://zu2pic.github.io/en/guides/process-eclipse-photos/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Easy Corona">
+<meta property="og:title" content="Procesar las fotos de un eclipse total: HDR de la corona solar">
+<meta property="og:description" content="Cómo procesar las fotos de un eclipse total: alinear, apilar el HDR de la corona solar y realzar los filamentos paso a paso, y cómo lo hace Easy Corona en un clic.">
+<meta property="og:url" content="https://zu2pic.github.io/guias/procesar-fotos-eclipse/">
+<meta property="og:image" content="https://zu2pic.github.io/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Eclipse total de Sol con la corona extendida alrededor de la Luna, procesado con Easy Corona">
+<meta property="og:locale" content="es_ES">
+<meta property="og:locale:alternate" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Procesar las fotos de un eclipse total: HDR de la corona solar">
+<meta name="twitter:description" content="Cómo procesar las fotos de un eclipse total: alinear, apilar el HDR de la corona solar y realzar los filamentos paso a paso, y cómo lo hace Easy Corona en un clic.">
+<meta name="twitter:image" content="https://zu2pic.github.io/img/og.jpg">
+<meta name="twitter:image:alt" content="Eclipse total de Sol con la corona extendida alrededor de la Luna, procesado con Easy Corona">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Procesar las fotos de un eclipse total: HDR de la corona solar","description":"Cómo procesar las fotos de un eclipse total: alinear, apilar el HDR de la corona solar y realzar los filamentos paso a paso, y cómo lo hace Easy Corona en un clic.","inLanguage":"es","mainEntityOfPage":"https://zu2pic.github.io/guias/procesar-fotos-eclipse/","image":"https://zu2pic.github.io/img/og.jpg","author":{"@type":"Person","name":"Iker Zubizarreta"},"publisher":{"@type":"Organization","name":"Easy Corona","url":"https://zu2pic.github.io/"},"datePublished":"2026-11-13"}</script>
+<link rel="icon" type="image/png" href="../../img/icono.png">
+<style>
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-400i-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-400i-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-400-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-400-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-500-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-500-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-700-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../../fuentes/AlegreyaSans-700-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../../fuentes/BarlowSemiCondensed-500-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../../fuentes/BarlowSemiCondensed-500-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(../../fuentes/BarlowSemiCondensed-600-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(../../fuentes/BarlowSemiCondensed-600-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../../fuentes/BarlowSemiCondensed-700-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../../fuentes/BarlowSemiCondensed-700-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../../fuentes/IBMPlexMono-400-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../../fuentes/IBMPlexMono-400-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../../fuentes/IBMPlexMono-500-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../../fuentes/IBMPlexMono-500-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+  /* Easy Corona · tutorial (V0_71). Los mismos colores y letras que la portada. */
+  :root {
+    color-scheme: dark;
+    --noche: #141a25; --cielo: #1f2736; --cielo-2: #262f40; --linea: #34405a; --corona: #efe9e1;
+    --gris: #9aa3b6; --gris-2: #717b90; --cobre: #cf8f55; --cobre-claro: #e0a770; --cobre-tinta: #24160a;
+    --display: "Barlow Semi Condensed", "Bahnschrift", "Arial Narrow", sans-serif;
+    --texto: "Alegreya Sans", "Corbel", "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", "Consolas", monospace;
+    --ancho: 1120px; --lectura: 70ch;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { margin: 0; background: var(--noche); color: var(--corona); font: 400 1.125rem/1.6 var(--texto); -webkit-font-smoothing: antialiased; }
+  img { max-width: 100%; display: block; height: auto; }
+  a { color: var(--cobre-claro); text-underline-offset: 3px; }
+  a:hover { color: var(--corona); }
+  :focus-visible { outline: 2px solid var(--cobre-claro); outline-offset: 3px; border-radius: 2px; }
+  .envoltura { max-width: var(--ancho); margin-inline: auto; padding-inline: 20px; }
+  h1, h2, h3 { font-family: var(--display); font-weight: 600; line-height: 1.08; margin: 0; text-wrap: balance; }
+  h1 { font-size: clamp(2.4rem, 5.6vw, 4rem); font-weight: 700; }
+  h2 { font-size: clamp(1.8rem, 3.6vw, 2.5rem); }
+  h3 { font-size: 1.3rem; margin-top: 8px; }
+  p { margin: 0; }
+  .etiqueta { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cobre-claro); }
+  .entradilla { color: var(--gris); max-width: var(--lectura); font-size: 1.2rem; }
+  .barra { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--noche) 82%, transparent);
+           backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid color-mix(in srgb, var(--linea) 60%, transparent); }
+  .barra .envoltura { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; }
+  .marca { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--corona); }
+  .marca img { width: 30px; height: 30px; border-radius: 50%; }
+  .marca span { font: 700 1.3rem/1 var(--display); letter-spacing: 0.02em; }
+  .barra nav { display: flex; align-items: center; gap: 22px; }
+  .barra nav a { color: var(--gris); text-decoration: none; font-size: 1rem; }
+  .barra nav a:hover { color: var(--corona); }
+  .barra nav a.idioma { font: 500 0.82rem/1 var(--mono); letter-spacing: 0.08em; }
+  .boton { display: inline-flex; align-items: center; gap: 10px; font: 600 1rem/1 var(--display); letter-spacing: 0.03em; text-decoration: none;
+           padding: 12px 18px; border-radius: 3px; background: var(--cobre); color: var(--cobre-tinta) !important; }
+  .boton:hover { background: var(--cobre-claro); }
+  @media (max-width: 720px) { .barra nav a.ocultable { display: none; } }
+  @media (min-width: 721px) { .barra nav a, .barra .marca { white-space: nowrap; } }
+  .cabeza { padding-block: clamp(56px, 8vw, 96px) 24px; display: grid; gap: 18px; }
+  .indice { margin: 12px 0 0; padding: 22px 26px; border: 1px solid var(--linea); border-radius: 4px; background: var(--cielo);
+            columns: 2 260px; column-gap: 40px; list-style: none; counter-reset: i; }
+  .indice li { counter-increment: i; padding-block: 4px; break-inside: avoid; }
+  .indice li::before { content: counter(i) ". "; color: var(--cobre); font: 600 1rem var(--display); }
+  .indice a { color: var(--corona); text-decoration: none; }
+  .indice a:hover { color: var(--cobre-claro); }
+  .paso { padding-block: clamp(44px, 6vw, 72px); border-top: 1px solid var(--linea); scroll-margin-top: 70px; }
+  .paso .envoltura { display: grid; gap: 18px; }
+  .paso .texto { max-width: var(--lectura); display: grid; gap: 12px; color: #d8d8dd; }
+  .paso .texto p { color: #d8d8dd; }
+  .paso ul, .paso ol { margin: 0; padding-left: 1.3em; display: grid; gap: 8px; color: #d8d8dd; }
+  .paso li b, .paso p b { color: var(--corona); font-weight: 500; }
+  .num { font: 600 1rem/1 var(--mono); color: var(--cobre); letter-spacing: 0.08em; }
+  figure { margin: 8px 0 0; }
+  figure img { border: 1px solid var(--linea); border-radius: 4px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45); }
+  figure.pequena img { max-width: min(640px, 100%); }
+  figcaption { margin-top: 10px; color: var(--gris-2); font: 400 0.85rem/1.5 var(--mono); }
+  .beta { display: inline-block; font: 500 0.7rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--cobre-tinta);
+          background: var(--cobre); padding: 4px 6px; border-radius: 2px; vertical-align: middle; margin-left: 6px; }
+  .nota { padding: 16px 20px; border-left: 3px solid var(--cobre); background: var(--cielo); color: var(--gris) !important; border-radius: 0 4px 4px 0; }
+  kbd, .ui { font: 500 1em var(--texto); color: var(--corona); background: var(--cielo-2); padding: 1px 7px; border-radius: 3px; white-space: nowrap; }
+  @media (max-width: 600px) { kbd, .ui { white-space: normal; -webkit-box-decoration-break: clone; box-decoration-break: clone; } }
+  .arriba { margin-top: 6px; font: 400 0.85rem var(--mono); }
+  footer { padding-block: 44px 56px; color: var(--gris-2); font-size: 0.95rem; border-top: 1px solid var(--linea); }
+  footer .envoltura { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px; }
+  footer a { color: var(--gris); }
+  .correo { font-family: var(--mono); color: var(--corona); }
+  .tabla { width: 100%; border-collapse: collapse; font-size: 1rem; }
+  .tabla th, .tabla td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--linea); vertical-align: top; }
+  .tabla th { font: 500 0.78rem var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--cobre-claro); }
+  .tabla td:first-child { color: var(--corona); }
+  .envuelve { overflow-x: auto; max-width: 100%; }
+  .tabla th:first-child, .tabla td:first-child { white-space: nowrap; }
+  .fuentes li { font-size: 0.98rem; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+  .boton.secundario { background: transparent; color: var(--corona) !important; border: 1px solid var(--linea); }
+  .boton.secundario:hover { border-color: var(--cobre-claro); }
+</style>
+<style>
+  .pie-guias { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 14px 0 0; padding: 0; font-size: 0.95rem; }
+  .pie-guias a { color: var(--gris, #9aa3b6); }
+  .pie-solo { max-width: 760px; margin: 0 auto; padding: 8px 20px 40px; color: var(--gris-2, #717b90); }
+</style>
+</head>
+<body>
+
+<header class="barra">
+  <div class="envoltura">
+    <a class="marca" href="../../"><img src="../../img/icono.png" alt=""><span>Easy Corona</span></a>
+    <nav aria-label="Secciones">
+      <a class="ocultable" href="../../tutorial/">Tutorial</a>
+      <a class="ocultable" href="../../guias/procesar-fotos-eclipse/">Procesar el HDR</a>
+      <a class="ocultable" href="../../tecnica/">Por dentro</a>
+      <a class="idioma" href="../../en/guides/process-eclipse-photos/" hreflang="en" lang="en" data-idioma="en">English</a>
+      <a class="boton" href="../../#descargar">Descargar gratis</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+  <div class="envoltura cabeza">
+    <p class="etiqueta">Guía</p>
+    <h1>Cómo procesar las fotos de un eclipse total: HDR de la corona paso a paso</h1>
+    <p class="entradilla">De la serie de exposiciones a una corona con todos sus filamentos: el flujo general (alinear, apilar, HDR, realce radial) y cómo lo hace Easy Corona.</p>
+    <ol class="indice"><li><a href="#porque">Por qué una foto sola no basta</a></li><li><a href="#flujo">El flujo, paso a paso</a></li><li><a href="#app">Cómo lo hace Easy Corona</a></li><li><a href="#trampas">Lo que suele salir mal</a></li></ol>
+  </div>
+
+  <section class="paso" id="porque">
+    <div class="envoltura">
+      <p class="num">1</p>
+      <h2>Por qué una foto sola no basta</h2>
+      <div class="texto">
+
+        <p>Durante la totalidad, la luz de la corona cae miles de veces entre el borde de la Luna y las serpentinas lejanas. Una cámara no cubre ese rango en una exposición: con una foto corta se ven las protuberancias y la corona interior, y con una larga las serpentinas exteriores, pero con el centro quemado. La solución es combinar toda la serie en una sola imagen de alto rango dinámico: un HDR.</p>
+        <p>El HDR solo es el principio. Es una imagen lineal, que se ve casi negra, y la corona está ahí, escondida: hay que estirarla y realzar sus filamentos sin sacar ruido ni halos.</p>
+
+      </div>
+      <figure class="pequena"><img src="../../img/tecnica/etapa_1.jpg" alt="El HDR lineal tal cual: casi todo negro, con un pequeño anillo claro alrededor de la Luna" loading="lazy" width="900" height="900"><figcaption>El HDR lineal, tal cual sale del apilado</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="paso" id="flujo">
+    <div class="envoltura">
+      <p class="num">2</p>
+      <h2>El flujo, paso a paso</h2>
+      <div class="texto">
+
+        <ol>
+          <li><b>Revelar los RAW sin retoques</b>, con los mismos ajustes en todas las fotos. Si has hecho darks, bias y flats, se aplican en este paso.</li>
+          <li><b>Alinear las fotos de cada exposición.</b> Con una montura sin seguimiento, el Sol y la Luna se desplazan, y no a la vez. Se alinea por la Luna o por la propia corona, con precisión de una fracción de píxel.</li>
+          <li><b>Promediar por exposición.</b> Las fotos de una misma exposición se promedian: el ruido baja con la raíz del número de fotos. Hay que cuidar la Luna, que se mueve entre fotos: si se promedia sin más, su borde sale con fantasmas.</li>
+          <li><b>Alinear las exposiciones entre sí</b>, de la más corta a la más larga.</li>
+          <li><b>Apilar el HDR.</b> Cada píxel sale de las exposiciones donde no está quemado ni hundido en el ruido, con peso mayor a las que tienen menos ruido en esa zona. Es la parte que decide cuánto grano tendrá la corona lejana.</li>
+          <li><b>Estirar la luz.</b> Una curva de tono sube lo oscuro hasta que la corona se ve, y se resta el degradado del cielo, que a varios radios del Sol es más brillante que la propia corona.</li>
+          <li><b>Realzar la corona de forma radial.</b> La corona se organiza alrededor del Sol, y el ruido no. Los filtros que de verdad funcionan aprovechan esa simetría: desenfoques tangenciales, normalización radial (NRGF), MGN y otros. Mira «Por dentro» para ver qué hace cada uno.</li>
+          <li><b>Color.</b> Con color neutro o con el color real de la cámara, y el cielo de la totalidad.</li>
+          <li><b>La Luna, la cromosfera y las estrellas.</b> Se tratan aparte, porque necesitan exposiciones distintas.</li>
+          <li><b>Guardar</b> en TIFF de 16 bits para seguir retocando.</li>
+        </ol>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="paso" id="app">
+    <div class="envoltura">
+      <p class="num">3</p>
+      <h2>Cómo lo hace Easy Corona</h2>
+      <div class="texto">
+
+        <p>Easy Corona hace todos esos pasos solo. En <span class="ui">Crear HDR automático</span> eliges tus fotos del eclipse (de una o varias carpetas), una carpeta de destino y pulsas <span class="ui">Crear el HDR</span>. La app lee la exposición de cada foto, las agrupa, alinea, promedia, apila y deja el HDR. Con la casilla <span class="ui">Al terminar, realzar la corona hasta el resultado final</span> sigue hasta la imagen terminada.</p>
+        <p>Después, en el modo sencillo, eliges el color (corona neutra o color original) y el realce (alto, medio o bajo), y cada deslizador se ve al momento en la vista previa. La versión gratuita lo hace todo, a 1200 px y con marca de agua, para que pruebes con tus fotos.</p>
+        <div class="cta">
+          <a class="boton" href="../../#descargar">Descargar gratis</a>
+          <a class="boton secundario" href="../../tutorial/">El tutorial paso a paso</a>
+          <a class="boton secundario" href="../../tecnica/">Qué calcula por dentro</a>
+        </div>
+
+      </div>
+      <figure><img src="../../img/despues.jpg" alt="El HDR de un eclipse realzado con Easy Corona: los filamentos de la corona, las protuberancias, la luz cenicienta en la Luna y el cielo azul" loading="lazy" width="1600" height="1000"><figcaption>El mismo HDR, ya realzado</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="paso" id="trampas">
+    <div class="envoltura">
+      <p class="num">4</p>
+      <h2>Lo que suele salir mal</h2>
+      <div class="texto">
+
+        <ul>
+          <li><b>Grano en el cielo.</b> Es lo que pasa cuando se estira de más una imagen con ruido. Más fotos por exposición y un buen apilado bajan el ruido antes de realzar.</li>
+          <li><b>Halos o anillos oscuros alrededor de la Luna.</b> Vienen de los filtros de nitidez aplicados sobre el borde. Hay que protegerlo.</li>
+          <li><b>Una Luna borrosa o doble.</b> El apilado la trata por separado.</li>
+          <li><b>Colores irreales.</b> Un cielo gris o un tinte muy fuerte. Mira el resultado a tamaño real, no en miniatura.</li>
+        </ul>
+        <p class="arriba"><a href="#inicio">Volver arriba</a> · <a href="../../guias/fotografiar-eclipse-2027/">Cómo fotografiar el eclipse de 2027</a></p>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="envoltura">
+    <p>Easy Corona © 2026 Iker Zubizarreta · Contacto: <span class="correo">zu3run@gmail.com</span></p>
+    <p><a href="../../legal/contrato.html">Contrato de licencia</a> · <a href="../../legal/privacidad.html">Privacidad</a></p>
+  </div>
+<nav class="pie-guias" aria-label="Guías"><span>Guías:</span><a href="../../guias/fotografiar-eclipse-2027/">Fotografiar el eclipse de 2027</a><a href="../../guias/procesar-fotos-eclipse/">Procesar las fotos de un eclipse</a></nav>
+</footer>
+<script>
+  try { localStorage.setItem("easycorona_idioma", "es"); } catch (e) {}
+  document.querySelectorAll("[data-idioma]").forEach((a) => a.addEventListener("click", () => {
+    try { localStorage.setItem("easycorona_idioma", a.dataset.idioma); } catch (e) {}
+  }));
+</script>
+</body>
+</html>

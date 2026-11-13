@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://zu2pic.github.io/en/update/">
 <title>Easy Corona 1.5 · Update</title>
 <link rel="icon" type="image/png" href="../../img/icono.png">
 <link rel="alternate" hreflang="es" href="https://zu2pic.github.io/actualizar/">
@@ -192,6 +194,11 @@
   .muestras img, figure.sola img { width: 100%; height: auto; display: block; border-radius: 3px; }
   figcaption { font: 400 0.8rem/1.4 "IBM Plex Mono", Consolas, monospace; color: var(--gris-2); }
 </style>
+<style>
+  .pie-guias { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 14px 0 0; padding: 0; font-size: 0.95rem; }
+  .pie-guias a { color: var(--gris, #9aa3b6); }
+  .pie-solo { max-width: 760px; margin: 0 auto; padding: 8px 20px 40px; color: var(--gris-2, #717b90); }
+</style>
 </head>
 <body>
 <main>
@@ -342,5 +349,7 @@
   };
   document.querySelectorAll("[data-enlace]").forEach((a) => { a.href = ENLACES[a.dataset.enlace]; });
 </script>
+<footer class="pie-solo"><nav class="pie-guias" aria-label="Guides"><span>Guides:</span><a href="../../en/guides/photograph-total-eclipse-2027/">Photographing the 2027 eclipse</a><a href="../../en/guides/process-eclipse-photos/">Processing eclipse photos</a></nav>
+</footer>
 </body>
 </html>
